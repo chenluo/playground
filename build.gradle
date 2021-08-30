@@ -1,0 +1,7 @@
+allprojects {
+    apply plugin: 'application'
+
+    test.onlyIf { project.hasProperty('needTest') }
+    apply plugin: 'idea'
+
+}

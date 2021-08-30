@@ -44,10 +44,11 @@ public class JavaNaiveBayesExample {
       test.mapToPair(p -> new Tuple2<>(model.predict(p.features()), p.label()));
     double accuracy =
       predictionAndLabel.filter(pl -> pl._1().equals(pl._2())).count() / (double) test.count();
+    System.out.println(String.format("accuracy: %f", accuracy));
 
     // Save and load model
-    model.save(jsc.sc(), "target/tmp/myNaiveBayesModel");
-    NaiveBayesModel sameModel = NaiveBayesModel.load(jsc.sc(), "target/tmp/myNaiveBayesModel");
+//    model.save(jsc.sc(), "target/tmp/myNaiveBayesModel");
+//    NaiveBayesModel sameModel = NaiveBayesModel.load(jsc.sc(), "target/tmp/myNaiveBayesModel");
     // $example off$
 
     jsc.stop();

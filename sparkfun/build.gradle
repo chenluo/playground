@@ -6,33 +6,50 @@ group 'com.example'
 version '1.0-SNAPSHOT'
 
 repositories {
+    mavenLocal()
     maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
     mavenCentral()
+}
+mainClassName = 'FirstSparkApp'
+
+jar {
+    zip64=true
+    manifest {
+        attributes 'Main-Class': "$mainClassName"
+    }
+    from {
+        configurations.extraLibs.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+configurations {
+    // configuration that holds jars to include in the jar
+    extraLibs
 }
 
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
     // https://mvnrepository.com/artifact/org.apache.spark/spark-core
-    implementation group: 'org.apache.spark', name: 'spark-core_2.12', version: '3.1.2'
+    extraLibs group: 'org.apache.spark', name: 'spark-core_2.12', version: '3.1.2'
     // https://mvnrepository.com/artifact/org.apache.spark/spark-mllib
-    implementation group: 'org.apache.spark', name: 'spark-mllib_2.12', version: '3.1.2'
+    extraLibs group: 'org.apache.spark', name: 'spark-mllib_2.12', version: '3.1.2'
     // https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-mapred
-    implementation group: 'org.apache.hadoop', name: 'hadoop-mapred', version: '0.22.0'
+    extraLibs group: 'org.apache.hadoop', name: 'hadoop-mapred', version: '0.22.0'
     // https://mvnrepository.com/artifact/org.apache.spark/spark-sql
-    implementation group: 'org.apache.spark', name: 'spark-sql_2.12', version: '3.1.2'
-    implementation('org.slf4j:slf4j-api:1.7.30')
-    implementation('ch.qos.logback:logback-classic:1.2.3')
+    extraLibs group: 'org.apache.spark', name: 'spark-sql_2.12', version: '3.1.2'
+    compile ('org.slf4j:slf4j-api:1.7.30')
+    compile('ch.qos.logback:logback-classic:1.2.3')
     // https://mvnrepository.com/artifact/org.apache.kafka/kafka-clients
-    implementation group: 'org.apache.kafka', name: 'kafka-clients', version: '2.8.0'
+    extraLibs group: 'org.apache.kafka', name: 'kafka-clients', version: '2.8.0'
     // https://mvnrepository.com/artifact/org.apache.spark/spark-streaming
-    implementation group: 'org.apache.spark', name: 'spark-streaming_2.12', version: '3.1.2'
+    extraLibs group: 'org.apache.spark', name: 'spark-streaming_2.12', version: '3.1.2'
     // https://mvnrepository.com/artifact/org.apache.spark/spark-streaming-kafka-0-10
-    implementation group: 'org.apache.spark', name: 'spark-streaming-kafka-0-10_2.12', version: '3.1.2'
+    extraLibs group: 'org.apache.spark', name: 'spark-streaming-kafka-0-10_2.12', version: '3.1.2'
     // https://mvnrepository.com/artifact/org.apache.kafka/kafka-streams-examples
-    implementation group: 'org.apache.kafka', name: 'kafka-streams-examples', version: '2.8.0'
+    extraLibs group: 'org.apache.kafka', name: 'kafka-streams-examples', version: '2.8.0'
 
-
+    configurations.compile.extendsFrom(configurations.extraLibs)
 }
 
 test {
