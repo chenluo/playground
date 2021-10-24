@@ -49,9 +49,18 @@ dependencies {
     implementation group: 'org.apache.tomcat', name: 'tomcat-jdbc', version: '9.0.46'
     // https://mvnrepository.com/artifact/mysql/mysql-connector-java
     implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.25'
-// https://mvnrepository.com/artifact/org.springframework/spring-tx
+    // https://mvnrepository.com/artifact/org.springframework/spring-tx
     implementation group: 'org.springframework', name: 'spring-tx'
     implementation('org.springframework:spring-jdbc')
+    // https://mvnrepository.com/artifact/org.openjdk.jol/jol-core
+    compileOnly group: 'org.openjdk.jol', name: 'jol-core', version: '0.16'
+    // https://mvnrepository.com/artifact/org.openjdk.jol/jol-benchmarks
+    implementation group: 'org.openjdk.jol', name: 'jol-benchmarks', version: '0.16'
+    // https://mvnrepository.com/artifact/org.openjdk.jol/jol-parent
+    implementation group: 'org.openjdk.jol', name: 'jol-parent', version: '0.16', ext: 'pom'
+    // https://mvnrepository.com/artifact/org.openjdk.jol/jol-samples
+    implementation group: 'org.openjdk.jol', name: 'jol-samples', version: '0.16'
+
 }
 configurations {
     //移除spring boot 默认logger依赖

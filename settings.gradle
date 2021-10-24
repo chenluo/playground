@@ -1,4 +1,5 @@
 rootProject.name = 'chenluo'
 include 'playground'
 include 'sparkfun'
+include 'auto-script'
 

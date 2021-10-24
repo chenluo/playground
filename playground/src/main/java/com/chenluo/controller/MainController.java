@@ -24,6 +24,8 @@ public class MainController {
     private final ZKManager zkManager;
     private final DbService dbService;
 
+    private volatile long volatileLong = 1;
+
     private Long longCounter = 1L;
 
     @Autowired
@@ -36,6 +38,8 @@ public class MainController {
     @GetMapping("test")
     @ResponseBody
     public boolean test() {
+        System.out.println(volatileLong);
+        volatileLong = 2;
         return true;
     }
 
