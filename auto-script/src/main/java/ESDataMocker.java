@@ -59,7 +59,7 @@ public class ESDataMocker {
 
     private void postData() throws IOException {
 //        System.out.println("[Post data] start");
-        URL url = new URL("http://localhost:9200/simple-index-0001/_bulk");
+        URL url = new URL("http://localhost:9200/simple-index-9999/_bulk");
         HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
         httpURLConnection.setRequestMethod("POST");
         httpURLConnection.setDoOutput(true);

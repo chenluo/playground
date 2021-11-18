@@ -1,20 +1,23 @@
 import com.google.gson.Gson;
 
 import javax.mail.Session;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 public class AppleStoreChecker {
     volatile Session session;
     String productUrlTemplate = "https://www.apple.com.cn/shop/buy-iphone/iphone-13-pro/%s";
+    Map<String, ZonedDateTime> stockToAvailableTime = new ConcurrentHashMap<>();
 
     public static void main(String[] args) throws IOException {
         new AppleStoreChecker().run();
@@ -23,9 +26,10 @@ public class AppleStoreChecker {
     private void run() throws IOException {
         int failCount = 0;
 
-        String[] productCodes = {"MLT63CH/A", // 银色
+        String[] productCodes = {
+//                "MLT63CH/A", // 银色
                 "MLT53CH/A", // 石墨色
-                "MLT83CH/A" // 蓝色
+//                "MLT83CH/A" // 蓝色
         };
         for (int i = 0; i < 1000; i++) {
             try {
@@ -74,6 +78,9 @@ public class AppleStoreChecker {
         } else {
             System.out.println("[Slack] push failed: " + responseCode);
         }
+        try (InputStream inputStream = hc.getInputStream()) {
+
+        }
     }
 
     private void check(String productCode) throws IOException {
@@ -87,6 +94,8 @@ public class AppleStoreChecker {
                 "pickupMessage")).get("stores");
         List<String> availableStore = new ArrayList<>();
 
+        ZonedDateTime now = ZonedDateTime.now();
+
         for (Map<String, Object> store : storeList) {
             String storeName = ((String) store.get("storeName"));
             String availability =
@@ -94,13 +103,20 @@ public class AppleStoreChecker {
             if (!availability.equals("unavailable")) {
                 System.out.println(availability);
                 System.out.println(storeName);
-                availableStore.add(storeName);
+                stockToAvailableTime.compute(storeName, (s, lastSeenTime) -> {
+                    if (null == lastSeenTime || lastSeenTime.isBefore(now.minus(60, ChronoUnit.SECONDS))) {
+                        availableStore.add(storeName);
+                        return now;
+                    }
+                    return lastSeenTime;
+                });
             }
         }
         if (availableStore.isEmpty()) {
             System.out.println("no product available.");
         } else {
             System.out.println(availableStore);
+
             sendSlackMessage(availableStore.stream().reduce((s1, s2) -> s1 + ", " + s2).get() + ", url: " + String.format(productUrlTemplate, productCode));
         }
         System.out.println("[Check Main Product] end:" + productCode);
