@@ -4,8 +4,8 @@
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
-        <option name="delegatedBuild" value="true" />
-        <option name="testRunner" value="GRADLE" />
+        <option name="delegatedBuild" value="false" />
+        <option name="testRunner" value="PLATFORM" />
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="modules">
@@ -13,8 +13,11 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/auto-script" />
             <option value="$PROJECT_DIR$/buildSrc" />
+            <option value="$PROJECT_DIR$/jvm-test" />
+            <option value="$PROJECT_DIR$/netty" />
             <option value="$PROJECT_DIR$/playground" />
             <option value="$PROJECT_DIR$/sparkfun" />
+            <option value="$PROJECT_DIR$/spring" />
           </set>
         </option>
       </GradleProjectSettings>
