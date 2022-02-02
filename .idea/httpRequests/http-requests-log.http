@@ -1,0 +1,38 @@
+GET http://localhost:8880
+
+###
+
+GET http://localhost:8080
+
+###
+
+GET http://localhost:8080/main/test/
+
+<> 2022-01-21T005218.200.json
+
+###
+
+GET http://localhost:8080/main/test/
+
+<> 2022-01-21T005131.404.json
+
+###
+
+GET http://localhost:8080/main/test/
+
+<> 2022-01-21T005010.404.json
+
+###
+
+GET http://localhost:8080/main/test
+
+<> 2022-01-21T005006.404.json
+
+###
+
+GET http://localhost:8080/main/
+
+<> 2022-01-21T004948.404.json
+
+###
+
