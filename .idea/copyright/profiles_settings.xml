@@ -1,8 +1,0 @@
-<component name="CopyrightManager">
-  <settings default="Default">
-    <module2copyright>
-      <element module="llrc" copyright="Apache2" />
-      <element module="x-pack" copyright="Elastic" />
-    </module2copyright>
-  </settings>
-</component>
