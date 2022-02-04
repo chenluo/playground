@@ -8,6 +8,7 @@
 
 package com.chenluo.jvm.learn;
 
+// ref: https://stackoverflow.com/questions/43668251/java-memory-model-volatile-and-x86#comment74385421_43669258
 public class TestVolatile {
 
     private static int int1;
@@ -46,6 +47,7 @@ public class TestVolatile {
         // on x86 seems nothing special to a non-volatile variable.
         // note: x86 is strong and has TSO. only storeLoad barrier is missing by TSO. So LoadLoad/LoadStore are not
         // necessary here. Thus no difference from the non-volatile case.
+        // see: https://stackoverflow.com/questions/43668251/java-memory-model-volatile-and-x86#comment74385421_43669258
         int int3Copy = int3_volatile;
         int int4Copy = int4;
         int int5Copy = int5;
