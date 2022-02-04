@@ -9,6 +9,7 @@
 package com.chenluo.jvm.learn;
 
 // ref: https://stackoverflow.com/questions/43668251/java-memory-model-volatile-and-x86#comment74385421_43669258
+//      https://dzone.com/articles/memory-barriersfences
 public class TestVolatile {
 
     private static int int1;
