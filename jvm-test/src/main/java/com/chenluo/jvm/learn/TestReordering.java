@@ -48,8 +48,8 @@ public class TestReordering {
     class TwoFieldClass {
         int a = 0;
         int b = 0;
-        int r1 = 0;
-        int r2 = 0;
+        volatile int r1 = 0;
+        volatile int r2 = 0;
 
         Semaphore semaphore1 = new Semaphore(1);
 
@@ -92,7 +92,7 @@ public class TestReordering {
             while (true) {
                 semaphore1.acquireUninterruptibly();
                 a = 1; // store a
-                anyMethodAsBarrier();
+//                anyMethodAsBarrier();
                 r1 = b; // load b, store r1
                 // load b -> store a -> store r1
                 semaphore2.release();
@@ -103,7 +103,7 @@ public class TestReordering {
             while (true) {
                 semaphore3.acquireUninterruptibly();
                 b = 1; // store b
-                anyMethodAsBarrier();
+//                anyMethodAsBarrier();
                 r2 = a;// load a, store r2
                 semaphore4.release();
             }
