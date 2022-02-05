@@ -2,6 +2,7 @@ package com.chenluo.jvm.learn;
 
 import java.util.concurrent.Semaphore;
 
+// https://stackoverflow.com/questions/23603304/java-8-unsafe-xxxfence-instructions
 public class TestReordering {
     public static void main(String[] args) throws InterruptedException {
         new TestReordering().test();
