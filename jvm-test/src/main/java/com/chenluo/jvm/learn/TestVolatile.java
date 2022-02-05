@@ -49,8 +49,8 @@ public class TestVolatile {
         // TODO: is buffer level the root cause of the effective order of instruction?
         // 3 kinds of reordering:
         // 1. compiler
-        // 2. cpu execution optimization
-        // 3. store buffer caused "reordering"
+        // 2. cpu execution optimization -> instruction reordering
+        // 3. store buffer caused "reordering" -> memory reordering
         // So, no for this question because of the existence of 2nd reordering.
         // TODO: does cpu memory barrier exist before buffer level introduced?
         // as 3 kinds of reordering, I guess before store buffer, mfence simply means no instruction reordering.
