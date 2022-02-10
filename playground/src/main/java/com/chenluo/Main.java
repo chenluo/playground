@@ -1,9 +1,7 @@
 package com.chenluo;
 
-import io.netty.example.http.helloworld.HttpHelloWorldServer;
 import org.openjdk.jol.info.ClassLayout;
 import org.openjdk.jol.info.GraphLayout;
-import org.springframework.util.StopWatch;
 
 import java.util.*;
 import java.util.concurrent.*;
@@ -297,4 +295,256 @@ public class Main {
         }
     }
 
+    class BestBuyAndSellStock3 {
+        // dp[i][j]: the max profit if we do i-th *sell* at j-th day (including buy and sell in the same day)
+        // some unhelpful notes:
+        // for case i > j, it's possible for this problem, because allow buy and sell in the same day;
+        // for case i < j, for i-th sell, we must have i-1 sell before and current problem only depends on the result of i-1-th sell, dp[i][...] -> dp[i-1][...]
+        // dp[i][j] = max{
+        //               dp[i-1][0] -> always 0.
+        //.              dp[i-1][1] + prices[j]-prices[1] -> because we can buy and sell in the same day, we doesn't care such cases like at day 1 we buy and sell mutiple times.
+        //.              dp[i-1][1] -> not buy and sell
+        //.              ......
+        //               dp[i-1][j-1] + prices[j]-prices[j-1]
+        //               dp[i-1][j-1] -> not buy and sell,
+        //               dp[i][j-1] -> >= dp[i-1][j-k]. we may remove above `not buy and sell` case
+        //               }
+        // we can find the max profit by go through dp[i][j].
+        public int maxProfit(int[] prices) {
+            // greedy 
+            // lowest and highest way
+            int buyPrice = -1;
+            int sellPrice = -1;
+            int result = 0;
+            for (int i = 0; i < prices.length-1; i++) {
+                if (prices[i] < prices[i+1]) {
+                    if (buyPrice == -1) {
+                        buyPrice = prices[i];
+                    }
+                } else {
+                    if (buyPrice != -1) {
+                        sellPrice = prices[i];
+                        result+=sellPrice-buyPrice;
+                        buyPrice = -1;
+                        sellPrice = -1;
+                    }
+                }
+            }
+            if (buyPrice != -1) {
+                result+=prices[prices.length-1]-buyPrice;
+            }
+
+            return result;
+        }
+
+        // n^2 time
+        // n space
+        public int maxProfitN2ReducedSpace(int[] prices) {
+            // length+1 * length, an additional "day" for the initial state. just zero profit before the first sell actually occurrs.
+            int[] dp = new int[prices.length];
+            int result = 0;
+            for (int i = 1; i < prices.length; i++) { // iter i sell ops
+                int max = dp[0]-prices[0];
+                for (int j = 0; j < prices.length; j++) { // iter j sell points/days
+                    int temp = dp[j];
+                    dp[j] = Math.max(max, max+prices[j]);
+                    if (j > 0) dp[j] = Math.max(dp[j], dp[j-1]);
+                    max = Math.max(max, dp[j]-prices[j]);
+
+                    if (dp[j] > result) {
+                        result = dp[j];
+                    }
+                }
+            }
+            return result;
+        }
+
+        // n^2 time
+        // n^2 space
+        public int maxProfitN2Version(int[] prices) {
+            // length+1 * length, an additional "day" for the initial state. just zero profit before the first sell actually occurrs.
+            int[][] dp = new int[prices.length+1][prices.length];
+            int result = 0;
+            for (int i = 1; i < prices.length; i++) { // iter i sell ops
+                int max = dp[i-1][0]-prices[0];
+                for (int j = 0; j < prices.length; j++) { // iter j sell points/days
+                    // for (int k = 0; k < j; k++) {
+                    //     dp[i][j] = Math.max(dp[i-1][k], Math.max(dp[i-1][k] + prices[j]-prices[k], dp[i][j]));
+                    // }
+                    // max(dp[i-1][j])
+                    // global case:  dp[i][j-1]
+                    // example, for j = 1,
+                    // 1st: {dp[i-1][0]+p_1-p_0} -> only 1 compare
+                    // for j = 2
+                    // 1st: dp[i-1][0]+p_2-p_0
+                    // 2nd: dp[i-1][1]+p_2-p_1 -> if chosen
+                    // for j = 3
+                    // 1st: dp[i-1][0]+p_3-p_0
+                    // 2nd: dp[i-1][1]+p_3-p_1
+                    // 3rd: dp[i-1][2]+p_3-p_2
+                    // there some how repeat compare... the key is found the smallest prices before j and then just compare it with not sell case.
+                    // exchange dp[i-1][k]+price[i]-price[k]
+                    // -> price[i]+dp[i-1][k]-price[k]
+                    // -> price[i]   +    dp[i-1][k]-price[k]
+                    //                    (this item only changes with k)
+
+                    dp[i][j] = Math.max(max, max+prices[j]);
+                    if (j > 0) dp[i][j] = Math.max(dp[i][j], dp[i][j-1]);
+                    max = Math.max(max, dp[i-1][j]-prices[j]);
+
+                    if (dp[i][j] > result) {
+                        result = dp[i][j];
+                    }
+                }
+            }
+            return result;
+        }
+
+        // n^3 time
+        // n^2 space
+        public int maxProfitMostVanlliaVersion(int[] prices) {
+            // length+1 * length, an additional "day" for the initial state. just zero profit before the first sell actually occurrs.
+            int[][] dp = new int[prices.length+1][prices.length];
+            int result = 0;
+            for (int i = 1; i < prices.length; i++) { // iter i sell ops
+                for (int j = 0; j < prices.length; j++) { // iter j sell points/days
+                    for (int k = 0; k < j; k++) {
+                        dp[i][j] = Math.max(dp[i-1][k], Math.max(dp[i-1][k] + prices[j]-prices[k], dp[i][j]));
+                    }
+
+                    if (dp[i][j] > result) {
+                        result = dp[i][j];
+                    }
+                }
+            }
+            return result;
+        }
+    }
+
+}
+
+class Solution {
+    // dp[i][j]: the max profit if we do i-th *sell* at j-th day (including buy and sell in the same day)
+    // some unhelpful notes:
+    // for case i > j, it's possible for this problem, because allow buy and sell in the same day;
+    // for case i < j, for i-th sell, we must have i-1 sell before and current problem only depends on the result of i-1-th sell, dp[i][...] -> dp[i-1][...]
+    // dp[i][j] = max{
+    //               dp[i-1][0] -> always 0.
+    //.              dp[i-1][1] + prices[j]-prices[1] -> because we can buy and sell in the same day, we doesn't care such cases like at day 1 we buy and sell mutiple times.
+    //.              dp[i-1][1] -> not buy and sell
+    //.              ......
+    //               dp[i-1][j-1] + prices[j]-prices[j-1]
+    //               dp[i-1][j-1] -> not buy and sell,
+    //               dp[i][j-1] -> >= dp[i-1][j-k]. we may remove above `not buy and sell` case
+    //               }
+    // we can find the max profit by go through dp[i][j].
+    public int maxProfit(int[] prices) {
+        // greedy 
+        // lowest and highest way
+        int buyPrice = -1;
+        int sellPrice = -1;
+        int result = 0;
+        for (int i = 0; i < prices.length-1; i++) {
+            if (prices[i] < prices[i+1]) {
+                if (buyPrice == -1) {
+                    buyPrice = prices[i];
+                }
+            } else {
+                if (buyPrice != -1) {
+                    sellPrice = prices[i];
+                    result+=sellPrice-buyPrice;
+                    buyPrice = -1;
+                    sellPrice = -1;
+                }
+            }
+        }
+        if (buyPrice != -1) {
+            result+=prices[prices.length-1]-buyPrice;
+        }
+
+        return result;
+    }
+
+    // n^2 time
+    // n space
+    public int maxProfitN2ReducedSpace(int[] prices) {
+        // length+1 * length, an additional "day" for the initial state. just zero profit before the first sell actually occurrs.
+        int[] dp = new int[prices.length];
+        int result = 0;
+        for (int i = 1; i < prices.length; i++) { // iter i sell ops
+            int max = dp[0]-prices[0];
+            for (int j = 0; j < prices.length; j++) { // iter j sell points/days
+                int temp = dp[j];
+                dp[j] = Math.max(max, max+prices[j]);
+                if (j > 0) dp[j] = Math.max(dp[j], dp[j-1]);
+                max = Math.max(max, dp[j]-prices[j]);
+
+                if (dp[j] > result) {
+                    result = dp[j];
+                }
+            }
+        }
+        return result;
+    }
+
+    // n^2 time
+    // n^2 space
+    public int maxProfitN2Version(int[] prices) {
+        // length+1 * length, an additional "day" for the initial state. just zero profit before the first sell actually occurrs.
+        int[][] dp = new int[prices.length+1][prices.length];
+        int result = 0;
+        for (int i = 1; i < prices.length; i++) { // iter i sell ops
+            int max = dp[i-1][0]-prices[0];
+            for (int j = 0; j < prices.length; j++) { // iter j sell points/days
+                // for (int k = 0; k < j; k++) {
+                //     dp[i][j] = Math.max(dp[i-1][k], Math.max(dp[i-1][k] + prices[j]-prices[k], dp[i][j]));
+                // }
+                // max(dp[i-1][j])
+                // global case:  dp[i][j-1]
+                // example, for j = 1,
+                // 1st: {dp[i-1][0]+p_1-p_0} -> only 1 compare
+                // for j = 2
+                // 1st: dp[i-1][0]+p_2-p_0
+                // 2nd: dp[i-1][1]+p_2-p_1 -> if chosen
+                // for j = 3
+                // 1st: dp[i-1][0]+p_3-p_0
+                // 2nd: dp[i-1][1]+p_3-p_1
+                // 3rd: dp[i-1][2]+p_3-p_2
+                // there some how repeat compare... the key is found the smallest prices before j and then just compare it with not sell case.
+                // exchange dp[i-1][k]+price[i]-price[k]
+                // -> price[i]+dp[i-1][k]-price[k]
+                // -> price[i]   +    dp[i-1][k]-price[k]
+                //                    (this item only changes with k)
+
+                dp[i][j] = Math.max(max, max+prices[j]);
+                if (j > 0) dp[i][j] = Math.max(dp[i][j], dp[i][j-1]);
+                max = Math.max(max, dp[i-1][j]-prices[j]);
+
+                if (dp[i][j] > result) {
+                    result = dp[i][j];
+                }
+            }
+        }
+        return result;
+    }
+
+    // n^3 time
+    // n^2 space
+    public int maxProfitMostVanlliaVersion(int[] prices) {
+        // length+1 * length, an additional "day" for the initial state. just zero profit before the first sell actually occurrs.
+        int[][] dp = new int[prices.length+1][prices.length];
+        int result = 0;
+        for (int i = 1; i < prices.length; i++) { // iter i sell ops
+            for (int j = 0; j < prices.length; j++) { // iter j sell points/days
+                for (int k = 0; k < j; k++) {
+                    dp[i][j] = Math.max(dp[i-1][k], Math.max(dp[i-1][k] + prices[j]-prices[k], dp[i][j]));
+                }
+
+                if (dp[i][j] > result) {
+                    result = dp[i][j];
+                }
+            }
+        }
+        return result;
+    }
 }
