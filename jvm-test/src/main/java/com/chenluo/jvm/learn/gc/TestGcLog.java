@@ -1,5 +1,7 @@
 package com.chenluo.jvm.learn.gc;
 
+// javap -v TestGcLog.class
+//-Xmx50M -Xms50M -XX:+PrintGCDetails
 public class TestGcLog {
     public static void main(String[] args) throws InterruptedException {
         while (true) {
