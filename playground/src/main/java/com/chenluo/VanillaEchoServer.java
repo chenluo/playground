@@ -1,6 +1,8 @@
 package com.chenluo;
 
 
+import joptsimple.internal.Strings;
+
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
@@ -43,13 +45,15 @@ public class VanillaEchoServer {
                     }
                     if (key.isReadable()) {
                         readReadyCount++;
+                        System.out.println(Strings.repeat('-', 10) + "no. " + readReadyCount
+                                + " ready read" + Strings.repeat('-', 10));
                         SocketChannel client = null;
                         try {
                             client = (SocketChannel) key.channel();
 
                             ByteBuffer byteBuffer = ByteBuffer.allocate(100);
                             while (client.read(byteBuffer) > 0) {
-                                System.out.println(byteBuffer.array());
+                                System.out.println(new String(byteBuffer.array()));
                                 byteBuffer.flip();
                                 client.write(byteBuffer);
                                 byteBuffer.clear();
