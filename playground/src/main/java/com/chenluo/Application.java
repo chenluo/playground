@@ -3,9 +3,11 @@ package com.chenluo;
 import com.chenluo.service.ZKConfiguration;
 import com.chenluo.service.ZKManager;
 import com.chenluo.service.ZKManagerImpl;
+import io.swagger.v3.jaxrs2.integration.resources.OpenApiResource;
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.apache.tomcat.jdbc.pool.PoolProperties;
 import org.apache.zookeeper.KeeperException;
+import org.apache.zookeeper.Op;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
@@ -56,10 +58,10 @@ public class Application {
     @Bean
     public DataSource dataSource() {
         PoolProperties p = new PoolProperties();
-        p.setUrl("jdbc:mysql://localhost:3306/testDb");
+        p.setUrl("jdbc:mysql://localhost:3306/test_db");
         p.setDriverClassName("com.mysql.jdbc.Driver");
         p.setUsername("chen");
-        p.setPassword("chen");
+        p.setPassword("password");
         p.setJmxEnabled(true);
         p.setTestWhileIdle(false);
         p.setTestOnBorrow(true);

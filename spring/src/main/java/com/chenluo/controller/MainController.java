@@ -8,6 +8,7 @@
 
 package com.chenluo.controller;
 
+import com.chenluo.base.spec.BaseService;
 import com.chenluo.service.MyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,10 +29,13 @@ public class MainController {
     private final AtomicLong atomicLong = new AtomicLong(1);
 
     private final MyService myService;
+    private final BaseService baseService;
 
     @Autowired
-    public MainController(@Qualifier(value = "myServiceA") MyService myService) {
+    public MainController(@Qualifier(value = "myServiceA") MyService myService,
+                          BaseService baseService) {
         this.myService = myService;
+        this.baseService = baseService;
     }
 
 
