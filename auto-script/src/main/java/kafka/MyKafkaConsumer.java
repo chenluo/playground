@@ -18,25 +18,31 @@ import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class MyKafkaConsumer {
+    private final String consumerId;
     private KafkaConsumer<Integer, String> consumer;
-    private String groupId;
+    private final String groupId;
     private ExecutorService pool;
     private final Logger logger = LoggerFactory.getLogger(MyKafkaConsumer.class);
+    //    private static final String CONSUME_LOG_FORMAT = "{consumerGroupId}:{consumerId}" +
+//            " receive message from partition {partitionId}: " +
+//            "({key}:{value}) at offset: {offset}";
+    private static final String CONSUME_LOG_FORMAT = "{}:{} receive message from partition {}: ({}:{}) at offset: {}";
 
     public static void main(String[] args) {
 //        myKafkaConsumer.consumeAndEcho();
         for (int i = 0; i < 10; i++) {
-            MyKafkaConsumer myKafkaConsumer = new MyKafkaConsumer("group-" + i);
+            MyKafkaConsumer myKafkaConsumer = new MyKafkaConsumer("group-" + i, String.valueOf(i));
             myKafkaConsumer.run();
         }
     }
 
-    public MyKafkaConsumer(String groupId) {
+    public MyKafkaConsumer(String groupId, String consumerId) {
         this.groupId = groupId;
+        this.consumerId = consumerId;
         Properties props = new Properties();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, MyKafkaConfig.BOOTSTRAP_SERVER_URL);
         props.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
-//        instanceId.ifPresent(id -> props.put(ConsumerConfig.GROUP_INSTANCE_ID_CONFIG, id));
+        props.put(ConsumerConfig.GROUP_INSTANCE_ID_CONFIG, consumerId);
         props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "true");
         props.put(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, "1000");
         props.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, "30000");
@@ -49,9 +55,10 @@ public class MyKafkaConsumer {
 
         consumer = new KafkaConsumer<>(props);
 
-        ThreadFactory factory = new BasicThreadFactory.Builder().namingPattern("kafka-consumer-"+groupId+"-%d")
+        ThreadFactory factory = new BasicThreadFactory.Builder()
+                .namingPattern("kafka-consumer-" + groupId + ":" + consumerId + "-%d")
                 .daemon(false).build();
-        this.pool = new ThreadPoolExecutor(0, 1, 10, TimeUnit.SECONDS, new ArrayBlockingQueue<>(100), factory);
+        this.pool = new ThreadPoolExecutor(0, 1, 1, TimeUnit.SECONDS, new ArrayBlockingQueue<>(100), factory);
     }
 
     public void run() {
@@ -72,14 +79,13 @@ public class MyKafkaConsumer {
             }
             AtomicInteger temp = new AtomicInteger();
             records.iterator().forEachRemaining(record -> {
-                logger.info((this.groupId + " received message : from partition " + record.partition() + ", (" + record.key() + ", " + record.value() + ") at offset " + record.offset()));
+//                logger.info(CONSUME_LOG_FORMAT, this.groupId, this.consumerId, record.partition(),
+//                        record.key(), record.value(), record.offset());
                 temp.getAndIncrement();
             });
-            if (temp.get() == 0) {
-                break;
-            }
-            consumed+=temp.get();
+            consumed += temp.get();
         }
-        logger.info(Thread.currentThread().getName()+ " consumed " + consumed + " messages.");
+        logger.info(Thread.currentThread().getName() + " consumed " + consumed + " messages.");
+        consumer.unsubscribe();
     }
 }
