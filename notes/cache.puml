@@ -1,0 +1,70 @@
+@startuml cacheHierachy
+scale 1.5
+'scale 1.5 | scale 200 width | scale 100 height | scale [max] 200x100
+' skinparam rectangle{
+'     RoundCorner<<mem>>  25 
+' }
+
+frame CPU {
+    rectangle Cores {
+        rectangle CPU0 {
+            storage loadBuffer0
+            storage invalidateQueue0
+            rectangle Cache0 {
+            }
+            Cache0 -[hidden]up- loadBuffer0
+            loadBuffer0 -[hidden]up- invalidateQueue0
+        }
+        rectangle CPU1 {
+            storage loadBuffer1
+            storage invalidateQueue1
+            rectangle Cache1 {
+            }
+            Cache1 -[hidden]up- loadBuffer1
+            loadBuffer1 -[hidden]up- invalidateQueue1
+        }
+        rectangle CPUX {
+            storage loadBufferX
+            storage invalidateQueueX
+            rectangle CacheX {
+            }
+            CacheX -[hidden]up- loadBufferX
+            loadBufferX -[hidden]up- invalidateQueueX
+        }
+        cloud MESI [
+            MESI
+        ]
+        cloud MemoryBarrier [
+            MemoryBarrier 
+        ]
+    }
+    Cache0 <.down.> MESI
+    Cache1 <.down.> MESI
+    CacheX <.down.> MESI
+    invalidateQueue0<-up-> MemoryBarrier
+    invalidateQueue1<-up-> MemoryBarrier
+    invalidateQueueX<-up-> MemoryBarrier
+    loadBuffer0<-up-> MemoryBarrier
+    loadBuffer1<-up-> MemoryBarrier
+    loadBufferX<-up-> MemoryBarrier
+}
+note bottom of MESI
+    MESI
+    intermedia to maintain the 
+    cache status
+    on all cores are correct
+endnote
+note top of MemoryBarrier
+    MemoryBarrier
+    instructions to keep the 
+    visibility of variable 
+    from 1 core to other cores
+endnote
+
+rectangle Memory {
+}
+MESI <.right.> Memory 
+MemoryBarrier <-right-> Memory
+
+
+@enduml

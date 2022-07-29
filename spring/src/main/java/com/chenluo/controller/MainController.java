@@ -46,6 +46,7 @@ public class MainController {
     @GetMapping("test")
     @ResponseBody
     public boolean test() {
+        System.out.println(baseService.init());
         System.out.println(volatileLong);
         myService.testService1();
         volatileLong = 2;

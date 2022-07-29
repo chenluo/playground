@@ -1,10 +1,12 @@
 package com.chenluo;
 
+import com.google.common.base.Supplier;
 import org.openjdk.jol.info.ClassLayout;
 import org.openjdk.jol.info.GraphLayout;
 
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.function.BiConsumer;
 
 public class Main {
 
@@ -18,6 +20,21 @@ public class Main {
 //        HttpHelloWorldServer.main(new String[1]);
         for (int i = 0; i < 120; i++)
             System.out.println(new Main().perm(5, i));
+        String s = "s";
+        Comparator<String> stringStringBiConsumer = (a, b) -> {
+            System.out.println(args[0]);
+            return 1;
+        };
+        new Main().testLambda(s);
+        s = "ss";
+        System.out.println(s);
+    }
+
+    public void testLambda(String s) {
+        Supplier<Integer> integerSupplier = () -> {
+            System.out.println(s);
+            return 1;
+        };
     }
 
     /**
@@ -29,7 +46,7 @@ public class Main {
      * < 2*1 -> 4
      * < 1 -> 5
      * only 1 left -> 6
-     *
+     * <p>
      * 1
      * < 5*4*3*2*1 -> 1
      * < 4*3*2*1 ->2
@@ -37,6 +54,7 @@ public class Main {
      * < 2*1 -> 4
      * >= 1 -> 6
      * only 1 left -> 5
+     *
      * @return
      */
 
@@ -46,10 +64,10 @@ public class Main {
         int remained = n;
         while (remained > 0) {
             int base = 1;
-            for (int i = 1; i <= remained-1; i++) {
-                base*=i;
+            for (int i = 1; i <= remained - 1; i++) {
+                base *= i;
             }
-            int curIdx = idx/base;
+            int curIdx = idx / base;
             int tempIdx = 0;
             for (int i = 0; i < n; i++) {
                 if (result.contains(i)) {
@@ -62,21 +80,20 @@ public class Main {
                 }
                 tempIdx++;
             }
-            idx%=base;
+            idx %= base;
         }
         return result;
     }
 
 
-
     public char intToChar() {
         int a = 1;
-        System.out.println((char) ('a'+1));
-        return (char) ('a'+1);
+        System.out.println((char) ('a' + 1));
+        return (char) ('a' + 1);
     }
 
     public int minDistance(String word1, String word2) {
-        int[][] dp = new int[word1.length()+1][word2.length()+1];
+        int[][] dp = new int[word1.length() + 1][word2.length() + 1];
 
         for (int i = 0; i <= word1.length(); i++) {
             dp[i][0] = i;
@@ -86,12 +103,12 @@ public class Main {
             dp[0][j] = j;
         }
 
-        for (int i = 1; i < word1.length()+1; i++) {
-            for (int j = 1; j < word2.length()+1; j++) {
-                if (word1.charAt(i-1) == word2.charAt(j-1)) {
-                    dp[i][j] = Math.min(dp[i-1][j-1], Math.min(dp[i-1][j]+1, dp[i][j-1]+1));
+        for (int i = 1; i < word1.length() + 1; i++) {
+            for (int j = 1; j < word2.length() + 1; j++) {
+                if (word1.charAt(i - 1) == word2.charAt(j - 1)) {
+                    dp[i][j] = Math.min(dp[i - 1][j - 1], Math.min(dp[i - 1][j] + 1, dp[i][j - 1] + 1));
                 } else {
-                    dp[i][j] = Math.min(dp[i-1][j-1]+2, Math.min(dp[i-1][j]+1, dp[i][j-1]+1));
+                    dp[i][j] = Math.min(dp[i - 1][j - 1] + 2, Math.min(dp[i - 1][j] + 1, dp[i][j - 1] + 1));
                 }
             }
         }
@@ -316,22 +333,22 @@ public class Main {
             int buyPrice = -1;
             int sellPrice = -1;
             int result = 0;
-            for (int i = 0; i < prices.length-1; i++) {
-                if (prices[i] < prices[i+1]) {
+            for (int i = 0; i < prices.length - 1; i++) {
+                if (prices[i] < prices[i + 1]) {
                     if (buyPrice == -1) {
                         buyPrice = prices[i];
                     }
                 } else {
                     if (buyPrice != -1) {
                         sellPrice = prices[i];
-                        result+=sellPrice-buyPrice;
+                        result += sellPrice - buyPrice;
                         buyPrice = -1;
                         sellPrice = -1;
                     }
                 }
             }
             if (buyPrice != -1) {
-                result+=prices[prices.length-1]-buyPrice;
+                result += prices[prices.length - 1] - buyPrice;
             }
 
             return result;
@@ -344,12 +361,12 @@ public class Main {
             int[] dp = new int[prices.length];
             int result = 0;
             for (int i = 1; i < prices.length; i++) { // iter i sell ops
-                int max = dp[0]-prices[0];
+                int max = dp[0] - prices[0];
                 for (int j = 0; j < prices.length; j++) { // iter j sell points/days
                     int temp = dp[j];
-                    dp[j] = Math.max(max, max+prices[j]);
-                    if (j > 0) dp[j] = Math.max(dp[j], dp[j-1]);
-                    max = Math.max(max, dp[j]-prices[j]);
+                    dp[j] = Math.max(max, max + prices[j]);
+                    if (j > 0) dp[j] = Math.max(dp[j], dp[j - 1]);
+                    max = Math.max(max, dp[j] - prices[j]);
 
                     if (dp[j] > result) {
                         result = dp[j];
@@ -363,10 +380,10 @@ public class Main {
         // n^2 space
         public int maxProfitN2Version(int[] prices) {
             // length+1 * length, an additional "day" for the initial state. just zero profit before the first sell actually occurrs.
-            int[][] dp = new int[prices.length+1][prices.length];
+            int[][] dp = new int[prices.length + 1][prices.length];
             int result = 0;
             for (int i = 1; i < prices.length; i++) { // iter i sell ops
-                int max = dp[i-1][0]-prices[0];
+                int max = dp[i - 1][0] - prices[0];
                 for (int j = 0; j < prices.length; j++) { // iter j sell points/days
                     // for (int k = 0; k < j; k++) {
                     //     dp[i][j] = Math.max(dp[i-1][k], Math.max(dp[i-1][k] + prices[j]-prices[k], dp[i][j]));
@@ -388,9 +405,9 @@ public class Main {
                     // -> price[i]   +    dp[i-1][k]-price[k]
                     //                    (this item only changes with k)
 
-                    dp[i][j] = Math.max(max, max+prices[j]);
-                    if (j > 0) dp[i][j] = Math.max(dp[i][j], dp[i][j-1]);
-                    max = Math.max(max, dp[i-1][j]-prices[j]);
+                    dp[i][j] = Math.max(max, max + prices[j]);
+                    if (j > 0) dp[i][j] = Math.max(dp[i][j], dp[i][j - 1]);
+                    max = Math.max(max, dp[i - 1][j] - prices[j]);
 
                     if (dp[i][j] > result) {
                         result = dp[i][j];
@@ -404,12 +421,12 @@ public class Main {
         // n^2 space
         public int maxProfitMostVanlliaVersion(int[] prices) {
             // length+1 * length, an additional "day" for the initial state. just zero profit before the first sell actually occurrs.
-            int[][] dp = new int[prices.length+1][prices.length];
+            int[][] dp = new int[prices.length + 1][prices.length];
             int result = 0;
             for (int i = 1; i < prices.length; i++) { // iter i sell ops
                 for (int j = 0; j < prices.length; j++) { // iter j sell points/days
                     for (int k = 0; k < j; k++) {
-                        dp[i][j] = Math.max(dp[i-1][k], Math.max(dp[i-1][k] + prices[j]-prices[k], dp[i][j]));
+                        dp[i][j] = Math.max(dp[i - 1][k], Math.max(dp[i - 1][k] + prices[j] - prices[k], dp[i][j]));
                     }
 
                     if (dp[i][j] > result) {
@@ -444,22 +461,22 @@ class Solution {
         int buyPrice = -1;
         int sellPrice = -1;
         int result = 0;
-        for (int i = 0; i < prices.length-1; i++) {
-            if (prices[i] < prices[i+1]) {
+        for (int i = 0; i < prices.length - 1; i++) {
+            if (prices[i] < prices[i + 1]) {
                 if (buyPrice == -1) {
                     buyPrice = prices[i];
                 }
             } else {
                 if (buyPrice != -1) {
                     sellPrice = prices[i];
-                    result+=sellPrice-buyPrice;
+                    result += sellPrice - buyPrice;
                     buyPrice = -1;
                     sellPrice = -1;
                 }
             }
         }
         if (buyPrice != -1) {
-            result+=prices[prices.length-1]-buyPrice;
+            result += prices[prices.length - 1] - buyPrice;
         }
 
         return result;
@@ -472,12 +489,12 @@ class Solution {
         int[] dp = new int[prices.length];
         int result = 0;
         for (int i = 1; i < prices.length; i++) { // iter i sell ops
-            int max = dp[0]-prices[0];
+            int max = dp[0] - prices[0];
             for (int j = 0; j < prices.length; j++) { // iter j sell points/days
                 int temp = dp[j];
-                dp[j] = Math.max(max, max+prices[j]);
-                if (j > 0) dp[j] = Math.max(dp[j], dp[j-1]);
-                max = Math.max(max, dp[j]-prices[j]);
+                dp[j] = Math.max(max, max + prices[j]);
+                if (j > 0) dp[j] = Math.max(dp[j], dp[j - 1]);
+                max = Math.max(max, dp[j] - prices[j]);
 
                 if (dp[j] > result) {
                     result = dp[j];
@@ -491,10 +508,10 @@ class Solution {
     // n^2 space
     public int maxProfitN2Version(int[] prices) {
         // length+1 * length, an additional "day" for the initial state. just zero profit before the first sell actually occurrs.
-        int[][] dp = new int[prices.length+1][prices.length];
+        int[][] dp = new int[prices.length + 1][prices.length];
         int result = 0;
         for (int i = 1; i < prices.length; i++) { // iter i sell ops
-            int max = dp[i-1][0]-prices[0];
+            int max = dp[i - 1][0] - prices[0];
             for (int j = 0; j < prices.length; j++) { // iter j sell points/days
                 // for (int k = 0; k < j; k++) {
                 //     dp[i][j] = Math.max(dp[i-1][k], Math.max(dp[i-1][k] + prices[j]-prices[k], dp[i][j]));
@@ -516,9 +533,9 @@ class Solution {
                 // -> price[i]   +    dp[i-1][k]-price[k]
                 //                    (this item only changes with k)
 
-                dp[i][j] = Math.max(max, max+prices[j]);
-                if (j > 0) dp[i][j] = Math.max(dp[i][j], dp[i][j-1]);
-                max = Math.max(max, dp[i-1][j]-prices[j]);
+                dp[i][j] = Math.max(max, max + prices[j]);
+                if (j > 0) dp[i][j] = Math.max(dp[i][j], dp[i][j - 1]);
+                max = Math.max(max, dp[i - 1][j] - prices[j]);
 
                 if (dp[i][j] > result) {
                     result = dp[i][j];
@@ -532,12 +549,12 @@ class Solution {
     // n^2 space
     public int maxProfitMostVanlliaVersion(int[] prices) {
         // length+1 * length, an additional "day" for the initial state. just zero profit before the first sell actually occurrs.
-        int[][] dp = new int[prices.length+1][prices.length];
+        int[][] dp = new int[prices.length + 1][prices.length];
         int result = 0;
         for (int i = 1; i < prices.length; i++) { // iter i sell ops
             for (int j = 0; j < prices.length; j++) { // iter j sell points/days
                 for (int k = 0; k < j; k++) {
-                    dp[i][j] = Math.max(dp[i-1][k], Math.max(dp[i-1][k] + prices[j]-prices[k], dp[i][j]));
+                    dp[i][j] = Math.max(dp[i - 1][k], Math.max(dp[i - 1][k] + prices[j] - prices[k], dp[i][j]));
                 }
 
                 if (dp[i][j] > result) {

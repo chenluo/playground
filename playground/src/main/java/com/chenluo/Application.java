@@ -3,7 +3,6 @@ package com.chenluo;
 import com.chenluo.service.ZKConfiguration;
 import com.chenluo.service.ZKManager;
 import com.chenluo.service.ZKManagerImpl;
-import io.swagger.v3.jaxrs2.integration.resources.OpenApiResource;
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.apache.tomcat.jdbc.pool.PoolProperties;
 import org.apache.zookeeper.KeeperException;
