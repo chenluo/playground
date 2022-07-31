@@ -4,6 +4,8 @@ import com.google.common.base.Supplier;
 import org.openjdk.jol.info.ClassLayout;
 import org.openjdk.jol.info.GraphLayout;
 
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.function.BiConsumer;
@@ -17,9 +19,15 @@ public class Main {
     private int nonVolatileInt = 0;
 
     public static void main(String[] args) throws Exception {
-//        HttpHelloWorldServer.main(new String[1]);
-        for (int i = 0; i < 120; i++)
-            System.out.println(new Main().perm(5, i));
+        ZonedDateTime now = ZonedDateTime.now();
+        System.out.println(now.toString());
+        System.out.println(ZonedDateTime.parse(now.toString()));
+        String isoDatetimeString = now.format(DateTimeFormatter.ISO_DATE_TIME);
+        String isoZonedDatetimeString = now.format(DateTimeFormatter.ISO_ZONED_DATE_TIME);
+        System.out.println(isoDatetimeString);
+        System.out.println(ZonedDateTime.parse(isoDatetimeString));
+        System.out.println(isoZonedDatetimeString);
+        System.out.println(ZonedDateTime.parse(isoZonedDatetimeString));
         String s = "s";
         Comparator<String> stringStringBiConsumer = (a, b) -> {
             System.out.println(args[0]);

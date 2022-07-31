@@ -1,13 +1,14 @@
 package com.chenluo.zk.connection;
 
-import org.apache.zookeeper.WatchedEvent;
-import org.apache.zookeeper.Watcher;
-import org.apache.zookeeper.ZooKeeper;
+import org.apache.zookeeper.*;
+import org.apache.zookeeper.data.Stat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
+
+import static org.apache.zookeeper.ZooDefs.Ids.OPEN_ACL_UNSAFE;
 
 public class ZKConnection {
     private ZooKeeper zoo;
@@ -23,6 +24,8 @@ public class ZKConnection {
                 if (we.getState().equals(Event.KeeperState.SyncConnected)) {
                     logger.info("connected.");
                     connectionLatch.countDown();
+                } else {
+                    logger.info("{}", we);
                 }
             }
         });
@@ -33,5 +36,23 @@ public class ZKConnection {
 
     public void close() throws InterruptedException {
         zoo.close();
+    }
+
+    public static void main(String[] args) throws IOException, InterruptedException, KeeperException {
+        ZKConnection zkConnection = new ZKConnection();
+        zkConnection.connect("localhost");
+        String s1 = zkConnection.zoo.create("/test/test-", "seq".getBytes(), OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
+        System.out.println(s1);
+        String s2 = zkConnection.zoo.create("/test/test-", "seq".getBytes(), OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
+        System.out.println(s2);
+        String s3 = zkConnection.zoo.create("/test/test-", "seq".getBytes(), OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
+        System.out.println(s3);
+        String s4 = zkConnection.zoo.create("/test/test-", "seq".getBytes(), OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
+        System.out.println(s4);
+
+        Stat stat = new Stat();
+        String s5 = zkConnection.zoo.create("/test/test-", "seq".getBytes(), OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL, stat);
+        System.out.println(s5);
+        zkConnection.logger.info("{}", stat);
     }
 }

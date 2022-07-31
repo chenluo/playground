@@ -7,5 +7,5 @@ include 'netty'
 include 'jvm-test'
 include 'my-spring-boot-autoconfigure'
 include 'my-spring-boot-starter'
-include 'b'
+include 'es'
 
