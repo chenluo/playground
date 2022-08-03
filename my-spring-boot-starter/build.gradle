@@ -10,7 +10,7 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.2'
 //    implementation group:'com.chenluo.spring', name:'my-spring-boot-autoconfigure', version:'0.0.1'
 //    implementation('org.springframework.boot:spring-boot-starter:2.4.10')
-    compile project(':my-spring-boot-autoconfigure')
+    implementation project(':my-spring-boot-autoconfigure')
 }
 
 test {

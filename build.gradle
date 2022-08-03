@@ -4,7 +4,6 @@ allprojects {
     test.onlyIf { project.hasProperty('needTest') }
     apply plugin: 'idea'
     apply plugin: 'maven-publish'
-    apply plugin: 'maven'
 
     repositories {
         mavenCentral()

@@ -3,5 +3,5 @@
 **/.gradle
 **/.gradle/**
 .idea/**
-buildSrc/.gradle/**
+buildSrc.deprecated/.gradle/**
 
