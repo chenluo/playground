@@ -16,4 +16,5 @@ dependencies {
     implementation("org.slf4j:slf4j-api:1.7.30")
     implementation("ch.qos.logback:logback-classic:1.2.3")
     implementation(project(":my-spring-boot-starter"))
+    implementation("org.elasticsearch.client:elasticsearch-rest-high-level-client:7.7.0")
 }

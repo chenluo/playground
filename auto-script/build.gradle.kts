@@ -21,7 +21,7 @@ dependencies {
     // https://mvnrepository.com/artifact/log4j/log4j
     implementation("log4j:log4j:1.2.17")
     // https://mvnrepository.com/artifact/mysql/mysql-connector-java
-    implementation("mysql:mysql-connector-java:8.0.25")
+    implementation("mysql:mysql-connector-java:8.0.28")
     // https://mvnrepository.com/artifact/org.mybatis/mybatis
     implementation("org.mybatis:mybatis:3.5.9")
     // https://mvnrepository.com/artifact/org.apache.kafka/kafka-clients
