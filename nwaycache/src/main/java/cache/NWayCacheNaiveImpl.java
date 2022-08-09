@@ -4,43 +4,18 @@ package cache;
 import cache.replacepolicy.LRUReplacePolicy;
 import cache.replacepolicy.ReplacePolicy;
 
-import java.util.Random;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
-public class NWayCacheThreadSafeWithLockImpl<K, V> implements NWayCache<K, V> {
-    ReadWriteLock[] locks;
-    // lock is kind of heavy. Maybe CAS is an improvement point. Unsafe is not available.
-    // use AtomicInteger instead. CAS is error-prone
+public class NWayCacheNaiveImpl<K, V> implements NWayCache<K, V> {
     private int S; // need upscale?
     private int N; // need upscale?
     private CacheEntry<K, V>[] entries; // linked list or array?
     private ReplacePolicy replacePolicy;
     private int term = 0; // handle over-flow.
 
-    public static void main(String[] args) {
-        NWayCache<String, String> nWayCacheImpl =
-                new NWayCacheThreadSafeWithLockImpl<String, String>(5, 2);
-        //        nWayCacheImpl.put("A", "A");
-        //        nWayCacheImpl.put("AA", "AA");
-        //        System.out.println(nWayCacheImpl.get("A"));
-        //        System.out.println(nWayCacheImpl.get("A"+"A"));
-        Random random = new Random();
-        for (int i = 0; i < 20; i++) {
-            System.out.println("put " + i);
-            nWayCacheImpl.put(String.valueOf(i), String.valueOf(i));
-            nWayCacheImpl.print();
-            if (i % 5 == 0) {
-                System.out.println("get 0");
-                nWayCacheImpl.get(String.valueOf(0));
-                nWayCacheImpl.print();
-            }
-        }
-
-
-    }
-
-    public NWayCacheThreadSafeWithLockImpl(int S, int N) {
+    public NWayCacheNaiveImpl(int S, int N) {
         this.S = S;
         this.N = N;
         this.entries = new CacheEntry[S];
@@ -48,11 +23,44 @@ public class NWayCacheThreadSafeWithLockImpl<K, V> implements NWayCache<K, V> {
             // init head
             this.entries[i] = new CacheEntry<K, V>(null, null, 0);
         }
-        locks = new ReentrantReadWriteLock[S];
-        for (int i = 0; i < S; i++) {
-            locks[i] = new ReentrantReadWriteLock();
-        }
         replacePolicy = new LRUReplacePolicy();
+    }
+
+    public static void main(String[] args) {
+        NWayCache<String, String> nWayCacheImpl = new NWayCacheNaiveImpl<>(5, 2);
+        //        nWayCacheImpl.put("A", "A");
+        //        nWayCacheImpl.put("AA", "AA");
+        //        System.out.println(nWayCacheImpl.get("A"));
+        //        System.out.println(nWayCacheImpl.get("A"+"A"));
+        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(64, 64, 1, TimeUnit.SECONDS,
+                new ArrayBlockingQueue<>(100000), new ThreadPoolExecutor.CallerRunsPolicy());
+        for (int i = 0; i < 20000000; i++) {
+            //            System.out.println("put " + i);
+            int finalI = i;
+            if (finalI % 1000000 == 0) {
+                System.out.println(finalI);
+            }
+            threadPoolExecutor.execute(() -> {
+                nWayCacheImpl.put(String.valueOf(finalI), String.valueOf(finalI));
+                //                nWayCacheImpl.print();
+                if (finalI % 5 == 0) {
+                    //                    System.out.println("get 0");
+                    nWayCacheImpl.get(String.valueOf(0));
+                    //                    nWayCacheImpl.print();
+                }
+            });
+        }
+        threadPoolExecutor.shutdown();
+        while (true) {
+            System.out.println("wait for shutdown");
+            try {
+                if (threadPoolExecutor.awaitTermination(1, TimeUnit.SECONDS)) {
+                    break;
+                }
+            } catch (InterruptedException e) {
+                threadPoolExecutor.shutdownNow();
+            }
+        }
     }
 
     /**
@@ -63,10 +71,8 @@ public class NWayCacheThreadSafeWithLockImpl<K, V> implements NWayCache<K, V> {
     @Override
     public boolean put(K key, V value) {
         int hash = hash(key);
-        ReadWriteLock lock = locks[hash];
         boolean success = false;
         try {
-            lock.writeLock().lock();
             CacheEntry<K, V> newEntry = buildEntry(key, value);
             success = putEntry(hash, newEntry);
             if (!success) {
@@ -74,9 +80,8 @@ public class NWayCacheThreadSafeWithLockImpl<K, V> implements NWayCache<K, V> {
                 success = putEntry(hash, newEntry);
             }
         } catch (Exception e) {
+            e.printStackTrace();
             System.out.println("failed to put" + key + ":" + value);
-        } finally {
-            lock.writeLock().unlock();
         }
 
         return success;
@@ -102,42 +107,36 @@ public class NWayCacheThreadSafeWithLockImpl<K, V> implements NWayCache<K, V> {
     @Override
     public V get(K key) {
         int hash = hash(key);
-        ReadWriteLock lock = locks[hash];
-        try {
-            lock.readLock().lock();
-            CacheEntry<K, V> entry = entries[hash].next;
+        CacheEntry<K, V> entry = entries[hash].next;
 
-            for (int i = 0; i < N; i++) {
-                if (entry == null) {
-                    return null;
-                }
-                if (entry.key.equals(key)) {
-                    return visitEntry(entry).value;
-                }
-                entry = entry.next;
+        for (int i = 0; i < N; i++) {
+            if (entry == null) {
+                return null;
             }
-        } finally {
-            lock.readLock().unlock();
+            if (entry.key.equals(key)) {
+                return visitEntry(entry).value;
+            }
+            entry = entry.next;
         }
         return null;
     }
 
     @Override
     public void print() {
-        System.out.println("------------------");
+        //        System.out.println("------------------");
         for (int i = 0; i < S; i++) {
             CacheEntry<K, V> current = entries[i].next;
             for (int j = 0; j < N; j++) {
                 if (current != null) {
-                    System.out.print(current + " ");
+                    //                    System.out.print(current + " ");
                     current = current.next;
                 } else {
-                    System.out.print("null ");
+                    //                    System.out.print("null ");
                 }
             }
-            System.out.println("");
+            //            System.out.println("");
         }
-        System.out.println("------------------");
+        //        System.out.println("------------------");
     }
 
     private CacheEntry<K, V> visitEntry(CacheEntry<K, V> entry) {
