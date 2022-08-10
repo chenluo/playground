@@ -70,6 +70,7 @@ public class NWayCacheThreadSafeWithLockImpl<K, V> implements NWayCache<K, V> {
             CacheEntry<K, V> newEntry = buildEntry(key, value);
             success = putEntry(hash, newEntry);
             if (!success) {
+                Thread.yield(); // for test multi-thread issue
                 replacePolicy.dropOne(entries[hash]);
                 success = putEntry(hash, newEntry);
             }

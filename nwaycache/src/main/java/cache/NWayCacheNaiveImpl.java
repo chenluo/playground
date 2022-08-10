@@ -27,14 +27,14 @@ public class NWayCacheNaiveImpl<K, V> implements NWayCache<K, V> {
     }
 
     public static void main(String[] args) {
-        NWayCache<String, String> nWayCacheImpl = new NWayCacheNaiveImpl<>(5, 2);
+        NWayCache<String, String> nWayCacheImpl = new NWayCacheThreadSafeWithLockImpl<>(5, 20);
         //        nWayCacheImpl.put("A", "A");
         //        nWayCacheImpl.put("AA", "AA");
         //        System.out.println(nWayCacheImpl.get("A"));
         //        System.out.println(nWayCacheImpl.get("A"+"A"));
         ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(64, 64, 1, TimeUnit.SECONDS,
                 new ArrayBlockingQueue<>(100000), new ThreadPoolExecutor.CallerRunsPolicy());
-        for (int i = 0; i < 20000000; i++) {
+        for (int i = 0; i < 200000000; i++) {
             //            System.out.println("put " + i);
             int finalI = i;
             if (finalI % 1000000 == 0) {
@@ -43,11 +43,11 @@ public class NWayCacheNaiveImpl<K, V> implements NWayCache<K, V> {
             threadPoolExecutor.execute(() -> {
                 nWayCacheImpl.put(String.valueOf(finalI), String.valueOf(finalI));
                 //                nWayCacheImpl.print();
-                if (finalI % 5 == 0) {
-                    //                    System.out.println("get 0");
-                    nWayCacheImpl.get(String.valueOf(0));
-                    //                    nWayCacheImpl.print();
-                }
+//                if (finalI % 5 == 0) {
+//                    //                    System.out.println("get 0");
+//                    nWayCacheImpl.get(String.valueOf(0));
+//                    //                    nWayCacheImpl.print();
+//                }
             });
         }
         threadPoolExecutor.shutdown();
@@ -76,6 +76,7 @@ public class NWayCacheNaiveImpl<K, V> implements NWayCache<K, V> {
             CacheEntry<K, V> newEntry = buildEntry(key, value);
             success = putEntry(hash, newEntry);
             if (!success) {
+                Thread.yield(); // for test multi-thread issue
                 replacePolicy.dropOne(entries[hash]);
                 success = putEntry(hash, newEntry);
             }
