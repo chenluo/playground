@@ -7,7 +7,6 @@ import io.netty.channel.Channel;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.example.http.snoop.HttpSnoopClientInitializer;
 import io.netty.handler.codec.http.*;
 import io.netty.handler.codec.http.cookie.DefaultCookie;
 import io.netty.handler.ssl.SslContext;

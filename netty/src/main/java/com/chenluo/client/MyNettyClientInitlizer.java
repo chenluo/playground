@@ -11,7 +11,6 @@ package com.chenluo.client;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
-import io.netty.example.http.snoop.HttpSnoopServerHandler;
 import io.netty.handler.codec.http.HttpRequestDecoder;
 import io.netty.handler.codec.http.HttpResponseEncoder;
 import org.slf4j.Logger;
