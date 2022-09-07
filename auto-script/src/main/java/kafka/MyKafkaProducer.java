@@ -71,7 +71,7 @@ public class MyKafkaProducer {
         }
         logger.info("finish produce message and close producer");
         stopWatch.stop();
-        logger.info(stopWatch.getMessage());
+//        logger.info(stopWatch.getMessage());
     }
 
     private void produceAllMessage() {

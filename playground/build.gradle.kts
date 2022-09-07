@@ -63,5 +63,7 @@ dependencies {
     implementation("org.openjdk.jol:jol-samples:0.16")
     // https://mvnrepository.com/artifact/io.netty/netty-all
     implementation("io.netty:netty-all:4.1.79.Final")
+// https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
+    implementation("org.apache.commons:commons-lang3:3.0")
 
 }

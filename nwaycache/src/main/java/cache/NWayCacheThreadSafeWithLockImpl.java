@@ -46,13 +46,12 @@ public class NWayCacheThreadSafeWithLockImpl<K, V> implements NWayCache<K, V> {
         this.entries = new CacheEntry[S];
         for (int i = 0; i < S; i++) {
             // init head
-            this.entries[i] = new CacheEntry<K, V>(null, null, 0);
+            this.entries[i] = new CacheEntry<K, V>(null, null);
         }
         locks = new ReentrantReadWriteLock[S];
         for (int i = 0; i < S; i++) {
             locks[i] = new ReentrantReadWriteLock();
         }
-        replacePolicy = new LRUReplacePolicy();
     }
 
     /**
@@ -67,13 +66,7 @@ public class NWayCacheThreadSafeWithLockImpl<K, V> implements NWayCache<K, V> {
         boolean success = false;
         try {
             lock.writeLock().lock();
-            CacheEntry<K, V> newEntry = buildEntry(key, value);
-            success = putEntry(hash, newEntry);
-            if (!success) {
-                Thread.yield(); // for test multi-thread issue
-                replacePolicy.dropOne(entries[hash]);
-                success = putEntry(hash, newEntry);
-            }
+
         } catch (Exception e) {
             System.out.println("failed to put" + key + ":" + value);
         } finally {
@@ -85,19 +78,8 @@ public class NWayCacheThreadSafeWithLockImpl<K, V> implements NWayCache<K, V> {
 
     private boolean putEntry(int hash, CacheEntry<K, V> entry) {
         CacheEntry head = entries[hash];
-        for (int i = 0; i < N; i++) {
-            if (head.next == null) {
-                head.next = entry;
-                return true;
-            }
-            head = head.next;
-        }
-        return false;
-    }
 
-    private CacheEntry<K, V> buildEntry(K key, V value) {
-        term++;
-        return new CacheEntry<>(key, value, term);
+        return false;
     }
 
     @Override
@@ -106,17 +88,7 @@ public class NWayCacheThreadSafeWithLockImpl<K, V> implements NWayCache<K, V> {
         ReadWriteLock lock = locks[hash];
         try {
             lock.readLock().lock();
-            CacheEntry<K, V> entry = entries[hash].next;
 
-            for (int i = 0; i < N; i++) {
-                if (entry == null) {
-                    return null;
-                }
-                if (entry.key.equals(key)) {
-                    return visitEntry(entry).value;
-                }
-                entry = entry.next;
-            }
         } finally {
             lock.readLock().unlock();
         }
@@ -127,25 +99,11 @@ public class NWayCacheThreadSafeWithLockImpl<K, V> implements NWayCache<K, V> {
     public void print() {
         System.out.println("------------------");
         for (int i = 0; i < S; i++) {
-            CacheEntry<K, V> current = entries[i].next;
-            for (int j = 0; j < N; j++) {
-                if (current != null) {
-                    System.out.print(current + " ");
-                    current = current.next;
-                } else {
-                    System.out.print("null ");
-                }
-            }
             System.out.println("");
         }
         System.out.println("------------------");
     }
 
-    private CacheEntry<K, V> visitEntry(CacheEntry<K, V> entry) {
-        term++;
-        entry.term = term;
-        return entry;
-    }
 
     private int hash(K key) {
         if (key != null) {

@@ -1,14 +1,7 @@
-/*
- * Copyright Elasticsearch B.V. and/or licensed to Elasticsearch B.V. under one
- * or more contributor license agreements. Licensed under the Elastic License
- * 2.0 and the Server Side Public License, v 1; you may not use this file except
- * in compliance with, at your election, the Elastic License 2.0 or the Server
- * Side Public License, v 1.
- */
 
 package com.chenluo.controller;
 
-import com.chenluo.base.spec.BaseService;
+//import com.chenluo.base.spec.BaseService;
 import com.chenluo.service.MyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,13 +22,15 @@ public class MainController {
     private final AtomicLong atomicLong = new AtomicLong(1);
 
     private final MyService myService;
-    private final BaseService baseService;
+//    private final BaseService baseService;
 
     @Autowired
-    public MainController(@Qualifier(value = "myServiceA") MyService myService,
-                          BaseService baseService) {
+    public MainController(@Qualifier(value = "myServiceA") MyService myService
+//            ,
+//                          BaseService baseService
+    ) {
         this.myService = myService;
-        this.baseService = baseService;
+//        this.baseService = baseService;
     }
 
 
@@ -46,7 +41,7 @@ public class MainController {
     @GetMapping("test")
     @ResponseBody
     public boolean test() {
-        System.out.println(baseService.init());
+//        System.out.println(baseService.init());
         System.out.println(volatileLong);
         myService.testService1();
         volatileLong = 2;

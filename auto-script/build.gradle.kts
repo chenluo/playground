@@ -26,5 +26,9 @@ dependencies {
     implementation("org.mybatis:mybatis:3.5.9")
     // https://mvnrepository.com/artifact/org.apache.kafka/kafka-clients
     implementation("org.apache.kafka:kafka-clients:3.1.0")
+    // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
+    implementation("org.apache.commons:commons-lang3:3.0")
+
+
 
 }

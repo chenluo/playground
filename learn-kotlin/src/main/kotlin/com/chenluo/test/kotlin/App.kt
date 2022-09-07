@@ -1,3 +1,5 @@
+package com.chenluo.test.kotlin;
+
 interface App {
     fun run()
 }

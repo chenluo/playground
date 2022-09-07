@@ -3,14 +3,10 @@ package cache;
 public class CacheEntry<K, V> {
     public K key;
     public V value;
-    public int term;
-    public CacheEntry<K, V> next;
 
-    public CacheEntry(K key, V value, int term) {
+    public CacheEntry(K key, V value) {
         this.key = key;
         this.value = value;
-        this.term = term;
-        this.next = null;
     }
 
     @Override
@@ -20,7 +16,6 @@ public class CacheEntry<K, V> {
 
         CacheEntry<?, ?> that = (CacheEntry<?, ?>) o;
 
-        if (term != that.term) return false;
         if (key != null ? !key.equals(that.key) : that.key != null) return false;
         return value != null ? value.equals(that.value) : that.value == null;
     }
@@ -29,7 +24,6 @@ public class CacheEntry<K, V> {
     public int hashCode() {
         int result = key != null ? key.hashCode() : 0;
         result = 31 * result + (value != null ? value.hashCode() : 0);
-        result = 31 * result + term;
         return result;
     }
 
@@ -38,7 +32,6 @@ public class CacheEntry<K, V> {
         return "CacheEntry{" +
                 "key=" + key +
                 ", value=" + value +
-                ", term=" + term +
                 '}';
     }
 }

@@ -25,12 +25,12 @@ public class QuickSort {
             stopWatch.start();
             Collections.sort(sortedList);
             stopWatch.stop();
-            System.out.println("Collections.sort takes:" + stopWatch.getTime(TimeUnit.SECONDS));
+            System.out.println("Collections.sort takes:" + stopWatch.getTime());
             stopWatch = new StopWatch();
             stopWatch.start();
             QuickSort.sort(unsortedList, 0, unsortedList.size());
             stopWatch.stop();
-            System.out.println("quickSort takes:" + stopWatch.getTime(TimeUnit.SECONDS));
+            System.out.println("quickSort takes:" + stopWatch.getTime());
             for (int i = 0; i < k; i++) {
                 if (!sortedList.get(i).equals(unsortedList.get(i))) {
                     System.out.println("sort result error. k=" + k);
