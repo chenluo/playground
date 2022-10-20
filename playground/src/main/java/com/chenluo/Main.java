@@ -36,6 +36,9 @@ public class Main {
         new Main().testLambda(s);
         s = "ss";
         System.out.println(s);
+//        Map<String, String> map = new HashMap<>();
+//        Map<Object, Object> map2 = new HashMap<>();
+//        map2 = (Map<Object, Object>) map;
     }
 
     public void testLambda(String s) {
