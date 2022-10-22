@@ -1,6 +1,6 @@
 //package controller;
 //
-//import com.chenluo.main.Application;
+//import com.chenluo.Application;
 //import org.junit.jupiter.api.Assertions;
 //import org.junit.jupiter.api.BeforeEach;
 //import org.junit.jupiter.api.Test;

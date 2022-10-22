@@ -23,5 +23,15 @@ fun main() {
 
     val appInternal = AppInternal()
     AppDelegation(appInternal).run()
+    val map = mapOf(1 to "str")
+    val b1 = map.get(1)?.toString()?.contains("s") == true
+    var b2 = map.get(1)?.toString()?.equals("str") == true
+    b1 && b2
+
+    println(map.get(1)?.toString()?.equals("str"))
+    println(map.get(2)?.toString()?.equals("str"))
+
+    println(2 ?: 1)
+
 
 }

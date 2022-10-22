@@ -1,6 +1,6 @@
 <configuration>
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <layout class="ch.qos.logback.classic.PatternLayout">
+    <appender name="STDOUT" class="org.apache.log4j.ConsoleAppender">
+        <layout class="org.apache.log4j.PatternLayout">
             <Pattern>
                 %d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n
             </Pattern>
@@ -9,21 +9,17 @@
 
     <property name="LOG_DIR" value="./logs"/>
     <property name="LOG_FILE" value="log"/>
-    <appender name="TIME_BASED_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_DIR}/${LOG_FILE}</file>
-        <append>true</append>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!-- daily rollover -->
-            <!--            <fileNamePattern>./logs/timeBasedLogFile.%d{yyyy-MM-dd-HH-mm}.log</fileNamePattern>-->
-            <fileNamePattern>${LOG_DIR}/%d{yyyy-MM-dd}/${LOG_FILE}.%d{yyyy-MM-dd-HH-mm}.log</fileNamePattern>
-            <maxHistory>30</maxHistory>
-            <totalSizeCap>9G</totalSizeCap>
-        </rollingPolicy>
-        <layout class="ch.qos.logback.classic.PatternLayout">
-            <Pattern>
-                %d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n
-            </Pattern>
-        </layout>
+    <appender name="TIME_BASED_FILE" class="org.apache.log4j.RollingFileAppender">
+        <RollingFile name="RollingFile" fileName="${LOG_DIR}/${LOG_FILE}"
+                     filePattern="${LOG_DIR}/%d{yyyy-MM-dd}/${LOG_FILE}.%d{yyyy-MM-dd-HH-mm}.log">
+            <PatternLayout>
+                <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="6" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="250 MB"/>
+            </Policies>
+        </RollingFile>
         <!--        <encoder>-->
         <!--            <pattern>%relative [%thread] %-5level %logger{35} - %msg%n</pattern>-->
         <!--        </encoder>-->

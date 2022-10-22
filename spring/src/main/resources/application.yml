@@ -2,3 +2,8 @@ server:
   tomcat:
     mbeanregistry:
       enabled: true
+  port: 8081
+
+sentry:
+  dsn: "http://16a9ab9acf814c04a924991f52ed0996@127.0.0.1:9000/2"
+  logging: true

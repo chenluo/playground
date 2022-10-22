@@ -2,11 +2,9 @@ package com.chenluo;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
@@ -16,7 +14,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.*;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+//@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ZKTest {
     @LocalServerPort
     private int port;
@@ -74,7 +72,7 @@ public class ZKTest {
 //        testCreate("main/testZKUnsafe");
 //    }
 
-    @Test
+    //    @Test
     public void testCreate() {
         testCreate("main/testZK");
     }
