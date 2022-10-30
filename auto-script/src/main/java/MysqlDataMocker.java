@@ -170,8 +170,13 @@ public class MysqlDataMocker {
                             //                updated + ".
                             //                inserted:" + inserted);
 
-                            if (j % 10 == 0) {
+                            if (j % 50 == 0) {
                                 connection.commit();
+                                if (j % 10_000 == 0) {
+                                    System.out.println(
+                                            "[" + Thread.currentThread().getName() + "] finish " +
+                                                    j + " inserts");
+                                }
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
