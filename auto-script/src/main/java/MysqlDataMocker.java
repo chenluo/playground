@@ -131,7 +131,7 @@ public class MysqlDataMocker {
     }
 
     private boolean insert(int rowCount) throws SQLException {
-        int batchSize = 10_000;
+        int batchSize = 1_000_000;
         List<CompletableFuture<?>> insertFutures = new ArrayList<>();
         for (int i = 0; i < rowCount / batchSize; i++) {
 
@@ -170,12 +170,14 @@ public class MysqlDataMocker {
                             //                updated + ".
                             //                inserted:" + inserted);
 
-
-                            connection.commit();
+                            if (j % 10 == 0) {
+                                connection.commit();
+                            }
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
+                    connection.commit();
                     connection.setAutoCommit(true);
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
@@ -217,7 +219,7 @@ public class MysqlDataMocker {
             config.addDataSourceProperty("cachePrepStmts", "true");
             config.addDataSourceProperty("prepStmtCacheSize", "250");
             config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
-            config.setMaximumPoolSize(150);
+            config.setMaximumPoolSize(100);
             ds = new HikariDataSource(config);
         }
 
