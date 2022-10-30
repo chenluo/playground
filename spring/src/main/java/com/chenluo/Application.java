@@ -9,7 +9,6 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 
 @SpringBootApplication
 @ConfigurationPropertiesScan
@@ -24,7 +23,7 @@ public class Application {
         SpringApplication.run(Application.class, args);
     }
 
-    @Scheduled(cron = "*/1 * * * * *")
+    //    @Scheduled(cron = "*/1 * * * * *")
     public void heartbeat() {
         scheduledCount++;
         logger.error("scheduled {} times.", scheduledCount);

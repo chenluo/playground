@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.ZonedDateTime;
 import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
@@ -41,10 +42,20 @@ public class MainController {
     @GetMapping("test")
     @ResponseBody
     public boolean test() {
-//        System.out.println(baseService.init());
+        //        System.out.println(baseService.init());
         System.out.println(volatileLong);
         myService.testService1();
         volatileLong = 2;
+        int[] ints = new int[1000000];
         return true;
+    }
+
+    @GetMapping("sleep")
+    public String sleep() throws InterruptedException {
+        ZonedDateTime now = ZonedDateTime.now();
+        while (ZonedDateTime.now().isBefore(now.plusSeconds(1L))) {
+
+        }
+        return "sleep";
     }
 }

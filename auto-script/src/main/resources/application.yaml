@@ -12,3 +12,8 @@ zookeeper:
   port: 2181
 server:
   port: 8090
+
+mysql:
+  host: 127.0.0.1
+  user: chen
+  password: HPaADeEl6K6Mo+ib
