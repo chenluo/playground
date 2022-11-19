@@ -23,7 +23,7 @@ import java.util.concurrent.ExecutionException;
 
 public class MysqlDataMocker {
     private static String TABLE_DDL_TEMPLATE =
-            "CREATE TABLE `stock_tbl_%s` (\n" + "  `sku` int NOT NULL,\n" +
+            "CREATE TABLE IF NOT EXISTS `stock_tbl_%s` (\n" + "  `sku` int NOT NULL,\n" +
                     "  `location` varchar(64) NOT NULL DEFAULT 'UNDEFINED',\n" +
                     "  `stock` int DEFAULT NULL,\n" +
                     "  `update_timestamp` timestamp NULL DEFAULT NULL,\n" +
@@ -52,8 +52,8 @@ public class MysqlDataMocker {
     Random random = new Random();
 
     public static void main(String[] args) throws SQLException {
-        int cnt = 100_000_000;
-        //        new MysqlDataMocker().createTableWithRowCount(cnt);
+        int cnt = 1_000_000_000;
+        new MysqlDataMocker().createTableWithRowCount(cnt);
         new MysqlDataMocker().insert(cnt);
         //        List<StockDto> stockDtoList = new ArrayList<>();
         //        try (Connection connection = HikariWrapDataSource.getConnection()) {
@@ -131,57 +131,24 @@ public class MysqlDataMocker {
     }
 
     private boolean insert(int rowCount) throws SQLException {
-        int batchSize = 1_000_000;
+        int batchSize = 1_000;
         List<CompletableFuture<?>> insertFutures = new ArrayList<>();
         for (int i = 0; i < rowCount / batchSize; i++) {
 
             CompletableFuture<Void> insertFuture = CompletableFuture.runAsync(() -> {
                 try (Connection connection = HikariWrapDataSource.getConnection()) {
                     connection.setAutoCommit(false);
+                    connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+                    PreparedStatement selectPs = connection.prepareStatement(
+                            "select 1 from stock_tbl_" + rowCount + " where sku=?" +
+                                    " and localtion=?;");
                     PreparedStatement insertPs = connection.prepareStatement(
                             "insert into stock_tbl_" + rowCount + " values (?, ?, ?, ?, ?);");
                     PreparedStatement updatePs = connection.prepareStatement(
                             "update stock_tbl_" + rowCount +
                                     " set stock = stock+1, update_timestamp=?, " +
                                     "update_datetime=? where " + "sku=? " + " and location=?;");
-                    for (int j = 0; j < batchSize; j++) {
-                        try {
-                            int sku = random.nextInt(10000);
-                            String location = nextRandomLocCode();
-                            LocalDateTime now = LocalDateTime.now();
-                            Timestamp ts = Timestamp.valueOf(now);
-                            LocalDate ld = now.toLocalDate();
-                            updatePs.setTimestamp(1, ts);
-                            updatePs.setDate(2, Date.valueOf(ld));
-                            updatePs.setInt(3, sku);
-                            updatePs.setString(4, location);
-                            int updated = updatePs.executeUpdate();
-                            boolean inserted = false;
-                            if (updated == 0) {
-                                // insert new sku
-                                insertPs.setInt(1, sku);
-                                insertPs.setString(2, location);
-                                insertPs.setInt(3, 1);
-                                insertPs.setTimestamp(4, ts);
-                                insertPs.setDate(5, Date.valueOf(ld));
-                                inserted = insertPs.execute();
-                            }
-                            //                System.out.println("[" + i + "]: updated:" +
-                            //                updated + ".
-                            //                inserted:" + inserted);
-
-                            if (j % 50 == 0) {
-                                connection.commit();
-                                if (j % 10_000 == 0) {
-                                    System.out.println(
-                                            "[" + Thread.currentThread().getName() + "] finish " +
-                                                    j + " inserts");
-                                }
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
+                    executeUpdateOrInsert(rowCount, batchSize, connection, insertPs, updatePs);
                     connection.commit();
                     connection.setAutoCommit(true);
                 } catch (SQLException e) {
@@ -200,6 +167,49 @@ public class MysqlDataMocker {
             }
         });
         return true;
+    }
+
+    private void executeUpdateOrInsert(int rowCount, int batchSize, Connection connection,
+                                       PreparedStatement insertPs, PreparedStatement updatePs)
+            throws SQLException {
+        for (int j = 0; j < batchSize; j++) {
+            try {
+                int sku = random.nextInt(10000);
+                String location = nextRandomLocCode();
+                LocalDateTime now = LocalDateTime.now();
+                Timestamp ts = Timestamp.valueOf(now);
+                LocalDate ld = now.toLocalDate();
+                updatePs.setTimestamp(1, ts);
+                updatePs.setDate(2, Date.valueOf(ld));
+                updatePs.setInt(3, sku);
+                updatePs.setString(4, location);
+                int updated = updatePs.executeUpdate();
+                boolean inserted = false;
+                if (updated == 0) {
+                    // insert new sku
+                    insertPs.setInt(1, sku);
+                    insertPs.setString(2, location);
+                    insertPs.setInt(3, 1);
+                    insertPs.setTimestamp(4, ts);
+                    insertPs.setDate(5, Date.valueOf(ld));
+                    inserted = insertPs.execute();
+                }
+                //                System.out.println("[" + i + "]: updated:" +
+                //                updated + ".
+                //                inserted:" + inserted);
+
+                //                if (j % 50 == 0) {
+                //                    if (j % 10_000 == 0) {
+                //                        System.out.println(
+                //                                "[" + Thread.currentThread().getName() + "]
+                //                                finish " +
+                //                                        j + " inserts");
+                //                    }
+                //                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private String nextRandomLocCode() {
