@@ -9,6 +9,10 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @SpringBootApplication
 @ConfigurationPropertiesScan
@@ -28,6 +32,15 @@ public class Application {
         scheduledCount++;
         logger.error("scheduled {} times.", scheduledCount);
         Sentry.captureMessage("[active] scheduled " + scheduledCount + " times.");
+    }
+
+    @Scheduled(cron = "*/1 * * * * *")
+    public void allocMem() {
+        scheduledCount++;
+        logger.info("scheduled {} times.", scheduledCount);
+        for (int i = 0; i < 1000; i++) {
+            int[] ints = new int[1_000];
+        }
     }
 
     //    @Bean

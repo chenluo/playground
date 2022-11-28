@@ -13,3 +13,5 @@ include("gradle-learn")
 include("nwaycache")
 include("duckduck")
 include("learn-kotlin")
+include("springcloudlearn")
+

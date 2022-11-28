@@ -21,17 +21,28 @@ class AppDelegation(app: AppInternal) : App by app {
 
 fun main() {
 
-    val appInternal = AppInternal()
-    AppDelegation(appInternal).run()
-    val map = mapOf(1 to "str")
-    val b1 = map.get(1)?.toString()?.contains("s") == true
-    var b2 = map.get(1)?.toString()?.equals("str") == true
-    b1 && b2
+//    val appInternal = AppInternal()
+//    AppDelegation(appInternal).run()
+//    val map = mapOf(1 to "str")
+//    val b1 = map.get(1)?.toString()?.contains("s") == true
+//    var b2 = map.get(1)?.toString()?.equals("str") == true
+//    b1 && b2
+//
+//    println(map.get(1)?.toString()?.equals("str"))
+//    println(map.get(2)?.toString()?.equals("str"))
+//
+//    println(2 ?: 1)
+    for (declaredField in MyEnum::class.java.declaredFields) {
+        declaredField.trySetAccessible()
+        // https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Field.html#get-java.lang.Object-
+        declaredField.get(null) // If the underlying field is a static field, the obj argument is ignored; it may be null.
+        declaredField.isEnumConstant
+        println(declaredField.get(null))
+    }
 
-    println(map.get(1)?.toString()?.equals("str"))
-    println(map.get(2)?.toString()?.equals("str"))
+}
 
-    println(2 ?: 1)
-
-
+enum class MyEnum {
+    _1,
+    _2
 }

@@ -1,9 +1,5 @@
 package com.chenluo.test.kotlin
 
-import com.sun.media.sound.EmergencySoundbank.toFloat
-import jdk.internal.org.objectweb.asm.TypeReference
-import java.lang.Double
-import java.util.UUID
 
 class TryQualifiedThis {
     class A { // implicit label @A

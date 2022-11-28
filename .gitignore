@@ -3,8 +3,8 @@
 **/.gradle
 **/.gradle/**
 .idea/**
-buildSrc.deprecated/.gradle/**
 .gradle
+buildSrc/
 
 HELP.md
 build/
@@ -42,6 +42,7 @@ out/
 
 ### VS Code ###
 .vscode/
+.DS_Store
 
 ### buildsrc
 buildSrc/.gradle

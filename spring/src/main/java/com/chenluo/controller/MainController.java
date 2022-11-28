@@ -58,4 +58,16 @@ public class MainController {
         }
         return "sleep";
     }
+
+    @GetMapping("path1")
+    public String path1() throws InterruptedException {
+
+        return "path1";
+    }
+
+    @GetMapping("path2")
+    public String path2() throws InterruptedException {
+
+        return "path2";
+    }
 }
