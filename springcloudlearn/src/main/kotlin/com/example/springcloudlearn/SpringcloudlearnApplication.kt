@@ -6,8 +6,6 @@ import org.springframework.cloud.gateway.route.RouteLocator
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder
 import org.springframework.cloud.gateway.route.builder.filters
 import org.springframework.cloud.gateway.route.builder.routes
-import org.springframework.cloud.gateway.support.ServerWebExchangeUtils
-import org.springframework.cloud.gateway.support.ServerWebExchangeUtils.URI_TEMPLATE_VARIABLES_ATTRIBUTE
 import org.springframework.context.annotation.Bean
 
 @SpringBootApplication
@@ -17,9 +15,9 @@ class SpringcloudlearnApplication {
         return builder.routes {
             route("path1") {
                 path("/path1/**")
-//                predicate {
-//                    true
-//                }
+                predicate {
+                    true
+                }
                 filters {
                     prefixPath("/main")
                 }
@@ -27,10 +25,9 @@ class SpringcloudlearnApplication {
             }
             route("path2") {
                 path("/path2/**")
-//                predicate {
-//                    val uriTemplateVariables = ServerWebExchangeUtils.getUriTemplateVariables(it)
-//                    uriTemplateVariables["seg"] == "path2"
-//                }
+                predicate {
+                    true
+                }
                 filters {
                     prefixPath("/main")
                 }
