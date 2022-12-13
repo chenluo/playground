@@ -33,7 +33,7 @@ fun main() {
 //
 //    println(2 ?: 1)
     for (declaredField in MyEnum::class.java.declaredFields) {
-        declaredField.trySetAccessible()
+//        declaredField.trySetAccessible()
         // https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Field.html#get-java.lang.Object-
         declaredField.get(null) // If the underlying field is a static field, the obj argument is ignored; it may be null.
         declaredField.isEnumConstant
