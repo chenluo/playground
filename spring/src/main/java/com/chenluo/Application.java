@@ -34,7 +34,7 @@ public class Application {
         Sentry.captureMessage("[active] scheduled " + scheduledCount + " times.");
     }
 
-    @Scheduled(cron = "*/1 * * * * *")
+//    @Scheduled(cron = "*/1 * * * * *")
     public void allocMem() {
         scheduledCount++;
         logger.info("scheduled {} times.", scheduledCount);

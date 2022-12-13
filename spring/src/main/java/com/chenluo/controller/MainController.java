@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
+import java.time.temporal.TemporalUnit;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
@@ -61,7 +64,10 @@ public class MainController {
 
     @GetMapping("path1")
     public String path1() throws InterruptedException {
+        LocalDateTime now = LocalDateTime.now();
+        while (LocalDateTime.now().isBefore(now.plusNanos(10000000*40))) {
 
+        }
         return "path1";
     }
 
