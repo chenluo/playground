@@ -14,4 +14,4 @@ include("nwaycache")
 include("duckduck")
 include("learn-kotlin")
 include("springcloudlearn")
-
+include("cassandra-bench")

@@ -67,8 +67,6 @@ dependencies {
     implementation("io.netty:netty-all:4.1.79.Final")
 // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
     implementation("org.apache.commons:commons-lang3:3.0")
-    // https://mvnrepository.com/artifact/com.datastax.cassandra/cassandra-driver-core
-    implementation("com.datastax.cassandra:cassandra-driver-core:3.2.0")
 
 
 }
