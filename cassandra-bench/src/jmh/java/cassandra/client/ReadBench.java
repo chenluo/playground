@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 @BenchmarkMode(Mode.Throughput)
 @OutputTimeUnit(TimeUnit.SECONDS)
 @Warmup(iterations = 5, time = 1, timeUnit = TimeUnit.SECONDS)
-@Measurement(iterations = 5, time = 2, timeUnit = TimeUnit.SECONDS)
+@Measurement(iterations = 5, time = 10, timeUnit = TimeUnit.SECONDS)
 @Fork(value = 1)
 @Threads(1)
 @State(Scope.Benchmark)
@@ -42,19 +42,20 @@ public class ReadBench {
         PoolingOptions poolingOptions = new PoolingOptions();
         poolingOptions.setConnectionsPerHost(HostDistance.LOCAL, 1, 1);
         poolingOptions.setConnectionsPerHost(HostDistance.REMOTE, 1, 1);
-        cluster = Cluster.builder().withPoolingOptions(poolingOptions).addContactPoint("localhost")
+        poolingOptions.setMaxRequestsPerConnection(HostDistance.REMOTE, 32000);
+        poolingOptions.setMaxRequestsPerConnection(HostDistance.LOCAL, 32000);
+
+        cluster = Cluster.builder().withPoolingOptions(poolingOptions)
+//                .addContactPoint("192.168.50.42") // pc
+//                .addContactPoint("192.168.50.90") // mac
+                .addContactPoint("localhost")
                 .build();
         session = cluster.newSession();
     }
 
     public void createSampleData() {
-        session.execute(
-                "create keyspace if not exists sampledb with replication = {'class': 'org.apache" +
-                        ".cassandra.locator.SimpleStrategy', 'replication_factor': '1'};");
-        session.execute(
-                "create table if not exists sampledb.sampletable ( pk1   text, pk2   text, ck1   " +
-                        "int, ck2   int, val1 text, val2 text, val3 text, primary key ((pk1, pk2)" +
-                        ", ck1, ck2) );");
+        createKeyspace();
+        createTable();
 
         for (int i = 0; i < 100; i++) {
             Insert insert = QueryBuilder.insertInto("sampledb", "sampletable")
@@ -67,6 +68,19 @@ public class ReadBench {
             ResultSet execute = session.execute(insert);
             System.out.println(execute);
         }
+    }
+
+    private ResultSet createTable() {
+        return session.execute(
+                "create table if not exists sampledb.sampletable ( pk1   text, pk2   text, ck1   " +
+                        "int, ck2   int, val1 text, val2 text, val3 text, primary key ((pk1, pk2)" +
+                        ", ck1, ck2) );");
+    }
+
+    private ResultSet createKeyspace() {
+        return session.execute(
+                "create keyspace if not exists sampledb with replication = {'class': 'org.apache" +
+                        ".cassandra.locator.SimpleStrategy', 'replication_factor': '1'};");
     }
 
     @Benchmark
@@ -95,6 +109,9 @@ public class ReadBench {
                         .where(QueryBuilder.eq(FIELD_PK1, nextRandomLocCode()))
                         .and(QueryBuilder.eq(FIELD_PK2, nextRandomLocCode()));
         ResultSet execute = session.execute(query);
+        for (Row row : execute) {
+            row.getString(0);
+        }
     }
 
     private String nextRandomLocCode() {
