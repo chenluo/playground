@@ -1,24 +1,36 @@
 package com.chenluo;
 
+import com.chenluo.jpa.dto.Account;
+import com.chenluo.jpa.repo.AccountRepo;
 import io.sentry.Sentry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
+import javax.annotation.Resource;
+import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @SpringBootApplication
 @ConfigurationPropertiesScan
 @EnableConfigurationProperties
 @ComponentScan(basePackages = {"com.chenluo.*"})
 @EnableScheduling
+@EnableJpaRepositories(basePackageClasses = {com.chenluo.jpa.repo.AccountRepo.class})
 public class Application {
     Logger logger = LoggerFactory.getLogger(Application.class);
     private int scheduledCount = 0;

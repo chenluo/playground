@@ -7,3 +7,15 @@ server:
 sentry:
   dsn: "http://16a9ab9acf814c04a924991f52ed0996@127.0.0.1:9000/2"
   logging: true
+
+spring:
+  datasource:
+    url: jdbc:mysql://192.168.50.42:3306/test_db2
+    username: chen
+    password: HPaADeEl6K6Mo+ib
+    driver-class-name: com.mysql.jdbc.Driver
+  flyway:
+    url: jdbc:mysql://192.168.50.42:3306/test_db2
+    user: chen
+    password: HPaADeEl6K6Mo+ib
+    driver-class-name: com.mysql.jdbc.Driver

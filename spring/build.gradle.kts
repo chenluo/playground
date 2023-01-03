@@ -4,6 +4,7 @@ plugins {
     id("java")
     id("java-gradle.java-application-conventions")
     id("war")
+    id("org.flywaydb.flyway") version "9.8.1"
 }
 
 group = "com.chenluo"
@@ -35,4 +36,19 @@ dependencies {
 //    implementation(project(":my-spring-boot-starter"))
     implementation("io.sentry:sentry:6.4.1")
     implementation("io.sentry:sentry-log4j2:6.4.1")
+
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("mysql:mysql-connector-java:8.0.28")
+    implementation("org.flywaydb:flyway-core")
+    implementation("org.flywaydb:flyway-mysql")
+    implementation("com.zaxxer:HikariCP:4.0.3")
+}
+
+flyway {
+    driver = "com.mysql.jdbc.Driver"
+    schemas = arrayOf("test_db2")
+    url = "jdbc:mysql://192.168.50.42:3306/test_db2"
+    user = "chen"
+    password = "HPaADeEl6K6Mo+ib"
+
 }
