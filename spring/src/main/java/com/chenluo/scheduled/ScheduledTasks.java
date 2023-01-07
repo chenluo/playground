@@ -4,13 +4,13 @@ import com.chenluo.jpa.dto.Account;
 import com.chenluo.jpa.repo.AccountRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Component
@@ -34,7 +34,9 @@ public class ScheduledTasks {
         logger.info("[saveJpaData] {} times", scheduledCount);
 
         for (int i = 0; i < 10000; i++) {
-            accountRepo.save(new Account(nextRandomLocCode(), null, null));
+            CompletableFuture.runAsync(() -> {
+                accountRepo.save(new Account(nextRandomLocCode(), null, null));
+            });
         }
     }
 

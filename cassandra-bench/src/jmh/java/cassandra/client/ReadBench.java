@@ -47,8 +47,8 @@ public class ReadBench {
 
         cluster = Cluster.builder().withPoolingOptions(poolingOptions)
 //                .addContactPoint("192.168.50.42") // pc
-                .addContactPoint("192.168.50.90") // mac
-//                .addContactPoint("localhost")
+//                .addContactPoint("192.168.50.90") // mac
+                .addContactPoint("localhost")
                 .build();
         session = cluster.newSession();
     }

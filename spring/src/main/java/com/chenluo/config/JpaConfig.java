@@ -18,6 +18,7 @@ public class JpaConfig {
         ds.setJdbcUrl(dataSourceProperties.getUrl());
         ds.setUsername(dataSourceProperties.getUsername());
         ds.setPassword(dataSourceProperties.getPassword());
+        ds.setMaximumPoolSize(32);
         return ds;
     }
 }
