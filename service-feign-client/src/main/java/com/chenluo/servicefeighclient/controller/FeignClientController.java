@@ -28,6 +28,7 @@ public class FeignClientController {
     @Scheduled(cron = "*/1 * * * * *")
     public String greetingNonFeign() {
         InstanceInfo instanceInfo = eurekaClient.getNextServerFromEureka("foo", false);
+        logger.info("{}", instanceInfo);
         String url = instanceInfo.getHomePageUrl();
         String endpointUrl = "/greeting";
         ResponseEntity<String> resp = restTemplate.getForEntity(url + endpointUrl, String.class);
