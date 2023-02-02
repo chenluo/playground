@@ -23,6 +23,8 @@ dependencies {
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.2")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-log4j2")
+    implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("org.springframework.boot:spring-boot-starter-webflux")
 //    implementation("org.apache.logging.log4j:log4j-spring-boot:2.19.0")
 //    implementation("org.slf4j:slf4j-api:1.7.30")
 //    implementation("org.apache.logging.log4j:log4j-api:2.17.1")
@@ -42,6 +44,7 @@ dependencies {
     implementation("org.flywaydb:flyway-core")
     implementation("org.flywaydb:flyway-mysql")
     implementation("com.zaxxer:HikariCP:4.0.3")
+    implementation("com.ctrip.framework.apollo:apollo-client:1.7.0")
 }
 
 flyway {

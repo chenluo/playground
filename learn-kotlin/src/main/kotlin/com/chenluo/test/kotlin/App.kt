@@ -32,6 +32,10 @@ fun main() {
 //    println(map.get(2)?.toString()?.equals("str"))
 //
 //    println(2 ?: 1)
+    val list = listOf<String>("1", "2", "3")
+    println(list.filter { it == "1" })
+    println()
+    println(list)
     for (declaredField in MyEnum::class.java.declaredFields) {
 //        declaredField.trySetAccessible()
         // https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Field.html#get-java.lang.Object-

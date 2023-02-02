@@ -19,3 +19,14 @@ spring:
     user: chen
     password: HPaADeEl6K6Mo+ib
     driver-class-name: com.mysql.jdbc.Driver
+app:
+  id: SampleApp
+apollo:
+  meta: "http://localhost:8080"
+  property:
+    order:
+      enable: true
+
+timeout: 9999
+timeout2: 9999
+
