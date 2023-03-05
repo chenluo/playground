@@ -47,11 +47,10 @@ dependencies {
     implementation("com.ctrip.framework.apollo:apollo-client:1.7.0")
 }
 
-flyway {
-    driver = "com.mysql.jdbc.Driver"
-    schemas = arrayOf("test_db2")
-    url = "jdbc:mysql://192.168.50.42:3306/test_db2"
-    user = "chen"
-    password = "HPaADeEl6K6Mo+ib"
-
-}
+//flyway {
+//    driver = "com.mysql.jdbc.Driver"
+//    schemas = arrayOf("test_db2")
+//    url = "jdbc:mysql://192.168.50.42:3306/test_db2"
+//    user = "chen"
+//    password = "HPaADeEl6K6Mo+ib"
+//}
