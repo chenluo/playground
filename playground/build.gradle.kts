@@ -37,11 +37,6 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator") {
         exclude("org.springframework.boot:spring-boot-starter-logging")
     }
-    // testImplementation("org.springframework.boot:spring-boot-aop")
-//    implementation("org.slf4j:slf4j-api:1.7.30")
-//    implementation("org.apache.logging.log4j:log4j-api:2.17.1")
-//    implementation("org.apache.logging.log4j:log4j-core:2.17.1")
-//    implementation("org.apache.logging.log4j:log4j-slf4j-impl:2.17.1")
     // https://mvnrepository.com/artifact/org.apache.curator/curator-framework
     implementation("org.apache.curator:curator-framework:5.1.0")
     // https://mvnrepository.com/artifact/org.apache.curator/curator-recipes

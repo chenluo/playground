@@ -10,13 +10,19 @@ sentry:
 
 spring:
   datasource:
-#    url: jdbc:mysql://localhost:3306/test_db2
-    url: jdbc:mysql://localhost:3306/hueconnect
-#    username: chen
-    username: root
-#    password: HPaADeEl6K6Mo+ib
-    password: mysql
+    url: jdbc:mysql://localhost:3306/test_db2
+    #    url: jdbc:mysql://localhost:3306/hueconnect
+    username: chen
+    #    username: root
+    password: HPaADeEl6K6Mo+ib
+    #    password: mysql
     driver-class-name: com.mysql.cj.jdbc.Driver
+  flyway:
+    enabled: false
+  sql:
+    init:
+      continue-on-error: true
+
 #  flyway:
 ##    url: jdbc:mysql://192.168.50.42:3306/test_db2
 ##    user: chen
@@ -24,8 +30,11 @@ spring:
 #    driver-class-name: com.mysql.cj.jdbc.Driver
 app:
   id: SampleApp
+env: local
 apollo:
   meta: "http://localhost:8080"
+  bootstrap:
+    enabled: false
   property:
     order:
       enable: true

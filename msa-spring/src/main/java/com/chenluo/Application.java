@@ -1,6 +1,5 @@
 package com.chenluo;
 
-import com.ctrip.framework.apollo.spring.annotation.EnableApolloConfig;
 import io.sentry.Sentry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,15 +9,15 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 
 @SpringBootApplication
 @ConfigurationPropertiesScan
 @EnableConfigurationProperties
 @ComponentScan(basePackages = {"com.chenluo.*"})
-@EnableScheduling
+//@EnableScheduling
 @EnableJpaRepositories(basePackageClasses = {com.chenluo.jpa.repo.AccountRepo.class})
-@EnableApolloConfig
+//@EnableApolloConfig
 public class Application {
     Logger logger = LoggerFactory.getLogger(Application.class);
     private int scheduledCount = 0;
@@ -27,14 +26,14 @@ public class Application {
         SpringApplication.run(Application.class, args);
     }
 
-    //    @Scheduled(cron = "*/1 * * * * *")
+    @Scheduled(cron = "*/1 * * * * *")
     public void heartbeat() {
         scheduledCount++;
         logger.error("scheduled {} times.", scheduledCount);
         Sentry.captureMessage("[active] scheduled " + scheduledCount + " times.");
     }
 
-//    @Scheduled(cron = "*/1 * * * * *")
+    @Scheduled(cron = "*/1 * * * * *")
     public void allocMem() {
         scheduledCount++;
         logger.info("scheduled {} times.", scheduledCount);

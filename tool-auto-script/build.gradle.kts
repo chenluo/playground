@@ -18,8 +18,6 @@ dependencies {
     // https://mvnrepository.com/artifact/com.zaxxer/HikariCP
     implementation("com.zaxxer:HikariCP:4.0.3")
     implementation("org.slf4j:slf4j-api:1.7.30")
-    // https://mvnrepository.com/artifact/log4j/log4j
-    implementation("log4j:log4j:1.2.17")
     // https://mvnrepository.com/artifact/mysql/mysql-connector-java
     implementation("mysql:mysql-connector-java:8.0.28")
     // https://mvnrepository.com/artifact/org.mybatis/mybatis
@@ -28,6 +26,7 @@ dependencies {
     implementation("org.apache.kafka:kafka-clients:3.1.0")
     // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
     implementation("org.apache.commons:commons-lang3:3.0")
+    implementation(project(":tool-logger"))
 
 
 

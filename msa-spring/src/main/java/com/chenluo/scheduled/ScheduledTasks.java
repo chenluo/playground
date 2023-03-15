@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCallback;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -44,7 +45,7 @@ public class ScheduledTasks {
         this.accountRepo = accountRepo;
     }
 
-    //    @Scheduled(cron = "* 1 * * * *")
+    @Scheduled(cron = "* 1 * * * *")
     public void saveJpaData() {
         scheduledCount.incrementAndGet();
         logger.info("[saveJpaData] {} times", scheduledCount);
@@ -57,7 +58,7 @@ public class ScheduledTasks {
     }
 
 
-    //    @Scheduled(cron = "* 1 * * * *")
+    @Scheduled(cron = "* 1 * * * *")
     public void getJpaData() {
         for (int i = 0; i < 1; i++) {
             List<Account> accountsByCol1 = accountRepo.findAccountsByCol1(nextRandomLocCode());
@@ -67,48 +68,50 @@ public class ScheduledTasks {
         }
     }
 
-    //    @Scheduled(cron = "*/10 * * * * *")
+    @Scheduled(cron = "*/10 * * * * *")
     public void printTimeout() {
         logger.info("timeout is {}", timeout);
         logger.info("timeout2 is {}", timeout2);
     }
 
-    //    @Scheduled(cron = "*/10 * * * * *")
+    @Scheduled(cron = "*/10 * * * * *")
     public void webClient() {
         logger.info("webclient get result {}",
                 webClient.get().uri("/main/tessst").retrieve().bodyToMono(Boolean.class).block());
     }
 
 
-    //    @Scheduled(cron = "*/10 * * * * *")
+    @Scheduled(cron = "*/10 * * * * *")
     public void mockMessage() throws ExecutionException, InterruptedException {
         StopWatch stopWatch = new StopWatch("insert messages");
         stopWatch.start();
         String prefix = nextRandomLocCode();
         String insertSql = "insert into message(" +
                 "message_no, message_type, client_id, state, data_process_no, " +
-                "request_no, detail, sort_date_time)" +
-                "values (?, ?, ?, ?, ?, ?, ?, ?);";
+                "request_no, detail, sort_date_time)" + "values (?, ?, ?, ?, ?, ?, ?, ?);";
         Function<String, String> f = (String i) -> "0".repeat(5 - i.length()) + i;
         CompletableFuture<Void> voidCompletableFuture = null;
         for (int i = 0; i < 50000; i++) {
             int finalI = i;
-            voidCompletableFuture = CompletableFuture.runAsync(() -> jdbcTemplate.execute(insertSql, new PreparedStatementCallback<Boolean>() {
-                @Override
-                public Boolean doInPreparedStatement(PreparedStatement ps) throws SQLException, DataAccessException {
-                    ps.setString(1, prefix + f.apply(String.valueOf(finalI)));
-                    ps.setString(2, "message_type_" + random.nextInt(10));
-                    ps.setInt(3, random.nextInt(64));
-                    ps.setInt(4, random.nextInt(10));
-                    ps.setInt(5, 1);
-                    ps.setInt(6, 1);
-                    String content = Stream.generate(() -> nextRandomLocCode()).limit(random.nextInt(10)).reduce("", (s1, s2) -> s1 + s2);
-                    ps.setString(7, "{\"content\":\"" + content + "\"}");
+            voidCompletableFuture = CompletableFuture.runAsync(
+                    () -> jdbcTemplate.execute(insertSql, new PreparedStatementCallback<Boolean>() {
+                        @Override
+                        public Boolean doInPreparedStatement(PreparedStatement ps)
+                                throws SQLException, DataAccessException {
+                            ps.setString(1, prefix + f.apply(String.valueOf(finalI)));
+                            ps.setString(2, "message_type_" + random.nextInt(10));
+                            ps.setInt(3, random.nextInt(64));
+                            ps.setInt(4, random.nextInt(10));
+                            ps.setInt(5, 1);
+                            ps.setInt(6, 1);
+                            String content = Stream.generate(() -> nextRandomLocCode())
+                                    .limit(random.nextInt(10)).reduce("", (s1, s2) -> s1 + s2);
+                            ps.setString(7, "{\"content\":\"" + content + "\"}");
 
-                    ps.setObject(8, LocalDateTime.now());
-                    return ps.execute();
-                }
-            }));
+                            ps.setObject(8, LocalDateTime.now());
+                            return ps.execute();
+                        }
+                    }));
         }
         voidCompletableFuture.get();
         stopWatch.stop();
