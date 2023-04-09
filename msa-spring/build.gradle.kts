@@ -33,6 +33,7 @@ dependencies {
     implementation("mysql:mysql-connector-java:8.0.28")
     implementation("org.flywaydb:flyway-core")
     implementation("org.flywaydb:flyway-mysql")
+    implementation("org.apache.kafka:kafka-clients:2.8.0")
 //    implementation("com.ctrip.framework.apollo:apollo-client:1.7.0")
 
     implementation(project(":tool-logger"))

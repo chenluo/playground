@@ -4,15 +4,14 @@ import com.chenluo.service.MyService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@Component
-public class ScheduledTasks {
-    private final Logger logger = LogManager.getLogger(ScheduledTasks.class);
+//@Component
+public class MysqlScheduler {
+    private final Logger logger = LogManager.getLogger(MysqlScheduler.class);
     private final ThreadPoolExecutor insertPool =
             (ThreadPoolExecutor) Executors.newFixedThreadPool(50);
     private final ThreadPoolExecutor selectPool =
@@ -23,7 +22,7 @@ public class ScheduledTasks {
 
     private final MyService myService;
 
-    public ScheduledTasks(MyService myService) {
+    public MysqlScheduler(MyService myService) {
         this.myService = myService;
     }
 
