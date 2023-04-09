@@ -4,11 +4,9 @@ import com.chenluo.kafka.MessageConsumer;
 import com.chenluo.kafka.MessageProducer;
 import org.apache.kafka.clients.admin.*;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.apache.kafka.clients.consumer.OffsetAndMetadata;
 import org.apache.kafka.clients.producer.Callback;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
-import org.apache.kafka.common.TopicPartition;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
@@ -36,7 +34,7 @@ public class KafkaScheduler implements InitializingBean {
     @Scheduled(fixedRate = 1000)
     public void produceMessage() {
         logger.info("producing");
-        for (int i = 0; i < 10_000; i++) {
+        for (int i = 0; i < 1_000; i++) {
             Future<RecordMetadata> send = messageProducer.getProducer()
                     .send(new ProducerRecord<>("test-topic", UUID.randomUUID().toString(),
                                     String.valueOf(ZonedDateTime.now().toInstant().toEpochMilli())),
@@ -62,15 +60,18 @@ public class KafkaScheduler implements InitializingBean {
         for (ConsumerRecord<String, String> message : messageConsumer.getConsumer()
                 .poll(Duration.ofMillis(500))) {
             if (now - Long.parseLong(message.value()) > 1100) {
-                logger.info("received message: key = {}, value={}, partition={}, offset={}",
-                        message.key(), message.value(), message.partition(), message.offset());
+                //                logger.info("received message: key = {}, value={},
+                //                partition={}, offset={}",
+                //                        message.key(), message.value(), message.partition(),
+                //                        message.offset());
                 delayed++;
             }
             i++;
-            messageConsumer.getConsumer().commitSync(Collections.singletonMap(
-                    new TopicPartition(message.topic(), message.partition()),
-                    new OffsetAndMetadata(message.offset() + 1)));
+            //            messageConsumer.getConsumer().commitSync(Collections.singletonMap(
+            //                    new TopicPartition(message.topic(), message.partition()),
+            //                    new OffsetAndMetadata(message.offset() + 1)));
         }
+        messageConsumer.getConsumer().commitSync();
         logger.info("consume done: {} messages consumed. {} delayed", i, delayed);
     }
 
