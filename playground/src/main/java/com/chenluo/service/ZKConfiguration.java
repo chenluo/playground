@@ -2,9 +2,8 @@ package com.chenluo.service;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 
-@Configuration
+//@Configuration
 @EnableConfigurationProperties
 @ConfigurationProperties(prefix = "zookeeper")
 public class ZKConfiguration {

@@ -37,12 +37,17 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator") {
         exclude("org.springframework.boot:spring-boot-starter-logging")
     }
+    implementation("org.springframework.boot:spring-boot-starter-data-jdbc") {
+        exclude("org.springframework.boot:spring-boot-starter-logging")
+    }
     // https://mvnrepository.com/artifact/org.apache.curator/curator-framework
     implementation("org.apache.curator:curator-framework:5.1.0")
     // https://mvnrepository.com/artifact/org.apache.curator/curator-recipes
     implementation("org.apache.curator:curator-recipes:5.1.0")
 
-    implementation("org.springframework.boot:spring-boot-starter-aop")
+    implementation("org.springframework.boot:spring-boot-starter-aop") {
+        exclude("org.springframework.boot:spring-boot-starter-logging")
+    }
     // https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-jdbc
     implementation("org.apache.tomcat:tomcat-jdbc:9.0.46")
     // https://mvnrepository.com/artifact/mysql/mysql-connector-java
@@ -62,6 +67,7 @@ dependencies {
     implementation("io.netty:netty-all:4.1.79.Final")
 // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
     implementation("org.apache.commons:commons-lang3:3.0")
+    implementation(project(":tool-logger"))
 
 
 }

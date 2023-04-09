@@ -20,8 +20,8 @@ public class MainController {
 
     private final Logger logger = LoggerFactory.getLogger(MainController.class);
     private final AtomicLong atomicLong = new AtomicLong(1);
-    private final ZKConfiguration zkConfiguration;
-    private final ZKManager zkManager;
+    private ZKConfiguration zkConfiguration;
+    private ZKManager zkManager;
     private final DbService dbService;
 
     private volatile long volatileLong = 1;
@@ -29,9 +29,9 @@ public class MainController {
     private Long longCounter = 1L;
 
     @Autowired
-    public MainController(ZKConfiguration zkConfiguration, ZKManager zkManager, DbService dbService) {
-        this.zkConfiguration = zkConfiguration;
-        this.zkManager = zkManager;
+    public MainController(DbService dbService) {
+        //        this.zkConfiguration = zkConfiguration;
+        //        this.zkManager = zkManager;
         this.dbService = dbService;
     }
 
@@ -120,6 +120,12 @@ public class MainController {
             logger.error("error", e);
             return false;
         }
+        return true;
+    }
+
+    @GetMapping("tryRollback")
+    public boolean tryRollback(@RequestParam() int flag) {
+        dbService.execTransaction(flag);
         return true;
     }
 }

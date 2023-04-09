@@ -3,7 +3,6 @@ plugins {
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
     id("java")
     id("java-gradle.java-application-conventions")
-    id("war")
     id("org.flywaydb.flyway") version "9.8.1"
 }
 
@@ -18,7 +17,6 @@ application {
 }
 
 dependencies {
-    providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.2")
     implementation("org.springframework.boot:spring-boot-starter-web")
@@ -27,14 +25,14 @@ dependencies {
 
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    implementation("io.sentry:sentry:6.4.1")
-    implementation("io.sentry:sentry-log4j2:6.4.1")
+//    implementation("io.sentry:sentry:6.4.1")
+//    implementation("io.sentry:sentry-log4j2:6.4.1")
 
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
+    implementation("org.springframework.boot:spring-boot-starter-jdbc")
     implementation("mysql:mysql-connector-java:8.0.28")
     implementation("org.flywaydb:flyway-core")
     implementation("org.flywaydb:flyway-mysql")
-    implementation("com.zaxxer:HikariCP:4.0.3")
 //    implementation("com.ctrip.framework.apollo:apollo-client:1.7.0")
 
     implementation(project(":tool-logger"))

@@ -6,7 +6,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 
 @Configuration
 @EnableWebSecurity
-@Import({JpaConfig.class, SentryConfig.class, SecurityConfig.class})
+@Import({JpaConfig.class, SecurityConfig.class})
 public class AllConfig {
     //    @Bean
     //    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) {

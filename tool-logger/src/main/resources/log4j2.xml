@@ -7,12 +7,12 @@
     <Appenders>
         <Console name="STDOUT" target="SYSTEM_OUT">
             <PatternLayout
-                    pattern="%style{%date{DEFAULT}}{yellow} [%t] %highlight{%-5level}{FATAL=bg_red, ERROR=red, WARN=yellow, INFO=green} %message%n%throwable"/>
+                    pattern="%style{%date{DEFAULT}}{yellow} [%t] %highlight{%-5level}{FATAL=bg_red, ERROR=red, WARN=yellow, INFO=green} [%c{2}] %message%n%throwable"/>
         </Console>
         <RollingFile name="RollingFile"
                      fileName="logs/application.log"
                      filePattern="target/application-%d{yyyy-MM-dd}-%i.log.gz">
-            <PatternLayout pattern="%d{DEFAULT} [%t] %-5level %message%n%throwable"/>
+            <PatternLayout pattern="%d{DEFAULT} [%t] %-5level [%c{2}] %message%n%throwable"/>
             <Policies>
                 <SizeBasedTriggeringPolicy size="10MB"/>
             </Policies>
@@ -21,10 +21,13 @@
 
     <Loggers>
         <Logger name="com.chenluo" level="INFO">
-            <AppenderRef ref="STDOUT"/>
-        </Logger>
-        <Root level="info">
             <AppenderRef ref="RollingFile"/>
+        </Logger>
+        <!--        <Root level="info">-->
+        <!--            <AppenderRef ref="RollingFile"/>-->
+        <!--        </Root>-->
+        <Root level="INFO">
+            <AppenderRef ref="STDOUT"/>
         </Root>
     </Loggers>
 
