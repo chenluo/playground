@@ -1,12 +1,16 @@
 package com.chenluo.scheduled;
 
+import com.chenluo.jpa.dto.ConsumedMessage;
+import com.chenluo.jpa.repo.ConsumedMessageRepository;
 import com.chenluo.kafka.MessageConsumer;
 import com.chenluo.kafka.MessageProducer;
 import org.apache.kafka.clients.admin.*;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.apache.kafka.clients.consumer.OffsetAndMetadata;
 import org.apache.kafka.clients.producer.Callback;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
+import org.apache.kafka.common.TopicPartition;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
@@ -15,9 +19,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 import java.time.ZonedDateTime;
-import java.util.Collections;
-import java.util.Properties;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.Future;
 
 @Component
@@ -25,10 +27,13 @@ public class KafkaScheduler implements InitializingBean {
     private final Logger logger = LogManager.getLogger(KafkaScheduler.class);
     private final MessageProducer messageProducer;
     private final MessageConsumer messageConsumer;
+    private final ConsumedMessageRepository consumedMessageRepository;
 
-    public KafkaScheduler(MessageProducer messageProducer, MessageConsumer messageConsumer) {
+    public KafkaScheduler(MessageProducer messageProducer, MessageConsumer messageConsumer,
+                          ConsumedMessageRepository consumedMessageRepository) {
         this.messageProducer = messageProducer;
         this.messageConsumer = messageConsumer;
+        this.consumedMessageRepository = consumedMessageRepository;
     }
 
     @Scheduled(fixedRate = 1000)
@@ -57,8 +62,11 @@ public class KafkaScheduler implements InitializingBean {
         int i = 0;
         int delayed = 0;
         long now = ZonedDateTime.now().toInstant().toEpochMilli();
+        List<ConsumedMessage> consumedMessages = new ArrayList<>();
         for (ConsumerRecord<String, String> message : messageConsumer.getConsumer()
                 .poll(Duration.ofMillis(500))) {
+            consumedMessages.add(new ConsumedMessage(0, message.key()));
+
             if (now - Long.parseLong(message.value()) > 1100) {
                 //                logger.info("received message: key = {}, value={},
                 //                partition={}, offset={}",
@@ -67,11 +75,13 @@ public class KafkaScheduler implements InitializingBean {
                 delayed++;
             }
             i++;
-            //            messageConsumer.getConsumer().commitSync(Collections.singletonMap(
-            //                    new TopicPartition(message.topic(), message.partition()),
-            //                    new OffsetAndMetadata(message.offset() + 1)));
+            messageConsumer.getConsumer().commitSync(Collections.singletonMap(
+                    new TopicPartition(message.topic(), message.partition()),
+                    new OffsetAndMetadata(message.offset() + 1)));
+            consumedMessageRepository.save(new ConsumedMessage(0, message.key()));
         }
-        messageConsumer.getConsumer().commitSync();
+        //        messageConsumer.getConsumer().commitSync();
+        //        consumedMessageRepository.saveAll(consumedMessages);
         logger.info("consume done: {} messages consumed. {} delayed", i, delayed);
     }
 
