@@ -1,6 +1,6 @@
-package com.chenluo.jpa.repo;
+package com.chenluo.data.repo;
 
-import com.chenluo.jpa.dto.ConsumedMessage;
+import com.chenluo.data.dto.ConsumedMessage;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 public interface ConsumedMessageRepository extends CrudRepository<ConsumedMessage, Integer> {
 
     @Query("SELECT * FROM consumed_message WHERE uuid = :uuid")
-    ConsumedMessage findByUuid(byte[] uuid);
+    ConsumedMessage findByUuid(String uuid);
 }

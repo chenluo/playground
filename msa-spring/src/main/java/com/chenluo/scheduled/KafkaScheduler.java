@@ -1,16 +1,13 @@
 package com.chenluo.scheduled;
 
-import com.chenluo.jpa.dto.ConsumedMessage;
-import com.chenluo.jpa.repo.ConsumedMessageRepository;
+import com.chenluo.data.dto.ConsumedMessage;
+import com.chenluo.data.repo.ConsumedMessageRepository;
 import com.chenluo.kafka.MessageConsumer;
 import com.chenluo.kafka.MessageProducer;
 import org.apache.kafka.clients.admin.*;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.apache.kafka.clients.consumer.OffsetAndMetadata;
-import org.apache.kafka.clients.producer.Callback;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
-import org.apache.kafka.common.TopicPartition;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
@@ -20,6 +17,8 @@ import org.springframework.stereotype.Component;
 import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 @Component
@@ -28,6 +27,8 @@ public class KafkaScheduler implements InitializingBean {
     private final MessageProducer messageProducer;
     private final MessageConsumer messageConsumer;
     private final ConsumedMessageRepository consumedMessageRepository;
+    private final ExecutorService executorService = Executors.newFixedThreadPool(1);
+    private final Random random = new Random(1);
 
     public KafkaScheduler(MessageProducer messageProducer, MessageConsumer messageConsumer,
                           ConsumedMessageRepository consumedMessageRepository) {
@@ -36,24 +37,23 @@ public class KafkaScheduler implements InitializingBean {
         this.consumedMessageRepository = consumedMessageRepository;
     }
 
-    @Scheduled(fixedRate = 1000)
+    //    @Scheduled(fixedRate = 1000)
     public void produceMessage() {
         logger.info("producing");
         for (int i = 0; i < 1_000; i++) {
-            Future<RecordMetadata> send = messageProducer.getProducer()
-                    .send(new ProducerRecord<>("test-topic", UUID.randomUUID().toString(),
-                                    String.valueOf(ZonedDateTime.now().toInstant().toEpochMilli())),
-                            new Callback() {
-                                @Override
-                                public void onCompletion(RecordMetadata metadata,
-                                                         Exception exception) {
-                                    if (exception != null) {
-                                        logger.error("failed to send message.", exception);
-                                    }
-                                }
-                            });
+            sendMessage(UUID.randomUUID().toString(),
+                    String.valueOf(ZonedDateTime.now().toInstant().toEpochMilli()));
         }
         logger.info("produce done");
+    }
+
+    private void sendMessage(String key, String value) {
+        Future<RecordMetadata> send = messageProducer.getProducer()
+                .send(new ProducerRecord<>("test-topic", key, value), (metadata, exception) -> {
+                    if (exception != null) {
+                        logger.error("failed to send message.", exception);
+                    }
+                });
     }
 
     @Scheduled(fixedRate = 1000)
@@ -61,28 +61,68 @@ public class KafkaScheduler implements InitializingBean {
         logger.info("consuming");
         int i = 0;
         int delayed = 0;
+        int resent = 0;
         long now = ZonedDateTime.now().toInstant().toEpochMilli();
-        List<ConsumedMessage> consumedMessages = new ArrayList<>();
-        for (ConsumerRecord<String, String> message : messageConsumer.getConsumer()
-                .poll(Duration.ofMillis(500))) {
-            consumedMessages.add(new ConsumedMessage(0, message.key()));
+        List<ConsumedMessage> insertMessage = new ArrayList<>();
+        List<ConsumedMessage> updateMessages = new ArrayList<>();
+        Map<String, String> resendMessages = new HashMap<>();
+        boolean exception = false;
 
-            if (now - Long.parseLong(message.value()) > 1100) {
-                //                logger.info("received message: key = {}, value={},
-                //                partition={}, offset={}",
-                //                        message.key(), message.value(), message.partition(),
-                //                        message.offset());
-                delayed++;
+        try {
+            for (ConsumerRecord<String, String> message : messageConsumer.getConsumer()
+                    .poll(Duration.ofMillis(500))) {
+                ConsumedMessage targetMessage;
+                ConsumedMessage consumedMessage =
+                        consumedMessageRepository.findByUuid(message.key());
+                if (consumedMessage != null && consumedMessage.success == 1) {
+                    throw new RuntimeException("re-consumed message");
+                }
+                targetMessage = consumedMessage;
+                if (targetMessage == null) {
+                    targetMessage = new ConsumedMessage(0, message.key(), 1, 1);
+                    insertMessage.add(targetMessage);
+                } else {
+                    targetMessage.count++;
+                    updateMessages.add(targetMessage);
+                }
+
+                if (now - Long.parseLong(message.value()) > 1100) {
+                    delayed++;
+                }
+                if (random.nextInt(100) >= 1) {
+                    // consume success
+                    targetMessage.success = 1;
+                } else {
+                    resent++;
+                    // consume fail
+                    targetMessage.success = 0;
+                    // resend message
+                    resendMessages.put(message.key(), message.value());
+                }
+                // commit 1 by 1
+                //                messageConsumer.getConsumer().commitSync(Collections.singletonMap(
+                //                        new TopicPartition(message.topic(), message.partition()),
+                //                        new OffsetAndMetadata(message.offset() + 1)));
             }
-            i++;
-            messageConsumer.getConsumer().commitSync(Collections.singletonMap(
-                    new TopicPartition(message.topic(), message.partition()),
-                    new OffsetAndMetadata(message.offset() + 1)));
-            consumedMessageRepository.save(new ConsumedMessage(0, message.key()));
+        } catch (Exception e) {
+            logger.error("{}", e);
+            exception = true;
+        } finally {
+            if (exception) {
+                return;
+            }
+            messageConsumer.getConsumer().commitSync();
+            consumedMessageRepository.saveAll(insertMessage);
+            updateMessages.forEach(consumedMessageRepository::save);
+            resendMessages.forEach((k, v) -> {
+                executorService.submit(() -> {
+                    //                    logger.warn("resend message: {}", k);
+                    sendMessage(k, v);
+                });
+            });
+            logger.info("consume done: {} messages consumed. {} delayed. {} resent.",
+                    insertMessage.size(), delayed, resent);
         }
-        //        messageConsumer.getConsumer().commitSync();
-        //        consumedMessageRepository.saveAll(consumedMessages);
-        logger.info("consume done: {} messages consumed. {} delayed", i, delayed);
     }
 
     @Override

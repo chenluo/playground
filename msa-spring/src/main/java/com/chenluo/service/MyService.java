@@ -9,9 +9,5 @@
 package com.chenluo.service;
 
 public interface MyService {
-    void testService1();
 
-    void insertMessage();
-
-    void queryMessage();
 }
