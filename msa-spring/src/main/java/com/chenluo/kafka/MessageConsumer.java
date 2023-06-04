@@ -13,7 +13,7 @@ public class MessageConsumer {
 
     public MessageConsumer() {
         Properties props = new Properties();
-        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "192.168.50.42:9092");
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
         props.put(ConsumerConfig.GROUP_ID_CONFIG, "group-1");
         props.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, 50000);
         props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false);

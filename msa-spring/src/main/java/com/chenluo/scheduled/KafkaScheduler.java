@@ -37,7 +37,7 @@ public class KafkaScheduler implements InitializingBean {
         this.consumedMessageRepository = consumedMessageRepository;
     }
 
-    //    @Scheduled(fixedRate = 1000)
+    @Scheduled(fixedRate = 1000)
     public void produceMessage() {
         logger.info("producing");
         for (int i = 0; i < 1_000; i++) {
@@ -128,7 +128,7 @@ public class KafkaScheduler implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         Properties props = new Properties();
-        props.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "192.168.50.42:9092");
+        props.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
         AdminClient adminClient = AdminClient.create(props);
         ListTopicsResult topics = adminClient.listTopics();
         if (topics.names().get().contains("test-topic")) {
