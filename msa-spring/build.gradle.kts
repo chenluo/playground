@@ -20,13 +20,13 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.2")
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-cache")
+    implementation("com.github.ben-manes.caffeine:caffeine")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
 
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-//    implementation("io.sentry:sentry:6.4.1")
-//    implementation("io.sentry:sentry-log4j2:6.4.1")
 
     implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
     implementation("org.springframework.boot:spring-boot-starter-jdbc")
@@ -34,7 +34,8 @@ dependencies {
     implementation("org.flywaydb:flyway-core")
     implementation("org.flywaydb:flyway-mysql")
     implementation("org.apache.kafka:kafka-clients:2.8.0")
-//    implementation("com.ctrip.framework.apollo:apollo-client:1.7.0")
+    // https://mvnrepository.com/artifact/org.springframework.kafka/spring-kafka
+//    implementation("org.springframework.kafka:spring-kafka:3.0.2")
 
     implementation(project(":tool-logger"))
 }

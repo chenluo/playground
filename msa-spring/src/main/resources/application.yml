@@ -24,6 +24,11 @@ spring:
   sql:
     init:
       continue-on-error: true
+  cache:
+    cache-names: cache1, cache2
+    type: caffeine
+    caffeine:
+      spec: expireAfterWrite=300s
 
 #  flyway:
 ##    url: jdbc:mysql://192.168.50.42:3306/test_db2
