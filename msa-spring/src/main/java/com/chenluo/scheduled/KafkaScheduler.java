@@ -40,7 +40,7 @@ public class KafkaScheduler implements InitializingBean {
     @Scheduled(fixedRate = 1000)
     public void produceMessage() {
         logger.info("producing");
-        for (int i = 0; i < 1_000; i++) {
+        for (int i = 0; i < 1; i++) {
             sendMessage(UUID.randomUUID().toString(),
                     String.valueOf(ZonedDateTime.now().toInstant().toEpochMilli()));
         }
@@ -74,8 +74,10 @@ public class KafkaScheduler implements InitializingBean {
                 ConsumedMessage targetMessage;
                 ConsumedMessage consumedMessage =
                         consumedMessageRepository.findByUuid(message.key());
+                logger.info("consuming record: {}", message.key());
                 if (consumedMessage != null && consumedMessage.success == 1) {
-                    throw new RuntimeException("re-consumed message");
+                    logger.error("re-consumed message id: %s, offset: %s".formatted(message.key(),
+                            message.offset()));
                 }
                 targetMessage = consumedMessage;
                 if (targetMessage == null) {
@@ -111,12 +113,22 @@ public class KafkaScheduler implements InitializingBean {
             if (exception) {
                 return;
             }
-            messageConsumer.getConsumer().commitSync();
+            //            messageConsumer.getConsumer().commitAsync(new OffsetCommitCallback() {
+            //                @Override
+            //                public void onComplete(Map<TopicPartition, OffsetAndMetadata> offsets,
+            //                                       Exception exception) {
+            //                    if (exception == null) {
+            //                        logger.info("success commitAsync");
+            //                    } else {
+            //                        logger.warn("failed to commitAsync");
+            //                    }
+            //                }
+            //            });
             consumedMessageRepository.saveAll(insertMessage);
             updateMessages.forEach(consumedMessageRepository::save);
             resendMessages.forEach((k, v) -> {
                 executorService.submit(() -> {
-                    //                    logger.warn("resend message: {}", k);
+                    logger.warn("resend message: {}", k);
                     sendMessage(k, v);
                 });
             });
