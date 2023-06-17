@@ -56,7 +56,7 @@ public class KafkaScheduler implements InitializingBean {
                 });
     }
 
-    @Scheduled(fixedRate = 1000)
+    //    @Scheduled(fixedRate = 1000)
     public void consumeMessage() {
         logger.info("consuming");
         int i = 0;

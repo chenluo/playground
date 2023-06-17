@@ -29,6 +29,10 @@ spring:
     type: caffeine
     caffeine:
       spec: expireAfterWrite=300s
+  kafka:
+    bootstrap-servers: localhost:9092
+    listener:
+      concurrency: 10
 
 #  flyway:
 ##    url: jdbc:mysql://192.168.50.42:3306/test_db2

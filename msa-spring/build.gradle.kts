@@ -35,7 +35,7 @@ dependencies {
     implementation("org.flywaydb:flyway-mysql")
     implementation("org.apache.kafka:kafka-clients:2.8.0")
     // https://mvnrepository.com/artifact/org.springframework.kafka/spring-kafka
-//    implementation("org.springframework.kafka:spring-kafka:3.0.2")
+    implementation("org.springframework.kafka:spring-kafka")
 
     implementation(project(":tool-logger"))
 }
