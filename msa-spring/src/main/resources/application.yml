@@ -32,7 +32,10 @@ spring:
   kafka:
     bootstrap-servers: localhost:9092
     listener:
-      concurrency: 10
+      concurrency: 1
+      ack-mode: manual_immediate
+    consumer:
+      max-poll-records: 1
 
 #  flyway:
 ##    url: jdbc:mysql://192.168.50.42:3306/test_db2
