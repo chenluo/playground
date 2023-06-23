@@ -16,27 +16,31 @@ class SnowflakeIdGenTest {
     @Test
     public void testNextId() throws InterruptedException {
         Long start = Instant.now().toEpochMilli();
-        int parallel = 1;
-        int cnt = 100_000_000;
+        int instance = 10;
+        int thread = 10;
+        int cnt = 500_000;
         ExecutorService executor = Executors.newFixedThreadPool(16);
-        SnowflakeIdGen gen = new SnowflakeIdGen(String.valueOf(1));
 
-        for (int i = 0; i < parallel; i++) {
-            executor.submit(() -> {
-                for (int j = 0; j < cnt; j++) {
-                    generated.put(gen.nextId(), 1);
-                }
-            });
+        for (int i = 0; i < instance; i++) {
+            SnowflakeIdGen gen = new SnowflakeIdGen();
+            for (int j = 0; j < thread; j++) {
+                executor.submit(() -> {
+                    for (int k = 0; k < cnt; k++) {
+                        generated.put(gen.nextId(), 1);
+                    }
+                });
+            }
         }
         executor.shutdown();
         while (!executor.awaitTermination(1, TimeUnit.SECONDS)) {
 
         }
         Long end = Instant.now().toEpochMilli();
-        System.out.println("%d ids generated in %d ms".formatted(parallel * cnt, end - start));
-        System.out.println("%d per ms.".formatted(parallel * cnt / (end - start)));
+        int total = instance * thread * cnt;
+        System.out.println("%d ids generated in %d ms".formatted(total, end - start));
+        System.out.println("%d per ms.".formatted(total / (end - start)));
         System.out.println("actual %d ids generated".formatted(generated.size()));
-        assert parallel * cnt == generated.size();
+        assert total == generated.size();
     }
 
 }
