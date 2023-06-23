@@ -22,7 +22,6 @@ class SnowflakeIdGenTest {
         SnowflakeIdGen gen = new SnowflakeIdGen(String.valueOf(1));
 
         for (int i = 0; i < parallel; i++) {
-            int finalI = i;
             executor.submit(() -> {
                 for (int j = 0; j < cnt; j++) {
                     generated.put(gen.nextId(), 1);
