@@ -4,21 +4,21 @@ import com.chenluo.test.kotlin.service.MyServiceImpl
 import com.chenluo.test.kotlin.sharedservice.MySharedService
 import io.mockk.every
 import io.mockk.mockk
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Test
 
 class MyControllerTest {
 
-//    @Mock
+    //    @Mock
     private lateinit var mySharedService: MySharedService
 
-//    @Spy
+    //    @Spy
     private lateinit var myService: MyService
 
-//    @InjectMocks
+    //    @InjectMocks
     private lateinit var myController: MyController
 
-    @Before
+    @BeforeAll
     fun init() {
 //        MockitoAnnotations.openMocks(this);
 //        mySharedService = Mockito.mock(MySharedService::class.java)
