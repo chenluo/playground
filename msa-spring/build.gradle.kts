@@ -40,6 +40,12 @@ dependencies {
     implementation(project(":tool-logger"))
 }
 
+
+tasks.getByName<Test>("test") {
+//    useJUnit() // for junit4
+    useJUnitPlatform()
+}
+
 //flyway {
 //    driver = "com.mysql.jdbc.Driver"
 //    schemas = arrayOf("test_db2")
