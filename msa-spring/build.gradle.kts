@@ -37,6 +37,10 @@ dependencies {
     // https://mvnrepository.com/artifact/org.springframework.kafka/spring-kafka
     implementation("org.springframework.kafka:spring-kafka")
 
+    // https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-sqs
+    implementation("com.amazonaws:aws-java-sdk-sqs:1.12.504")
+
+
     implementation(project(":tool-logger"))
 }
 
