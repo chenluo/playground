@@ -6,14 +6,13 @@ import com.amazonaws.services.sqs.model.AmazonSQSException;
 import com.amazonaws.services.sqs.model.CreateQueueResult;
 import com.amazonaws.services.sqs.model.Message;
 import org.springframework.context.SmartLifecycle;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-@Component
+//@Component
 public class Consumer implements SmartLifecycle {
 
     private static final String QUEUE_NAME = "test-queue";
