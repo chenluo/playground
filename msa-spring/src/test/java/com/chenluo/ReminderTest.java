@@ -55,7 +55,7 @@ public class ReminderTest {
 
     @AfterAll
     public void teardown() {
-        reminderRepository.deleteAll();
+//        reminderRepository.deleteAll();
     }
 
     @Test

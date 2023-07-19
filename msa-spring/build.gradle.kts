@@ -9,7 +9,6 @@ plugins {
 group = "com.chenluo"
 version = "2022.0806.0000"
 configurations.all() {
-    exclude("org.springframework.boot", "spring-boot-starter-logging")
 }
 
 application {
@@ -41,7 +40,6 @@ dependencies {
     implementation("com.amazonaws:aws-java-sdk-sqs:1.12.504")
 
 
-    implementation(project(":tool-logger"))
 }
 
 

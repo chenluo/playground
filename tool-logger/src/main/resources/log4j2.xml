@@ -23,10 +23,13 @@
         <Logger name="com.chenluo" level="INFO">
             <AppenderRef ref="RollingFile"/>
         </Logger>
+        <Logger name="org.apache.kafka.clients.consumer.internals" level="DEBUG">
+            <AppenderRef ref="RollingFile"/>
+        </Logger>
         <!--        <Root level="info">-->
         <!--            <AppenderRef ref="RollingFile"/>-->
         <!--        </Root>-->
-        <Root level="INFO">
+        <Root level="DEBUG">
             <AppenderRef ref="STDOUT"/>
         </Root>
     </Loggers>

@@ -33,13 +33,22 @@ spring:
     bootstrap-servers: localhost:9092
     listener:
       concurrency: 1
-      ack-mode: manual_immediate
+      ack-mode: batch
     consumer:
-      max-poll-records: 1
+      max-poll-records: 5000
+      auto-commit-interval: 100
+      enable-auto-commit: true
 
 #  flyway:
 ##    url: jdbc:mysql://192.168.50.42:3306/test_db2
 ##    user: chen
 ##    password: HPaADeEl6K6Mo+ib
 #    driver-class-name: com.mysql.cj.jdbc.Driver
-
+logging:
+  level:
+    org:
+      apache:
+        kafka:
+          clients:
+            consumer:
+              internals: debug

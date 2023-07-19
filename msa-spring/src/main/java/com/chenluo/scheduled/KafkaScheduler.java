@@ -11,7 +11,6 @@ import org.apache.kafka.clients.producer.RecordMetadata;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
@@ -37,10 +36,10 @@ public class KafkaScheduler implements InitializingBean {
         this.consumedMessageRepository = consumedMessageRepository;
     }
 
-    @Scheduled(fixedRate = 1000)
+//    @Scheduled(fixedRate = 1000)
     public void produceMessage() {
         logger.info("producing");
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 100; i++) {
             sendMessage(UUID.randomUUID().toString(),
                     String.valueOf(ZonedDateTime.now().toInstant().toEpochMilli()));
         }
