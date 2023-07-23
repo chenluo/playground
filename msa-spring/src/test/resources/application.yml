@@ -6,12 +6,10 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mysql://192.168.50.42:3306/test_db
+    url: jdbc:tc:mysql:8.0.24://192.168.50.42:3306/test_db
     #    url: jdbc:mysql://localhost:3306/hueconnect
     username: root
-    #    username: root
-    #    password: HPaADeEl6K6Mo+ib
-    password: mysql
+    password: test
     driver-class-name: com.mysql.cj.jdbc.Driver
     maximum-pool-size: 100
     connection-timeout: 20000 #maximum number of milliseconds that a client will wait for a connection
@@ -36,10 +34,4 @@ spring:
       ack-mode: manual_immediate
     consumer:
       max-poll-records: 1
-
-#  flyway:
-##    url: jdbc:mysql://192.168.50.42:3306/test_db2
-##    user: chen
-##    password: HPaADeEl6K6Mo+ib
-#    driver-class-name: com.mysql.cj.jdbc.Driver
 

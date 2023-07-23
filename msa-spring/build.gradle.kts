@@ -1,5 +1,5 @@
 plugins {
-    id("org.springframework.boot") version "2.7.1"
+    id("org.springframework.boot") version "3.0.1"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
     id("java")
     id("java-gradle.java-application-conventions")
@@ -8,8 +8,7 @@ plugins {
 
 group = "com.chenluo"
 version = "2022.0806.0000"
-configurations.all() {
-}
+configurations.all() {}
 
 application {
     mainClass.set("com.chenluo.Application")
@@ -21,7 +20,6 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-cache")
     implementation("com.github.ben-manes.caffeine:caffeine")
-    implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
 
 
@@ -38,6 +36,10 @@ dependencies {
 
     // https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-sqs
     implementation("com.amazonaws:aws-java-sdk-sqs:1.12.504")
+    testImplementation("org.testcontainers:mysql:1.18.3")
+    testImplementation("org.testcontainers:kafka:1.18.3")
+    testImplementation("org.testcontainers:testcontainers:1.18.3")
+    testImplementation("org.testcontainers:junit-jupiter:1.18.3")
 
 
 }

@@ -7,14 +7,12 @@ import org.springframework.context.annotation.Import;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.listener.DeadLetterPublishingRecoverer;
 import org.springframework.kafka.listener.DefaultErrorHandler;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.util.backoff.BackOff;
 import org.springframework.util.backoff.FixedBackOff;
 
 @Configuration
-@EnableWebSecurity
 @EnableCaching
-@Import({JpaConfig.class, SecurityConfig.class})
+@Import({JpaConfig.class})
 public class AllConfig {
     //    @Bean
     //    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) {
