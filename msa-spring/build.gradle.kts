@@ -41,6 +41,8 @@ dependencies {
     testImplementation("org.testcontainers:testcontainers:1.18.3")
     testImplementation("org.testcontainers:junit-jupiter:1.18.3")
 
+    implementation(project(":msa-base"))
+
 
 }
 
