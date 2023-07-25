@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories
 public class BatchApp {
     public static void main(String[] args) {
-        SpringApplication.run(BatchApp.class, args);
+        System.exit(SpringApplication.exit(SpringApplication.run(BatchApp.class, args)));
     }
 }
