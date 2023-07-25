@@ -11,7 +11,7 @@ import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Component
-public class Consumers {
+public class SpringKafkaAnnotationConsumers {
     private final Random random = new Random();
     private final AtomicInteger i = new AtomicInteger();
 
@@ -23,10 +23,15 @@ public class Consumers {
     //    @KafkaListener(topics = "test-topic", groupId = "spring-kafka-nb", concurrency = "1")
     public void consumeNonBlockRetry(ConsumerRecord<String, String> record, Acknowledgment ack) {
         System.out.println(Thread.currentThread().getName() + " : " + record.value());
-        if (i.incrementAndGet() % 10 == -1) {
+        if (i.incrementAndGet() % 10 == -1) { // always exception.
             ack.acknowledge();
         } else {
             throw new RuntimeException(record.value());
+
+        } catch (Exception e) {
+            System.out.println("error");
+//            ack.nack(1);
+            throw e;
         }
     }
 

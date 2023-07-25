@@ -17,10 +17,7 @@ public class RedisTester {
 
     private void run() {
 
-        Config config = new Config();
-        // use "rediss://" for SSL connection
-        config.useSingleServer().setAddress("redis://127.0.0.1:6379");
-        RedissonClient client = Redisson.create(config);
+        RedissonClient client = RedissonFactory.get();
         RBitSet bitset = client.getBitSet("bitset");
         int bitIndex = 10;
         logger.info(bitset.get(bitIndex));

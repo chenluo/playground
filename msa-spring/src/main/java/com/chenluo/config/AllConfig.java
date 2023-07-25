@@ -14,16 +14,9 @@ import org.springframework.util.backoff.FixedBackOff;
 @EnableCaching
 @Import({JpaConfig.class})
 public class AllConfig {
-    //    @Bean
-    //    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) {
-    //        httpSecurity.authorizeHttpRequests((requests) -> {
-    //            requests.requestMatchers("/", "/main").permitAll()
-    //                    .anyRequest().authenticated();
-    //        });
-    //    }
     @Bean
     public DefaultErrorHandler errorHandler(KafkaTemplate<String, String> template) {
-        BackOff fixedBackOff = new FixedBackOff(1000, 10);
+        BackOff fixedBackOff = new FixedBackOff(100, 2);
         DefaultErrorHandler errorHandler =
                 new DefaultErrorHandler(new DeadLetterPublishingRecoverer(template)
                         //                (consumerRecord, e) -> {

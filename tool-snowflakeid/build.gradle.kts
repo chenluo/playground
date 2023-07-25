@@ -18,7 +18,7 @@ dependencies {
 
 tasks.getByName<Test>("test") {
     useJUnitPlatform()
-    minHeapSize = "20G"
-    maxHeapSize = "30G"
+    minHeapSize = "10G"
+    maxHeapSize = "20G"
 }
 

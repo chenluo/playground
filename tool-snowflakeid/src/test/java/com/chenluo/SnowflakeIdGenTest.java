@@ -16,9 +16,9 @@ class SnowflakeIdGenTest {
     @Test
     public void testNextId() throws InterruptedException {
         Long start = Instant.now().toEpochMilli();
-        int instance = 10;
+        int instance = 1;
         int thread = 10;
-        int cnt = 500_000;
+        int cnt = 1000_000;
         ExecutorService executor = Executors.newFixedThreadPool(16);
 
         for (int i = 0; i < instance; i++) {
