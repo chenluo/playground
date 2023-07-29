@@ -9,6 +9,7 @@ import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.job.builder.JobBuilder;
+import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.partition.support.Partitioner;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
@@ -114,7 +115,8 @@ public class BatchConfig {
 
     @Bean("jobA")
     public Job jobA() throws Exception {
-        return new JobBuilder("job", jobRepository).start(partitionStep()).build();
+        return new JobBuilder("job", jobRepository).incrementer(new RunIdIncrementer())
+                .start(partitionStep()).build();
     }
 
     @Bean
