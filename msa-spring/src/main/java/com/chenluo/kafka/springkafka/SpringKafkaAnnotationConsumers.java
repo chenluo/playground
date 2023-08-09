@@ -5,12 +5,11 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
-import org.springframework.stereotype.Component;
 
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@Component
+//@Component
 public class SpringKafkaAnnotationConsumers {
     private final Random random = new Random();
     private final AtomicInteger i = new AtomicInteger();
@@ -28,14 +27,11 @@ public class SpringKafkaAnnotationConsumers {
         } else {
             throw new RuntimeException(record.value());
 
-        } catch (Exception e) {
-            System.out.println("error");
-//            ack.nack(1);
-            throw e;
         }
     }
 
-    @KafkaListener(topics = "test-topic", groupId = "spring-kafka-b", concurrency = "1")
+    @KafkaListener(topics = "test-topic", groupId = "spring-kafka-b", concurrency = "1", filter =
+            "recordFilterStrategy1")
     //    public void consumeBlockRetry(ConsumerRecord<String, String> record, Acknowledgment ack)
     public void consumeBlockRetry(ConsumerRecord<String, String> record)
             throws InterruptedException {

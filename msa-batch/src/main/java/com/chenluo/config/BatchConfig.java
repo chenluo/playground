@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.concurrent.ConcurrentTaskExecutor;
@@ -45,6 +46,8 @@ public class BatchConfig {
     private DataSource dataSource;
     @Autowired
     private ConsumedMessageRepository repository;
+    @Autowired
+    private Environment environment;
 
     @Bean
     @StepScope
@@ -123,6 +126,8 @@ public class BatchConfig {
     @JobScope
     public TaskExecutor taskExecutor(@Value("#{jobParameters['concurrency']}") String concurrency) {
         SimpleAsyncTaskExecutor taskExecutor = new SimpleAsyncTaskExecutor("spring_batch");
+        String concurrency1 = environment.getProperty("concurrency");
+        System.out.println(concurrency1);
         ConcurrentTaskExecutor concurrentTaskExecutor = new ConcurrentTaskExecutor(
                 Executors.newFixedThreadPool(Integer.parseInt(concurrency)));
         return concurrentTaskExecutor;

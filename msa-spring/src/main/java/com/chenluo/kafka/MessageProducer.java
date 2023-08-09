@@ -2,11 +2,10 @@ package com.chenluo.kafka;
 
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
-import org.springframework.stereotype.Component;
 
 import java.util.Properties;
 
-@Component
+//@Component
 public class MessageProducer {
     private final KafkaProducer<String, String> producer;
 

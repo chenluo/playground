@@ -2,12 +2,11 @@ package com.chenluo.kafka;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
-import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 import java.util.Properties;
 
-@Component
+//@Component
 public class MessageConsumer {
     private final KafkaConsumer<String, String> consumer;
 
