@@ -21,7 +21,7 @@ spring:
     auto-commit: true #default auto-commit behavior.
   flyway:
     enabled: true
-    locations: classpath:/migration
+#    locations: classpath:/migration
   sql:
     init:
       continue-on-error: true

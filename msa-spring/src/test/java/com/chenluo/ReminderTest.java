@@ -36,15 +36,16 @@ public class ReminderTest {
 
     @DynamicPropertySource
     static void kafkaProperties(DynamicPropertyRegistry registry) {
+        mySQLContainer.start();
+        kafkaContainer.start();
         registry.add("spring.kafka.bootstrap-servers", kafkaContainer::getBootstrapServers);
         registry.add("spring.datasource.url", () -> mySQLContainer.getJdbcUrl());
         registry.add("spring.datasource.driverClassName",
                 () -> mySQLContainer.getDriverClassName());
         registry.add("spring.datasource.username", () -> mySQLContainer.getUsername());
         registry.add("spring.datasource.password", () -> mySQLContainer.getPassword());
-        registry.add("spring.flyway.enabled", () -> "true");
-        mySQLContainer.start();
-        kafkaContainer.start();
+        registry.add("spring.datasource.flyway.enabled", () -> "true");
+        registry.add("spring.datasource.flyway.locations", () -> "classpath:/migration");
     }
 
     @BeforeAll

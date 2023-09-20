@@ -16,11 +16,11 @@ import java.util.concurrent.Future;
 @SpringBootTest
 @TestPropertySources({@TestPropertySource(properties = {"spring.datasource" +
         ".url=jdbc:mysql://localhost:3306/test_db", "spring.datasource.username=root", "spring" +
-        ".datasource.password=mysql", "spring.datasource.maximum-pool-size=100"})})
+        ".datasource.password=mysql", "spring.datasource.hikari.maximum-pool-size=100"})})
 class SmallTblRepositoryTest {
     @Autowired
     private LargeTblRepository repository;
-    private int amount = 1_000_000;
+    private int amount = 1_000_00;
 
     @Test
     public void insert() {
@@ -31,7 +31,7 @@ class SmallTblRepositoryTest {
         }
         stopWatch.stop();
         System.out.println(stopWatch.shortSummary());
-        System.out.println(amount * 1.0 / stopWatch.getTotalTimeMillis() / 1000 + " qps");
+        System.out.println(amount * 1.0 / stopWatch.getTotalTimeMillis() * 1000 + " qps");
     }
 
     @Test
@@ -48,7 +48,7 @@ class SmallTblRepositoryTest {
         }
         stopWatch.stop();
         System.out.println(stopWatch.shortSummary());
-        System.out.println(amount * 1.0 / stopWatch.getTotalTimeMillis() / 1000 + " qps");
+        System.out.println(amount * 1.0 / stopWatch.getTotalTimeMillis() * 1000 + " qps");
     }
 
     @Test
@@ -73,7 +73,8 @@ class SmallTblRepositoryTest {
         }
         stopWatch.stop();
         System.out.println(stopWatch.shortSummary());
-        System.out.println(amount * 1.0 / stopWatch.getTotalTimeMillis() * 1000 + " qps");
+        System.out.println(amount * 100 * 1.0 / stopWatch.getTotalTimeMillis() * 1000 + " qps");
     }
+
 
 }
