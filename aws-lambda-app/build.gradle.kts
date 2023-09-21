@@ -17,6 +17,16 @@ dependencies {
 
 }
 
+
+tasks {
+    val copyRuntimeDependencies by registering(Copy::class) {
+        from(configurations.runtimeClasspath)
+        into("build/dependency")
+    }
+    build {
+        dependsOn(copyRuntimeDependencies)
+    }
+}
 tasks.getByName<Test>("test") {
     useJUnitPlatform()
 }

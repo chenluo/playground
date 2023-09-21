@@ -15,6 +15,9 @@ dependencies {
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")
     api("org.apache.logging.log4j:log4j-api:2.20.0")
     api("org.apache.logging.log4j:log4j-core:2.20.0")
+    // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
+    api("org.slf4j:slf4j-api:2.0.9")
+
 }
 
 tasks.getByName<Test>("test") {
