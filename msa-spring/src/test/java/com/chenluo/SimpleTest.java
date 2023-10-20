@@ -502,4 +502,210 @@ public class SimpleTest {
             return finishCount == numCourses;
         }
     }
+
+    @Test
+    public void Q114() {
+        TreeNode node1 = new TreeNode(1);
+        TreeNode node2 = new TreeNode(2);
+        TreeNode node3 = new TreeNode(3);
+        TreeNode node4 = new TreeNode(4);
+        TreeNode node5 = new TreeNode(5);
+        TreeNode node6 = new TreeNode(6);
+        node1.left = node2;
+        node1.right = node5;
+        node2.left = node3;
+        node2.right = node4;
+        node5.right = node6;
+
+        new Solution114().flatten(node1);
+        System.out.println(node1.val);
+    }
+
+    @Test
+    public void Q239() {
+        //        System.out.println( Arrays.toString(new Solution239().maxSlidingWindow(new
+        //        int[]{1, 2, 3, 4, 5}, 3)));
+        System.out.println(Arrays.toString(
+                new Solution239().maxSlidingWindow(new int[]{3, 3, 3, 1, 3, 3, 3, 3, 3, 3}, 3)));
+    }
+
+    @Test
+    public void Q43() {
+        System.out.println(new Solution43().multiply("111111", "1"));
+    }
+
+    @Test
+    public void testPriorityQueue() {
+        PriorityQueue<Integer> queue = new PriorityQueue<>();
+        queue.add(1);
+        queue.add(2);
+        System.out.println(queue.poll());
+        System.out.println(queue.poll());
+        System.out.println(queue.poll());
+
+        queue.add(2);
+        queue.add(1);
+        System.out.println(queue.poll());
+        System.out.println(queue.poll());
+        System.out.println(queue.poll());
+
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
+        maxHeap.add(1);
+        maxHeap.add(2);
+        maxHeap.add(3);
+        maxHeap.add(4);
+        maxHeap.add(5);
+        System.out.println(maxHeap.poll());
+
+    }
+
+    public class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode() {
+        }
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
+    }
+
+    class Solution114 {
+        public void flatten(TreeNode root) {
+            helper(root);
+        }
+
+        private TreeNode helper(TreeNode node) {
+            if (node == null) {
+                return null;
+            }
+            TreeNode right = node.right;
+            node.right = null;
+            if (node.left != null) {
+                node.right = helper(node.left);
+            }
+            node.left = null;
+            TreeNode temp = node;
+            while (temp != null && temp.right != null) {
+                temp = temp.right;
+            }
+            if (right != null) {
+                temp.right = helper(right);
+            }
+            return node;
+        }
+    }
+
+    class Solution239 {
+        public int[] maxSlidingWindow(int[] nums, int k) {
+            List<Integer> numInWindow = new ArrayList<>();
+            for (int i = 0; i < k; i++) {
+                int idx = numInWindow.size();
+                for (int j = 0; j < numInWindow.size(); j++) {
+                    if (numInWindow.get(j) > nums[i]) {
+                        idx = j;
+                        break;
+                    }
+                }
+                numInWindow.add(idx, nums[i]);
+            }
+            int[] result = new int[nums.length - k + 1];
+            result[0] = numInWindow.get(k - 1);
+            for (int i = k; i < nums.length; i++) {
+                int nToRemove = nums[i - k];
+                int nToAdd = nums[i];
+                int idxToRemove = -1;
+                int idxToAdd = -1;
+                if (nToRemove == nToAdd) {
+                    result[i - k + 1] = numInWindow.get(k - 1);
+                    continue;
+                }
+                for (int j = 0; j < k; j++) {
+                    if (idxToRemove == -1 && numInWindow.get(j) == nToRemove) {
+                        idxToRemove = j;
+                    }
+                    if (idxToAdd == -1 && numInWindow.get(j) > nToAdd) {
+                        idxToAdd = j;
+                    }
+                }
+                if (idxToAdd == -1) {
+                    idxToAdd = k;
+                }
+                numInWindow.remove(idxToRemove);
+                if (idxToRemove < idxToAdd) {
+                    idxToAdd--;
+                }
+                numInWindow.add(idxToAdd, nToAdd);
+                result[i - k + 1] = numInWindow.get(k - 1);
+            }
+            return result;
+        }
+    }
+
+    class Solution43 {
+        public String multiply(String num1, String num2) {
+            int length = 5;
+            String result = "0";
+            for (int i = 0; i < num1.length(); ) {
+                int num1End = i + length <= num1.length() ? i + length : num1.length();
+                int n1 = Integer.valueOf(num1.substring(i, num1End));
+                for (int j = 0; j < num2.length(); ) {
+                    int num2End = j + length <= num2.length() ? j + length : num2.length();
+                    int n2 = Integer.valueOf(num2.substring(j, num2End));
+                    int tmp = n1 * n2;
+                    StringBuilder sb = new StringBuilder();
+                    for (int k = 0; k < num1.length() - num1End + num2.length() - num2End; k++) {
+                        sb.append("0");
+                    }
+                    result = add(result, String.valueOf(tmp) + sb.toString());
+                    j += length;
+                }
+                i += length;
+            }
+            return result;
+        }
+
+        private String add(String num1, String num2) {
+            int idx1 = num1.length() - 1;
+            int idx2 = num2.length() - 1;
+            int length = Math.max(idx1, idx2) + 1;
+            int[] ret = new int[length + 1];
+            int idx = length;
+            int flag = 0;
+            while (idx >= 0) {
+                int n1 = idx1 >= 0 ? num1.charAt(idx1) - '0' : 0;
+                int n2 = idx2 >= 0 ? num2.charAt(idx2) - '0' : 0;
+
+                int tmp = n1 + n2 + flag;
+                flag = 0;
+                if (tmp > 9) {
+                    tmp = tmp % 10;
+                    flag = 1;
+                }
+                ret[idx] = tmp;
+                idx--;
+                idx1--;
+                idx2--;
+            }
+            StringBuilder sb = new StringBuilder();
+            idx = 0;
+            while (idx < length && ret[idx] == 0) {
+                idx++;
+            }
+            for (int i = idx; i <= length; i++) {
+                sb.append(ret[i]);
+            }
+            String result = sb.toString();
+            return result.equals("") ? "0" : result;
+
+        }
+    }
 }
