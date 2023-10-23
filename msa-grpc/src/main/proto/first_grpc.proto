@@ -8,6 +8,7 @@ option java_generic_services = true;
 
 service FirstGrpc {
   rpc api1(stream Req) returns (stream Res) {}
+  rpc api2(Req) returns (Res) {}
 }
 
 message Req {

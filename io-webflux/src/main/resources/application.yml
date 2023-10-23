@@ -1,0 +1,13 @@
+server:
+  port: 8080
+
+spring:
+  r2dbc:
+    url: r2dbc:mysql://192.168.50.43:3306/test_db
+    #    url: jdbc:mysql://localhost:3306/hueconnect
+    username: root
+    #    username: root
+    #    password: HPaADeEl6K6Mo+ib
+    password: mysql
+    pool:
+      enabled: true

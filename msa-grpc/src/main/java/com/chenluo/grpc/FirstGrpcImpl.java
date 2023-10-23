@@ -11,4 +11,9 @@ public class FirstGrpcImpl extends FirstGrpc {
     public void api1(RpcController controller, Req request, RpcCallback<Res> done) {
 
     }
+
+    @Override
+    public void api2(RpcController controller, Req request, RpcCallback<Res> done) {
+
+    }
 }
