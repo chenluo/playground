@@ -3,6 +3,11 @@ server:
     mbeanregistry:
       enabled: true
   port: 8081
+  ssl:
+    key-store: classpath:keys/springboot.jks
+    key-store-password: password
+    key-alias: springboot
+    key-password: password
 
 app:
   name: sss

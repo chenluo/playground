@@ -16,7 +16,7 @@ import java.util.concurrent.Future;
 @SpringBootTest
 @TestPropertySources({@TestPropertySource(properties = {"spring.datasource" +
         ".url=jdbc:mysql://localhost:3306/test_db", "spring.datasource.username=root", "spring" +
-        ".datasource.password=mysql", "spring.datasource.hikari.maximum-pool-size=100"})})
+        ".datasource.password=mysql", "spring.datasource.hikari.maximum-pool-size=10"})})
 class SmallTblRepositoryTest {
     @Autowired
     private LargeTblRepository repository;

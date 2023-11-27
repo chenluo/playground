@@ -7,8 +7,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.function.Function;
 
 public class LinebreakTest {
     @Test
@@ -18,7 +18,7 @@ public class LinebreakTest {
     }
 
     @Test
-    public void test () {
+    public void test() {
         System.out.println(byte[].class.getCanonicalName());
         System.out.println(int.class.getCanonicalName());
     }
