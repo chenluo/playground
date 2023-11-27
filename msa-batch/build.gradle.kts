@@ -24,6 +24,7 @@ dependencies {
     implementation("org.springframework:spring-web")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("mysql:mysql-connector-java:8.0.28")
+    // https://mvnrepository.com/artifact/software.amazon.awssdk/dynamodb
     implementation(project(":msa-base"))
 }
 
