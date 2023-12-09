@@ -1,14 +1,14 @@
 plugins {
-    id("org.springframework.boot") version "3.0.1"
-    id("io.spring.dependency-management") version "1.0.11.RELEASE"
+    alias(versions.plugins.springboot)
+    alias(versions.plugins.springboot.dependency.management)
     id("java")
-    id("java-gradle.java-application-conventions")
-    id("org.flywaydb.flyway") version "9.8.1"
+    id("application")
+    id("java-library")
+    alias(versions.plugins.flyway)
 }
 
 group = "com.chenluo"
 version = "2022.0806.0000"
-configurations.all() {}
 
 application {
     mainClass.set("com.chenluo.Application")

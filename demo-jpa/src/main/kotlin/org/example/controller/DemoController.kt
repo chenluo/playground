@@ -1,24 +1,32 @@
 package org.example.controller
 
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.Id
+import jakarta.persistence.*
 import jakarta.persistence.criteria.CriteriaBuilder
 import jakarta.persistence.criteria.CriteriaQuery
 import jakarta.persistence.criteria.Predicate
 import jakarta.persistence.criteria.Root
 import org.example.repo.DemoRepo
+import org.springframework.data.annotation.Version
 import org.springframework.data.jpa.domain.Specification
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 class DemoController(private val demoRepo: DemoRepo) {
-    @GetMapping
+    @GetMapping("/search")
     fun search(@RequestBody condition: SearchCondition): List<DemoEntity> {
         return demoRepo.findAll(ConditionPredicate(condition))
+    }
+
+    @GetMapping("/find")
+    fun find(@RequestParam id:Long): DemoEntity {
+        return demoRepo.findById(id).orElseThrow()
+    }
+
+    @PostMapping("/update")
+    fun update(@RequestParam id:Long): DemoEntity {
+        val demoEntity = demoRepo.findById(id).orElseThrow()
+        demoEntity.field1 += "1"
+        return demoRepo.save(demoEntity)
     }
 }
 
@@ -65,8 +73,8 @@ data class DemoEntity(
     var id: Long? = null,
     var field1: String,
 
-    @Column(columnDefinition = "jsonb")
-    var jsonbField: String
+    @jakarta.persistence.Version
+    var version: Int
 ) {
 
 }

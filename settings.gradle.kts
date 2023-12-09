@@ -24,3 +24,16 @@ include("msa-batch")
 include("msa-base")
 include("aws-lambda-app")
 include("demo-jpa")
+
+dependencyResolutionManagement {
+    versionCatalogs {
+        create("versions") {
+            plugin("springboot", "org.springframework.boot").version("3.0.1")
+            plugin("springboot-dependency-management",
+                "io.spring.dependency-management").version("1.0.11.RELEASE")
+            plugin("flyway", "org.flywaydb.flyway").version("9.8.1")
+        }
+    }
+}
+
+

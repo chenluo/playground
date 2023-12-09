@@ -15,7 +15,7 @@ app:
 
 spring:
   datasource:
-    url: jdbc:mysql://192.168.50.43:3306/test_db
+    url: jdbc:mysql://localhost:3306/test_db
     #    url: jdbc:mysql://localhost:3306/hueconnect
     username: root
     #    username: root
@@ -49,6 +49,10 @@ spring:
       auto-commit-interval: 100
       enable-auto-commit: true
 
+
+  threads:
+    virtual:
+      enabled: true
 #  flyway:
 ##    url: jdbc:mysql://192.168.50.42:3306/test_db2
 ##    user: chen

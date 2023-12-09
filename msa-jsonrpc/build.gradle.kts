@@ -2,7 +2,6 @@ plugins {
     id("org.springframework.boot") version "2.7.1"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
     id("java")
-    id("java-gradle.java-application-conventions")
 }
 
 group = "com.chenluo"

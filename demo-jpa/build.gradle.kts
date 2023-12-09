@@ -26,6 +26,8 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     runtimeOnly("org.postgresql:postgresql")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    // https://mvnrepository.com/artifact/com.vladmihalcea/hibernate-types-52
+//    implementation("com.vladmihalcea:hibernate-types-52:2.21.1")
 }
 
 tasks.withType<KotlinCompile> {
