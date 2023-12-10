@@ -46,11 +46,21 @@ tasks.getByName<Test>("test") {
 protobuf {
     protoc { artifact = "com.google.protobuf:protoc:${protocVersion}" }
     plugins {
-
+        create("grpc") {
+            artifact = "io.grpc:protoc-gen-grpc-java:${grpcVersion}"
+        }
     }
-//    generateProtoTasks {
-//        all(){ grpc {} }
-//    }
+    generateProtoTasks {
+        all().forEach {
+            it.plugins {
+                create("grpc")
+//                create("grpckt")
+            }
+//            it.builtins {
+//                create("kotlin")
+//            }
+        }
+    }
 }
 
 // Inform IDEs like IntelliJ IDEA, Eclipse or NetBeans about the generated code.

@@ -1,20 +1,22 @@
 syntax = "proto3";
-option java_package = "com.chenluo.grpc.firstgrpc";
+package com.chenluo.grpc;
+option java_package = "com.chenluo.grpc";
 option java_multiple_files = true;
 option java_generic_services = true;
 
 
-
-
-service FirstGrpc {
-  rpc api1(stream Req) returns (stream Res) {}
-  rpc api2(Req) returns (Res) {}
+service FirstGrpcService {
+  rpc Api2 (Req) returns (Res) {}
 }
 
 message Req {
   int64 id = 1;
+  string req = 2;
 }
 
 message Res {
   int64 id = 1;
+  string req = 2;
+  string res = 3;
+
 }
