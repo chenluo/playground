@@ -6,7 +6,10 @@ option java_generic_services = true;
 
 
 service FirstGrpcService {
-  rpc Api2 (Req) returns (Res) {}
+  rpc Api1 (Req) returns (Res) {}
+  rpc Api2 (Req) returns (stream Res) {}
+  rpc Api3 (stream Req) returns (Res) {}
+  rpc Api4 (stream Req) returns (stream Res) {}
 }
 
 message Req {
