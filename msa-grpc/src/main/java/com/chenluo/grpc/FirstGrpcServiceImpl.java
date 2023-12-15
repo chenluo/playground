@@ -35,6 +35,7 @@ public class FirstGrpcServiceImpl extends FirstGrpcServiceGrpc.FirstGrpcServiceI
 
             @Override
             public void onCompleted() {
+                responseObserver.onCompleted();
                 System.out.println("completed");
             }
         };

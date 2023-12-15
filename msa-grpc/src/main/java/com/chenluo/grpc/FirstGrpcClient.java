@@ -3,8 +3,7 @@ package com.chenluo.grpc;
 import io.grpc.Grpc;
 import io.grpc.InsecureChannelCredentials;
 import io.grpc.ManagedChannel;
-import io.grpc.stub.ClientCallStreamObserver;
-import io.grpc.stub.ClientResponseObserver;
+import io.grpc.stub.StreamObserver;
 
 import java.util.concurrent.CountDownLatch;
 
@@ -36,11 +35,10 @@ public class FirstGrpcClient {
         FirstGrpcServiceGrpc.FirstGrpcServiceStub stub = FirstGrpcServiceGrpc.newStub(channel);
         final int count = 100;
         CountDownLatch latch = new CountDownLatch(1);
-        stub.api4(new ClientResponseObserver<Req, Res>() {
+        StreamObserver<Req> requestStream = stub.api4(new StreamObserver<Res>() {
             @Override
             public void onNext(Res value) {
                 System.out.println(value);
-
             }
 
             @Override
@@ -55,16 +53,11 @@ public class FirstGrpcClient {
                 latch.countDown();
             }
 
-            @Override
-            public void beforeStart(ClientCallStreamObserver<Req> requestStream) {
-                requestStream.setOnReadyHandler(() -> {
-                    for (int i = 0; i < count; i++) {
-                        requestStream.onNext(Req.newBuilder().setId(i).setReq("req" + i).build());
-                    }
-                    requestStream.onCompleted();
-                });
-            }
         });
+        for (int i = 0; i < count; i++) {
+            requestStream.onNext(Req.newBuilder().setId(i).setReq("req"+i).build());
+        }
+        requestStream.onCompleted();
         try {
             latch.await();
         } catch (InterruptedException e) {
