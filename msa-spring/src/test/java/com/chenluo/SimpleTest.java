@@ -557,6 +557,8 @@ public class SimpleTest {
         maxHeap.add(5);
         System.out.println(maxHeap.poll());
 
+        PriorityQueue<int[]> q = new PriorityQueue<>(Comparator.comparingInt(it -> it[0]));
+
     }
 
     public class TreeNode {
@@ -708,4 +710,96 @@ public class SimpleTest {
 
         }
     }
+
+
+    @Test
+    public void Q97() {
+        Assertions.assertEquals(false, new Solution97().isInterleave("", "", "s"));
+    }
+
+    class Solution97 {
+        // dp[i][j] : true s1[0..i] and s2[0..j] interleave s3[0..i+j]
+        // dp[i][j] = d[i-1][j] if s1[i] == s3[i+j]
+        //          = d[i][j-1] if s2[j] == s3[i+j]
+        // dp[0][j] = true if s2[0..j] == s3[0..j]
+        // dp[i][0] = true if s1[0..i] == s3[0..i]
+        public boolean isInterleave(String s1, String s2, String s3) {
+            boolean[][] dp = new boolean[s1.length() + 1][s2.length() + 1];
+            for (int i = 0; i <= s1.length(); i++) {
+                for (int j = 0; j <= s2.length(); j++) {
+                    if (j == 0) {
+                        dp[i][j] = true;
+                        continue;
+                    }
+                    dp[i][j] =
+                            (i > 0 && s1.charAt(i - 1) == s3.charAt(i + j - 1) && dp[i - 1][j]) ||
+                                    (j > 0 && s2.charAt(j - 1) == s3.charAt(i + j - 1) &&
+                                            dp[i][j - 1]);
+                }
+            }
+            return dp[s1.length()][s2.length()];
+        }
+    }
+
+    @Test
+    public void q402() {
+        //        Assertions.assertEquals(new Q402().removeKdigits("1234567", 1), "123456");
+        //        Assertions.assertEquals(new Q402().removeKdigits("1234561", 1), "123451");
+        //        Assertions.assertEquals(new Q402().removeKdigits("1232561", 1), "122561");
+        Assertions.assertEquals(new Q402().removeKdigits("123256", 6), "0");
+        Assertions.assertEquals(new Q402().removeKdigits("123256", 5), "1");
+    }
+
+    class Q402 {
+        public String removeKdigits(String num, int k) {
+            Deque<Character> stack = new ArrayDeque<>();
+            for (int i = 0; i < num.length(); i++) {
+                while (k > 0 && !stack.isEmpty() && stack.peekLast() > num.charAt(i)) {
+                    stack.pollLast();
+                    k--;
+                }
+                stack.addLast(num.charAt(i));
+            }
+
+            while (k > 0) {
+                stack.pollLast();
+                k--;
+            }
+
+            if (stack.isEmpty()) {
+                return "0";
+            }
+
+            StringBuilder sb = new StringBuilder();
+            while (!stack.isEmpty() && stack.peekFirst().equals('0')) {
+                stack.pollFirst();
+            }
+            while (!stack.isEmpty()) {
+                sb.append(stack.pollFirst());
+            }
+            return sb.toString();
+        }
+    }
+
+
+    @Test
+    public void testEncoding() {
+        String s = new String(new byte[]{0, 1, 2, 19, 1, 127});
+        System.out.println(s);
+    }
+
+    @Test
+    public void testLinkedListAsStack() {
+        Deque<String> l = new ArrayDeque<String>();
+        l.add("1");
+        l.add("2");
+        l.add("3");
+        System.out.println(l.peek());
+        System.out.println(l.peekFirst());
+        System.out.println(l.peekLast());
+        System.out.println(l.poll());
+        System.out.println(l.pollLast());
+        System.out.println(l.peek());
+    }
+
 }

@@ -31,6 +31,9 @@ dependencies {
     implementation("org.apache.kafka:kafka-clients:2.8.0")
     // https://mvnrepository.com/artifact/org.springframework.kafka/spring-kafka
     implementation("org.springframework.kafka:spring-kafka")
+    // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
+    implementation("org.apache.commons:commons-lang3:3.12.0")
+
 
     // https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-sqs
     implementation("com.amazonaws:aws-java-sdk-sqs:1.12.504")
