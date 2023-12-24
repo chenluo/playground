@@ -75,6 +75,261 @@ public class SimpleTest {
         Assertions.assertTrue(new Solution207().canFinish(3, new int[][]{{1, 0}}));
     }
 
+    @Test
+    public void Q114() {
+        TreeNode node1 = new TreeNode(1);
+        TreeNode node2 = new TreeNode(2);
+        TreeNode node3 = new TreeNode(3);
+        TreeNode node4 = new TreeNode(4);
+        TreeNode node5 = new TreeNode(5);
+        TreeNode node6 = new TreeNode(6);
+        node1.left = node2;
+        node1.right = node5;
+        node2.left = node3;
+        node2.right = node4;
+        node5.right = node6;
+
+        new Solution114().flatten(node1);
+        System.out.println(node1.val);
+    }
+
+    @Test
+    public void Q239() {
+        //        System.out.println( Arrays.toString(new Solution239().maxSlidingWindow(new
+        //        int[]{1, 2, 3, 4, 5}, 3)));
+        System.out.println(Arrays.toString(
+                new Solution239().maxSlidingWindow(new int[]{3, 3, 3, 1, 3, 3, 3, 3, 3, 3}, 3)));
+    }
+
+    @Test
+    public void Q43() {
+        System.out.println(new Solution43().multiply("111111", "1"));
+    }
+
+    @Test
+    public void testPriorityQueue() {
+        PriorityQueue<Integer> queue = new PriorityQueue<>();
+        queue.add(1);
+        queue.add(2);
+        System.out.println(queue.poll());
+        System.out.println(queue.poll());
+        System.out.println(queue.poll());
+
+        queue.add(2);
+        queue.add(1);
+        System.out.println(queue.poll());
+        System.out.println(queue.poll());
+        System.out.println(queue.poll());
+
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
+        maxHeap.add(1);
+        maxHeap.add(2);
+        maxHeap.add(3);
+        maxHeap.add(4);
+        maxHeap.add(5);
+        System.out.println(maxHeap.poll());
+
+        PriorityQueue<int[]> q = new PriorityQueue<>(Comparator.comparingInt(it -> it[0]));
+
+    }
+
+    @Test
+    public void Q97() {
+        Assertions.assertEquals(false, new Solution97().isInterleave("", "", "s"));
+    }
+
+    @Test
+    public void q402() {
+        //        Assertions.assertEquals(new Q402().removeKdigits("1234567", 1), "123456");
+        //        Assertions.assertEquals(new Q402().removeKdigits("1234561", 1), "123451");
+        //        Assertions.assertEquals(new Q402().removeKdigits("1232561", 1), "122561");
+        Assertions.assertEquals(new Q402().removeKdigits("123256", 6), "0");
+        Assertions.assertEquals(new Q402().removeKdigits("123256", 5), "1");
+    }
+
+    @Test
+    public void testEncoding() {
+        String s = new String(new byte[]{0, 1, 2, 19, 1, 127});
+        System.out.println(s);
+    }
+
+    @Test
+    public void testLinkedListAsStack() {
+        Deque<String> l = new ArrayDeque<String>();
+        l.add("1");
+        l.add("2");
+        l.add("3");
+        System.out.println(l.peek());
+        System.out.println(l.peekFirst());
+        System.out.println(l.peekLast());
+        System.out.println(l.poll());
+        System.out.println(l.pollLast());
+        System.out.println(l.peek());
+    }
+
+    @Test
+    public void Q2276() {
+        CountIntervals q = new CountIntervals();
+        q.add(2, 3);
+        Assertions.assertEquals(2, q.count());
+        q.add(7, 10);
+        Assertions.assertEquals(6, q.count());
+
+        q = new CountIntervals();
+        q.add(2, 3);
+        Assertions.assertEquals(2, q.count());
+        q.add(3, 10);
+        Assertions.assertEquals(9, q.count());
+
+        q = new CountIntervals();
+        q.add(2, 3);
+        Assertions.assertEquals(2, q.count());
+        q.add(4, 10);
+        Assertions.assertEquals(9, q.count());
+
+        q = new CountIntervals();
+        q.add(2, 3);
+        Assertions.assertEquals(2, q.count());
+        q.add(1, 10);
+        Assertions.assertEquals(10, q.count());
+
+        q = new CountIntervals();
+        q.add(2, 3);
+        Assertions.assertEquals(2, q.count());
+        q.add(1, 2);
+        Assertions.assertEquals(3, q.count());
+
+        q = new CountIntervals();
+        q.add(2, 3);
+        Assertions.assertEquals(2, q.count());
+        q.add(9, 10);
+        Assertions.assertEquals(4, q.count());
+        q.add(5, 6);
+        Assertions.assertEquals(6, q.count());
+
+        q = new CountIntervals();
+        q.add(2, 3);
+        Assertions.assertEquals(2, q.count());
+        q.add(9, 10);
+        Assertions.assertEquals(4, q.count());
+        q.add(5, 5);
+        Assertions.assertEquals(5, q.count());
+
+        q = new CountIntervals();
+        q.add(2, 3);
+        Assertions.assertEquals(2, q.count());
+        q.add(9, 10);
+        Assertions.assertEquals(4, q.count());
+        q.add(3, 4);
+        Assertions.assertEquals(5, q.count());
+
+        q = new CountIntervals();
+        q.add(2, 3);
+        Assertions.assertEquals(2, q.count());
+        q.add(9, 10);
+        Assertions.assertEquals(4, q.count());
+        q.add(6, 10);
+        Assertions.assertEquals(7, q.count());
+
+        q = new CountIntervals();
+        q.add(2, 3);
+        Assertions.assertEquals(2, q.count());
+        q.add(9, 10);
+        Assertions.assertEquals(4, q.count());
+        q.add(3, 10);
+        Assertions.assertEquals(9, q.count());
+
+        q = new CountIntervals();
+        q.add(2, 3);
+        Assertions.assertEquals(2, q.count());
+        q.add(9, 10);
+        Assertions.assertEquals(4, q.count());
+        q.add(3, 11);
+        Assertions.assertEquals(10, q.count());
+
+        q = new CountIntervals();
+        q.add(571, 770);
+        Assertions.assertEquals(200, q.count);
+        q.add(920, 996);
+        Assertions.assertEquals(277, q.count);
+        q.add(65, 512);
+        Assertions.assertEquals(725, q.count);
+        q.add(959, 959);
+        Assertions.assertEquals(725, q.count);
+        q.add(313, 330);
+        Assertions.assertEquals(725, q.count);
+        q.add(473, 928);
+        Assertions.assertEquals(932, q.count);
+        q.add(75, 561);
+        Assertions.assertEquals(932, q.count);
+//        q.add(107,835);
+//        Assertions.assertEquals();
+//        q.add(852,918);
+//        Assertions.assertEquals();
+//        q.add(12,774);
+//        Assertions.assertEquals();
+//        q.add(534,597);
+//        Assertions.assertEquals();
+//        q.add(743,776);
+//        Assertions.assertEquals();
+//        q.add(456,556);
+//        Assertions.assertEquals();
+//        q.add(727,750);
+//        Assertions.assertEquals();
+//        q.add(403,954);
+//        Assertions.assertEquals();
+
+    }
+
+    @Test
+    public void Q750() {
+        Q750NumberOfCornelRectangle solver = new Q750NumberOfCornelRectangle();
+        Assertions.assertEquals(1,
+                solver.numberOfCornelRectangle(
+                        new int[][]{{1, 0, 0, 1, 0},
+                                {0, 0, 1, 0, 1},
+                                {0, 0, 0, 1, 0},
+                                {1, 0, 1, 0, 1}
+                        }));
+        Assertions.assertEquals(0,
+                solver.numberOfCornelRectangle(
+                        new int[][]{{1, 1, 1, 1, 1}}));
+        Assertions.assertEquals(10,
+                solver.numberOfCornelRectangle(
+                        new int[][]{
+                                {1, 1, 1, 1, 1},
+                                {1, 1, 1, 1, 1}
+                        }));
+        Assertions.assertEquals(6,
+                solver.numberOfCornelRectangle(
+                        new int[][]{
+                                {1, 1, 1, 1, 1},
+                                {1, 0, 1, 1, 1}
+                        }));
+        Assertions.assertEquals(1,
+                solver.numberOfCornelRectangleHashMap(
+                        new int[][]{{1, 0, 0, 1, 0},
+                                {0, 0, 1, 0, 1},
+                                {0, 0, 0, 1, 0},
+                                {1, 0, 1, 0, 1}
+                        }));
+        Assertions.assertEquals(0,
+                solver.numberOfCornelRectangleHashMap(
+                        new int[][]{{1, 1, 1, 1, 1}}));
+        Assertions.assertEquals(10,
+                solver.numberOfCornelRectangleHashMap(
+                        new int[][]{
+                                {1, 1, 1, 1, 1},
+                                {1, 1, 1, 1, 1}
+                        }));
+        Assertions.assertEquals(6,
+                solver.numberOfCornelRectangleHashMap(
+                        new int[][]{
+                                {1, 1, 1, 1, 1},
+                                {1, 0, 1, 1, 1}
+                        }));
+    }
+
     /**
      * Definition for singly-linked list.
      * public class ListNode {
@@ -503,64 +758,6 @@ public class SimpleTest {
         }
     }
 
-    @Test
-    public void Q114() {
-        TreeNode node1 = new TreeNode(1);
-        TreeNode node2 = new TreeNode(2);
-        TreeNode node3 = new TreeNode(3);
-        TreeNode node4 = new TreeNode(4);
-        TreeNode node5 = new TreeNode(5);
-        TreeNode node6 = new TreeNode(6);
-        node1.left = node2;
-        node1.right = node5;
-        node2.left = node3;
-        node2.right = node4;
-        node5.right = node6;
-
-        new Solution114().flatten(node1);
-        System.out.println(node1.val);
-    }
-
-    @Test
-    public void Q239() {
-        //        System.out.println( Arrays.toString(new Solution239().maxSlidingWindow(new
-        //        int[]{1, 2, 3, 4, 5}, 3)));
-        System.out.println(Arrays.toString(
-                new Solution239().maxSlidingWindow(new int[]{3, 3, 3, 1, 3, 3, 3, 3, 3, 3}, 3)));
-    }
-
-    @Test
-    public void Q43() {
-        System.out.println(new Solution43().multiply("111111", "1"));
-    }
-
-    @Test
-    public void testPriorityQueue() {
-        PriorityQueue<Integer> queue = new PriorityQueue<>();
-        queue.add(1);
-        queue.add(2);
-        System.out.println(queue.poll());
-        System.out.println(queue.poll());
-        System.out.println(queue.poll());
-
-        queue.add(2);
-        queue.add(1);
-        System.out.println(queue.poll());
-        System.out.println(queue.poll());
-        System.out.println(queue.poll());
-
-        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
-        maxHeap.add(1);
-        maxHeap.add(2);
-        maxHeap.add(3);
-        maxHeap.add(4);
-        maxHeap.add(5);
-        System.out.println(maxHeap.poll());
-
-        PriorityQueue<int[]> q = new PriorityQueue<>(Comparator.comparingInt(it -> it[0]));
-
-    }
-
     public class TreeNode {
         int val;
         TreeNode left;
@@ -711,12 +908,6 @@ public class SimpleTest {
         }
     }
 
-
-    @Test
-    public void Q97() {
-        Assertions.assertEquals(false, new Solution97().isInterleave("", "", "s"));
-    }
-
     class Solution97 {
         // dp[i][j] : true s1[0..i] and s2[0..j] interleave s3[0..i+j]
         // dp[i][j] = d[i-1][j] if s1[i] == s3[i+j]
@@ -739,15 +930,6 @@ public class SimpleTest {
             }
             return dp[s1.length()][s2.length()];
         }
-    }
-
-    @Test
-    public void q402() {
-        //        Assertions.assertEquals(new Q402().removeKdigits("1234567", 1), "123456");
-        //        Assertions.assertEquals(new Q402().removeKdigits("1234561", 1), "123451");
-        //        Assertions.assertEquals(new Q402().removeKdigits("1232561", 1), "122561");
-        Assertions.assertEquals(new Q402().removeKdigits("123256", 6), "0");
-        Assertions.assertEquals(new Q402().removeKdigits("123256", 5), "1");
     }
 
     class Q402 {
@@ -781,25 +963,142 @@ public class SimpleTest {
         }
     }
 
+    class CountIntervals {
+        List<int[]> ranges = new ArrayList<>();
+        int count = 0;
 
-    @Test
-    public void testEncoding() {
-        String s = new String(new byte[]{0, 1, 2, 19, 1, 127});
-        System.out.println(s);
+        public CountIntervals() {
+
+        }
+
+        public void add(int left, int right) {
+            int l = 0;
+            int r = ranges.size() - 1;
+            while (l <= r) {
+                int m = l + (r - l) / 2;
+                int[] temp = ranges.get(m);
+                if (temp[0] == left) {
+                    l = m;
+                    break;
+                }
+                if (temp[0] > left) {
+                    r = m - 1;
+                }
+                if (temp[0] < left) {
+                    l = m + 1;
+                }
+            }
+            int[] current = {left, right};
+            ranges.add(l, current);
+            // prev current next
+            int[] prev = l - 1 >= 0 ? ranges.get(l - 1) : null;
+            int[] next = l + 1 < ranges.size() ? ranges.get(l + 1) : null;
+            if (prev != null) {
+                if (prev[1] + 1 >= current[0]) {
+                    current[0] = prev[0];
+                    current[1] = Math.max(current[1], prev[1]);
+                    ranges.remove(l - 1);
+                    count -= prev[1] - prev[0] + 1;
+                    l--;
+                }
+            }
+            while (next != null && current[1] + 1 > next[0]) {
+                current[1] = Math.max(current[1], next[1]);
+                ranges.remove(l + 1);
+                count -= next[1] - next[0] + 1;
+                next = null;
+                if (l + 1 < ranges.size()) {
+                    next = ranges.get(l + 1);
+                }
+            }
+            count += current[1] - current[0] + 1;
+        }
+
+        public int count() {
+            return count;
+        }
     }
 
-    @Test
-    public void testLinkedListAsStack() {
-        Deque<String> l = new ArrayDeque<String>();
-        l.add("1");
-        l.add("2");
-        l.add("3");
-        System.out.println(l.peek());
-        System.out.println(l.peekFirst());
-        System.out.println(l.peekLast());
-        System.out.println(l.poll());
-        System.out.println(l.pollLast());
-        System.out.println(l.peek());
+    class Q750NumberOfCornelRectangle {
+        public int numberOfCornelRectangle(int[][] matrix) {
+            int row = matrix.length;
+            int col = matrix[0].length;
+            // dp[i][j] i, j means column,
+            // for each row update dp[i][j]
+            // dp[i][j] +=1, if matrix[r][i] == matrix[r][j],
+            // ==> row*col^2
+            // at last row, if matrix[row][i] == matrix[row][j] == 1, count+=dp[i][j]
+            /**
+             * matrix:
+             * [[10010],
+             *  [00101],
+             *  [00010],
+             *  [10101]]
+             * dp:
+             * 1st row:
+             * 00010
+             * 00000
+             * 00000
+             * 00000
+             * 00000
+             * 2nd row:
+             * 00010
+             * 00000
+             * 00001
+             * 00000
+             * 00000
+             * 3rd row:
+             * 00010
+             * 00000
+             * 00001
+             * 00000
+             * 00000
+             * 4th row:
+             * 00111
+             * 00000
+             * 00002
+             * 00000
+             * 00000
+             **/
+            int[][] dp = new int[col][col];
+            for (int i = 0; i < row; i++) {
+                for (int j = 0; j < col; j++) {
+                    for (int k = j + 1; k < col; k++) {
+                        if (matrix[i][j] == 1 && matrix[i][k] == 1) {
+                            dp[j][k]++;
+                        }
+                    }
+                }
+            }
+            int result = 0;
+            for (int i = 0; i < col; i++) {
+                for (int j = 0; j < col; j++) {
+                    if (dp[i][j] >= 2) {
+                        result += dp[i][j] - 1;
+                    }
+                }
+            }
+            return result;
+        }
+
+        public int numberOfCornelRectangleHashMap(int[][] matrix) {
+            int row = matrix.length;
+            int col = matrix[0].length;
+            HashMap<String, Integer> map = new HashMap<>();
+            int result = 0;
+            for (int i = 0; i < row; i++) {
+                for (int j = 0; j < col; j++) {
+                    for (int k = j + 1; k < col; k++) {
+                        if (matrix[i][j] == 1 && matrix[i][k] == 1) {
+                            String key = j + "," + k;
+                            map.compute(key, (kk, vv) -> vv == null ? 1 : vv + 1);
+                            result += map.get(key) - 1;
+                        }
+                    }
+                }
+            }
+            return result;
+        }
     }
 
 }

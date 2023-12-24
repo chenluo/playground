@@ -1,3 +1,8 @@
+import java.time.Instant
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+
 plugins {
     alias(versions.plugins.springboot)
     alias(versions.plugins.springboot.dependency.management)
@@ -8,7 +13,7 @@ plugins {
 }
 
 group = "com.chenluo"
-version = "2022.0806.0000"
+version = Instant.now().toEpochMilli()
 
 application {
     mainClass.set("com.chenluo.Application")
