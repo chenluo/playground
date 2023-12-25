@@ -23,6 +23,7 @@ include("msa-grpc")
 include("msa-batch")
 include("msa-base")
 include("aws-lambda-app")
+include("msa-simple-springboot")
 include("demo-jpa")
 
 dependencyResolutionManagement {

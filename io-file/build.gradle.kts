@@ -6,12 +6,9 @@ plugins {
 group = "org.example"
 version = "unspecified"
 
-application {
-    mainClass = "org.example.FileUtil"
-}
 tasks.jar {
     manifest {
-        attributes("Main-Class" to application.mainClass)
+        attributes("Main-Class" to "com.chenluo.FileUtil")
     }
 }
 
@@ -22,6 +19,7 @@ repositories {
 dependencies {
     testImplementation(platform("org.junit:junit-bom:5.9.1"))
     testImplementation("org.junit.jupiter:junit-jupiter")
+    implementation(project(":tool-logger"))
 }
 
 tasks.test {
