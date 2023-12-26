@@ -29,7 +29,7 @@
         <!--        <Root level="info">-->
         <!--            <AppenderRef ref="RollingFile"/>-->
         <!--        </Root>-->
-        <Root level="DEBUG">
+        <Root level="ERROR">
             <AppenderRef ref="STDOUT"/>
         </Root>
     </Loggers>

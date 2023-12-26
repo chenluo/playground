@@ -330,6 +330,13 @@ public class SimpleTest {
                         }));
     }
 
+    @Test
+    public void Q1671() {
+//        Assertions.assertEquals(1, new Q1671().minimumMountainRemovals(new int[]{23, 47, 63, 72, 81, 99, 88, 55, 21, 33, 32}));
+        Assertions.assertEquals(6, new Q1671().minimumMountainRemovals(new int[]{100, 92, 89, 77, 74, 66, 64, 66, 64}));
+
+    }
+
     /**
      * Definition for singly-linked list.
      * public class ListNode {
@@ -1101,4 +1108,75 @@ public class SimpleTest {
         }
     }
 
+    class Q1671 {
+        public int minimumMountainRemovals(int[] nums) {
+            // l2r[i]: longest increasing sequence end at i from 0
+            // r2l[i]: longest increasing sequence end at i from nums.length-1
+            int[] l2r = new int[nums.length];
+            for (int i = 0; i < nums.length; i++) {
+                l2r[i] = 1;
+            }
+            for (int i = 1; i < nums.length; i++) {
+                for (int j = 0; j < i; j++) {
+                    if (nums[i] > nums[j]) {
+                        l2r[i] = Math.max(l2r[i], l2r[j] + 1);
+                    }
+                }
+            }
+
+            int[] r2l = new int[nums.length];
+            for (int i = 0; i < nums.length; i++) {
+                r2l[i] = 1;
+            }
+            for (int i = nums.length - 2; i >= 0; i--) {
+                for (int j = nums.length - 1; j > i; j--) {
+                    if (nums[i] > nums[j]) {
+                        r2l[i] = Math.max(r2l[i], r2l[j] + 1);
+                    }
+                }
+            }
+            int result = nums.length;
+            for (int i = 1; i < nums.length-1; i++) {
+                if (l2r[i] > 1 && r2l[i] > 1){ // i is valid peak
+                    result = Math.min(nums.length + 1 - (l2r[i] + r2l[i]), result);
+                }
+            }
+            return result;
+            // stack solution WRONG SOLUTION:
+//            // from left to right, constructing a strict increasing stack, record dropped elements
+//            // and then go from right to left
+//
+//            // find the minimum l2r[i] + r2l[i] and return
+//            int[] l2r = new int[nums.length];
+//            Stack<Integer> stack = new Stack<>();
+//            int dropped = 0;
+//            for (int i = 0; i < nums.length; i++) {
+//                int num = nums[i];
+//                while (!stack.isEmpty() && stack.peek() >= num) {
+//                    stack.pop();
+//                    dropped++;
+//                }
+//                l2r[i] = dropped;
+//                stack.push(num);
+//            }
+//
+//            int[] r2l = new int[nums.length];
+//            stack.clear();
+//            dropped = 0;
+//            for (int i = nums.length - 1; i >= 0; i--) {
+//                int num = nums[i];
+//                while (!stack.isEmpty() && stack.peek() >= num) {
+//                    stack.pop();
+//                    dropped++;
+//                }
+//                r2l[i] = dropped;
+//                stack.push(num);
+//            }
+//            int result = nums.length;
+//            for (int i = 0; i < nums.length; i++) {
+//                result = Math.min(result, l2r[i] + r2l[i]);
+//            }
+//            return result;
+        }
+    }
 }
