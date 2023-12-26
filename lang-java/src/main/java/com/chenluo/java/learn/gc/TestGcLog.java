@@ -1,4 +1,4 @@
-package com.chenluo.jvm.learn.gc;
+package com.chenluo.java.learn.gc;
 
 // javap -v TestGcLog.class
 //-Xmx50M -Xms50M -XX:+PrintGCDetails

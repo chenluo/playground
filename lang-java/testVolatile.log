@@ -3725,25 +3725,25 @@ Code:
   0x00007fc4ad34790f: and    $0x1ff8,%edi
   0x00007fc4ad347915: cmp    $0x0,%edi
   0x00007fc4ad347918: je     0x00007fc4ad34795d  ;*iconst_1
-                                                ; - com.chenluo.jvm.learn.TestVolatile::storeBarrierAfterStoreOfVolatileVariable@0 (line 34)
+                                                ; - com.chenluo.java.learn.TestVolatile::storeBarrierAfterStoreOfVolatileVariable@0 (line 34)
 
   0x00007fc4ad34791e: movabs $0x6b4a39ee0,%rsi  ;   {oop(a 'java/lang/Class' = 'com/chenluo/jvm/learn/TestVolatile')}
   0x00007fc4ad347928: movl   $0x1,0x68(%rsi)    ;*putstatic int1
-                                                ; - com.chenluo.jvm.learn.TestVolatile::storeBarrierAfterStoreOfVolatileVariable@1 (line 34)
+                                                ; - com.chenluo.java.learn.TestVolatile::storeBarrierAfterStoreOfVolatileVariable@1 (line 34)
 
   0x00007fc4ad34792f: movl   $0x2,0x6c(%rsi)    ;*putstatic int2
-                                                ; - com.chenluo.jvm.learn.TestVolatile::storeBarrierAfterStoreOfVolatileVariable@5 (line 35)
+                                                ; - com.chenluo.java.learn.TestVolatile::storeBarrierAfterStoreOfVolatileVariable@5 (line 35)
 
   0x00007fc4ad347936: mov    $0x3,%edi
   0x00007fc4ad34793b: mov    %edi,0x70(%rsi)
   0x00007fc4ad34793e: lock addl $0x0,(%rsp)     ;*putstatic int3_volatile
-                                                ; - com.chenluo.jvm.learn.TestVolatile::storeBarrierAfterStoreOfVolatileVariable@9 (line 36)
+                                                ; - com.chenluo.java.learn.TestVolatile::storeBarrierAfterStoreOfVolatileVariable@9 (line 36)
 
   0x00007fc4ad347943: movl   $0x4,0x78(%rsi)    ;*putstatic int4
-                                                ; - com.chenluo.jvm.learn.TestVolatile::storeBarrierAfterStoreOfVolatileVariable@13 (line 37)
+                                                ; - com.chenluo.java.learn.TestVolatile::storeBarrierAfterStoreOfVolatileVariable@13 (line 37)
 
   0x00007fc4ad34794a: movl   $0x5,0x7c(%rsi)    ;*putstatic int5
-                                                ; - com.chenluo.jvm.learn.TestVolatile::storeBarrierAfterStoreOfVolatileVariable@17 (line 38)
+                                                ; - com.chenluo.java.learn.TestVolatile::storeBarrierAfterStoreOfVolatileVariable@17 (line 38)
 
   0x00007fc4ad347951: add    $0x30,%rsp
   0x00007fc4ad347955: pop    %rbp
@@ -3754,7 +3754,7 @@ Code:
   0x00007fc4ad347962: movq   $0xffffffffffffffff,(%rsp)
   0x00007fc4ad34796a: callq  0x00007fc4ad18f560  ; OopMap{off=143}
                                                 ;*synchronization entry
-                                                ; - com.chenluo.jvm.learn.TestVolatile::storeBarrierAfterStoreOfVolatileVariable@-1 (line 34)
+                                                ; - com.chenluo.java.learn.TestVolatile::storeBarrierAfterStoreOfVolatileVariable@-1 (line 34)
                                                 ;   {runtime_call}
   0x00007fc4ad34796f: jmp    0x00007fc4ad34791e
   0x00007fc4ad347971: nop
@@ -3846,22 +3846,22 @@ Code:
   0x00007fc4ad347cd8: je     0x00007fc4ad347d09
   0x00007fc4ad347cde: movabs $0x6b4a39ee0,%rsi  ;   {oop(a 'java/lang/Class' = 'com/chenluo/jvm/learn/TestVolatile')}
   0x00007fc4ad347ce8: mov    0x68(%rsi),%edi    ;*getstatic int1
-                                                ; - com.chenluo.jvm.learn.TestVolatile::loadBarrierBeforeLoadOfVolatileVariable@0 (line 42)
+                                                ; - com.chenluo.java.learn.TestVolatile::loadBarrierBeforeLoadOfVolatileVariable@0 (line 42)
 
   0x00007fc4ad347ceb: mov    0x6c(%rsi),%edi    ;*getstatic int2
-                                                ; - com.chenluo.jvm.learn.TestVolatile::loadBarrierBeforeLoadOfVolatileVariable@4 (line 43)
+                                                ; - com.chenluo.java.learn.TestVolatile::loadBarrierBeforeLoadOfVolatileVariable@4 (line 43)
 
   0x00007fc4ad347cee: mov    0x70(%rsi),%edi    ;*getstatic int3_volatile
-                                                ; - com.chenluo.jvm.learn.TestVolatile::loadBarrierBeforeLoadOfVolatileVariable@8 (line 44)
+                                                ; - com.chenluo.java.learn.TestVolatile::loadBarrierBeforeLoadOfVolatileVariable@8 (line 44)
 
   0x00007fc4ad347cf1: mov    0x78(%rsi),%ebx    ;*getstatic int4
-                                                ; - com.chenluo.jvm.learn.TestVolatile::loadBarrierBeforeLoadOfVolatileVariable@12 (line 45)
+                                                ; - com.chenluo.java.learn.TestVolatile::loadBarrierBeforeLoadOfVolatileVariable@12 (line 45)
 
   0x00007fc4ad347cf4: mov    0x7c(%rsi),%ebx    ;*getstatic int5
-                                                ; - com.chenluo.jvm.learn.TestVolatile::loadBarrierBeforeLoadOfVolatileVariable@16 (line 46)
+                                                ; - com.chenluo.java.learn.TestVolatile::loadBarrierBeforeLoadOfVolatileVariable@16 (line 46)
 
   0x00007fc4ad347cf7: mov    %edi,0x80(%rsi)    ;*putstatic dummy
-                                                ; - com.chenluo.jvm.learn.TestVolatile::loadBarrierBeforeLoadOfVolatileVariable@22 (line 47)
+                                                ; - com.chenluo.java.learn.TestVolatile::loadBarrierBeforeLoadOfVolatileVariable@22 (line 47)
 
   0x00007fc4ad347cfd: add    $0x30,%rsp
   0x00007fc4ad347d01: pop    %rbp
@@ -3872,7 +3872,7 @@ Code:
   0x00007fc4ad347d0e: movq   $0xffffffffffffffff,(%rsp)
   0x00007fc4ad347d16: callq  0x00007fc4ad18f560  ; OopMap{off=123}
                                                 ;*synchronization entry
-                                                ; - com.chenluo.jvm.learn.TestVolatile::loadBarrierBeforeLoadOfVolatileVariable@-1 (line 42)
+                                                ; - com.chenluo.java.learn.TestVolatile::loadBarrierBeforeLoadOfVolatileVariable@-1 (line 42)
                                                 ;   {runtime_call}
   0x00007fc4ad347d1b: jmp    0x00007fc4ad347cde
   0x00007fc4ad347d1d: nop
@@ -3952,22 +3952,22 @@ Code:
   0x00007fc4ad348298: je     0x00007fc4ad3482c9
   0x00007fc4ad34829e: movabs $0x6b4a39ee0,%rsi  ;   {oop(a 'java/lang/Class' = 'com/chenluo/jvm/learn/TestVolatile')}
   0x00007fc4ad3482a8: mov    0x68(%rsi),%edi    ;*getstatic int1
-                                                ; - com.chenluo.jvm.learn.TestVolatile::loadBarrierBeforeLoadOfVolatileVariable_compare@0 (line 59)
+                                                ; - com.chenluo.java.learn.TestVolatile::loadBarrierBeforeLoadOfVolatileVariable_compare@0 (line 59)
 
   0x00007fc4ad3482ab: mov    0x6c(%rsi),%edi    ;*getstatic int2
-                                                ; - com.chenluo.jvm.learn.TestVolatile::loadBarrierBeforeLoadOfVolatileVariable_compare@4 (line 60)
+                                                ; - com.chenluo.java.learn.TestVolatile::loadBarrierBeforeLoadOfVolatileVariable_compare@4 (line 60)
 
   0x00007fc4ad3482ae: mov    0x74(%rsi),%edi    ;*getstatic int3_normal
-                                                ; - com.chenluo.jvm.learn.TestVolatile::loadBarrierBeforeLoadOfVolatileVariable_compare@8 (line 61)
+                                                ; - com.chenluo.java.learn.TestVolatile::loadBarrierBeforeLoadOfVolatileVariable_compare@8 (line 61)
 
   0x00007fc4ad3482b1: mov    0x78(%rsi),%ebx    ;*getstatic int4
-                                                ; - com.chenluo.jvm.learn.TestVolatile::loadBarrierBeforeLoadOfVolatileVariable_compare@12 (line 62)
+                                                ; - com.chenluo.java.learn.TestVolatile::loadBarrierBeforeLoadOfVolatileVariable_compare@12 (line 62)
 
   0x00007fc4ad3482b4: mov    0x7c(%rsi),%ebx    ;*getstatic int5
-                                                ; - com.chenluo.jvm.learn.TestVolatile::loadBarrierBeforeLoadOfVolatileVariable_compare@16 (line 63)
+                                                ; - com.chenluo.java.learn.TestVolatile::loadBarrierBeforeLoadOfVolatileVariable_compare@16 (line 63)
 
   0x00007fc4ad3482b7: mov    %edi,0x80(%rsi)    ;*putstatic dummy
-                                                ; - com.chenluo.jvm.learn.TestVolatile::loadBarrierBeforeLoadOfVolatileVariable_compare@22 (line 64)
+                                                ; - com.chenluo.java.learn.TestVolatile::loadBarrierBeforeLoadOfVolatileVariable_compare@22 (line 64)
 
   0x00007fc4ad3482bd: add    $0x30,%rsp
   0x00007fc4ad3482c1: pop    %rbp
@@ -3978,7 +3978,7 @@ Code:
   0x00007fc4ad3482ce: movq   $0xffffffffffffffff,(%rsp)
   0x00007fc4ad3482d6: callq  0x00007fc4ad18f560  ; OopMap{off=123}
                                                 ;*synchronization entry
-                                                ; - com.chenluo.jvm.learn.TestVolatile::loadBarrierBeforeLoadOfVolatileVariable_compare@-1 (line 59)
+                                                ; - com.chenluo.java.learn.TestVolatile::loadBarrierBeforeLoadOfVolatileVariable_compare@-1 (line 59)
                                                 ;   {runtime_call}
   0x00007fc4ad3482db: jmp    0x00007fc4ad34829e
   0x00007fc4ad3482dd: nop
@@ -4056,23 +4056,23 @@ Code:
   0x00007fc4ad34864f: and    $0x1ff8,%edi
   0x00007fc4ad348655: cmp    $0x0,%edi
   0x00007fc4ad348658: je     0x00007fc4ad348697  ;*iconst_1
-                                                ; - com.chenluo.jvm.learn.TestVolatile::storeBarrierAfterStoreOfVolatileVariable_compare@0 (line 51)
+                                                ; - com.chenluo.java.learn.TestVolatile::storeBarrierAfterStoreOfVolatileVariable_compare@0 (line 51)
 
   0x00007fc4ad34865e: movabs $0x6b4a39ee0,%rsi  ;   {oop(a 'java/lang/Class' = 'com/chenluo/jvm/learn/TestVolatile')}
   0x00007fc4ad348668: movl   $0x1,0x68(%rsi)    ;*putstatic int1
-                                                ; - com.chenluo.jvm.learn.TestVolatile::storeBarrierAfterStoreOfVolatileVariable_compare@1 (line 51)
+                                                ; - com.chenluo.java.learn.TestVolatile::storeBarrierAfterStoreOfVolatileVariable_compare@1 (line 51)
 
   0x00007fc4ad34866f: movl   $0x2,0x6c(%rsi)    ;*putstatic int2
-                                                ; - com.chenluo.jvm.learn.TestVolatile::storeBarrierAfterStoreOfVolatileVariable_compare@5 (line 52)
+                                                ; - com.chenluo.java.learn.TestVolatile::storeBarrierAfterStoreOfVolatileVariable_compare@5 (line 52)
 
   0x00007fc4ad348676: movl   $0x3,0x74(%rsi)    ;*putstatic int3_normal
-                                                ; - com.chenluo.jvm.learn.TestVolatile::storeBarrierAfterStoreOfVolatileVariable_compare@9 (line 53)
+                                                ; - com.chenluo.java.learn.TestVolatile::storeBarrierAfterStoreOfVolatileVariable_compare@9 (line 53)
 
   0x00007fc4ad34867d: movl   $0x4,0x78(%rsi)    ;*putstatic int4
-                                                ; - com.chenluo.jvm.learn.TestVolatile::storeBarrierAfterStoreOfVolatileVariable_compare@13 (line 54)
+                                                ; - com.chenluo.java.learn.TestVolatile::storeBarrierAfterStoreOfVolatileVariable_compare@13 (line 54)
 
   0x00007fc4ad348684: movl   $0x5,0x7c(%rsi)    ;*putstatic int5
-                                                ; - com.chenluo.jvm.learn.TestVolatile::storeBarrierAfterStoreOfVolatileVariable_compare@17 (line 55)
+                                                ; - com.chenluo.java.learn.TestVolatile::storeBarrierAfterStoreOfVolatileVariable_compare@17 (line 55)
 
   0x00007fc4ad34868b: add    $0x30,%rsp
   0x00007fc4ad34868f: pop    %rbp
@@ -4083,7 +4083,7 @@ Code:
   0x00007fc4ad34869c: movq   $0xffffffffffffffff,(%rsp)
   0x00007fc4ad3486a4: callq  0x00007fc4ad18f560  ; OopMap{off=137}
                                                 ;*synchronization entry
-                                                ; - com.chenluo.jvm.learn.TestVolatile::storeBarrierAfterStoreOfVolatileVariable_compare@-1 (line 51)
+                                                ; - com.chenluo.java.learn.TestVolatile::storeBarrierAfterStoreOfVolatileVariable_compare@-1 (line 51)
                                                 ;   {runtime_call}
   0x00007fc4ad3486a9: jmp    0x00007fc4ad34865e
   0x00007fc4ad3486ab: nop
@@ -4138,22 +4138,22 @@ Code:
   #           [sp+0x20]  (sp of caller)
   0x00007fc4ad34b660: sub    $0x18,%rsp
   0x00007fc4ad34b667: mov    %rbp,0x10(%rsp)    ;*synchronization entry
-                                                ; - com.chenluo.jvm.learn.TestVolatile::storeBarrierAfterStoreOfVolatileVariable@-1 (line 34)
+                                                ; - com.chenluo.java.learn.TestVolatile::storeBarrierAfterStoreOfVolatileVariable@-1 (line 34)
 
   0x00007fc4ad34b66c: movabs $0x6b4a39ee0,%r10  ;   {oop(a 'java/lang/Class' = 'com/chenluo/jvm/learn/TestVolatile')}
   0x00007fc4ad34b676: movl   $0x1,0x68(%r10)    ;*putstatic int1
-                                                ; - com.chenluo.jvm.learn.TestVolatile::storeBarrierAfterStoreOfVolatileVariable@1 (line 34)
+                                                ; - com.chenluo.java.learn.TestVolatile::storeBarrierAfterStoreOfVolatileVariable@1 (line 34)
 
   0x00007fc4ad34b67e: movl   $0x2,0x6c(%r10)
   0x00007fc4ad34b686: movl   $0x3,0x70(%r10)
   0x00007fc4ad34b68e: lock addl $0x0,(%rsp)     ;*putstatic int3_volatile
-                                                ; - com.chenluo.jvm.learn.TestVolatile::storeBarrierAfterStoreOfVolatileVariable@9 (line 36)
+                                                ; - com.chenluo.java.learn.TestVolatile::storeBarrierAfterStoreOfVolatileVariable@9 (line 36)
 
   0x00007fc4ad34b693: movl   $0x4,0x78(%r10)    ;*putstatic int4
-                                                ; - com.chenluo.jvm.learn.TestVolatile::storeBarrierAfterStoreOfVolatileVariable@13 (line 37)
+                                                ; - com.chenluo.java.learn.TestVolatile::storeBarrierAfterStoreOfVolatileVariable@13 (line 37)
 
   0x00007fc4ad34b69b: movl   $0x5,0x7c(%r10)    ;*putstatic int3_volatile
-                                                ; - com.chenluo.jvm.learn.TestVolatile::storeBarrierAfterStoreOfVolatileVariable@9 (line 36)
+                                                ; - com.chenluo.java.learn.TestVolatile::storeBarrierAfterStoreOfVolatileVariable@9 (line 36)
 
   0x00007fc4ad34b6a3: add    $0x10,%rsp
   0x00007fc4ad34b6a7: pop    %rbp
@@ -4197,12 +4197,12 @@ Code:
   #           [sp+0x20]  (sp of caller)
   0x00007fc4ad34cde0: sub    $0x18,%rsp
   0x00007fc4ad34cde7: mov    %rbp,0x10(%rsp)    ;*synchronization entry
-                                                ; - com.chenluo.jvm.learn.TestVolatile::loadBarrierBeforeLoadOfVolatileVariable_compare@-1 (line 59)
+                                                ; - com.chenluo.java.learn.TestVolatile::loadBarrierBeforeLoadOfVolatileVariable_compare@-1 (line 59)
 
   0x00007fc4ad34cdec: movabs $0x6b4a39ee0,%r10  ;   {oop(a 'java/lang/Class' = 'com/chenluo/jvm/learn/TestVolatile')}
   0x00007fc4ad34cdf6: mov    0x74(%r10),%r8d
   0x00007fc4ad34cdfa: mov    %r8d,0x80(%r10)    ;*putstatic dummy
-                                                ; - com.chenluo.jvm.learn.TestVolatile::loadBarrierBeforeLoadOfVolatileVariable_compare@22 (line 64)
+                                                ; - com.chenluo.java.learn.TestVolatile::loadBarrierBeforeLoadOfVolatileVariable_compare@22 (line 64)
 
   0x00007fc4ad34ce01: add    $0x10,%rsp
   0x00007fc4ad34ce05: pop    %rbp
@@ -4248,14 +4248,14 @@ Code:
   #           [sp+0x20]  (sp of caller)
   0x00007fc4ad3489e0: sub    $0x18,%rsp
   0x00007fc4ad3489e7: mov    %rbp,0x10(%rsp)    ;*synchronization entry
-                                                ; - com.chenluo.jvm.learn.TestVolatile::loadBarrierBeforeLoadOfVolatileVariable@-1 (line 42)
+                                                ; - com.chenluo.java.learn.TestVolatile::loadBarrierBeforeLoadOfVolatileVariable@-1 (line 42)
 
   0x00007fc4ad3489ec: movabs $0x6b4a39ee0,%r10  ;   {oop(a 'java/lang/Class' = 'com/chenluo/jvm/learn/TestVolatile')}
   0x00007fc4ad3489f6: mov    0x70(%r10),%r8d    ;*getstatic int3_volatile
-                                                ; - com.chenluo.jvm.learn.TestVolatile::loadBarrierBeforeLoadOfVolatileVariable@8 (line 44)
+                                                ; - com.chenluo.java.learn.TestVolatile::loadBarrierBeforeLoadOfVolatileVariable@8 (line 44)
 
   0x00007fc4ad3489fa: mov    %r8d,0x80(%r10)    ;*putstatic dummy
-                                                ; - com.chenluo.jvm.learn.TestVolatile::loadBarrierBeforeLoadOfVolatileVariable@22 (line 47)
+                                                ; - com.chenluo.java.learn.TestVolatile::loadBarrierBeforeLoadOfVolatileVariable@22 (line 47)
 
   0x00007fc4ad348a01: add    $0x10,%rsp
   0x00007fc4ad348a05: pop    %rbp
@@ -4311,7 +4311,7 @@ Code:
   0x00007fc4ad34e3ef: and    $0x1ff8,%ebx
   0x00007fc4ad34e3f5: cmp    $0x0,%ebx
   0x00007fc4ad34e3f8: je     0x00007fc4ad34e46f  ;*iload_0
-                                                ; - com.chenluo.jvm.learn.TestVolatile::storeBarrierAfterInitOfFinalVariable@0 (line 68)
+                                                ; - com.chenluo.java.learn.TestVolatile::storeBarrierAfterInitOfFinalVariable@0 (line 68)
 
   0x00007fc4ad34e3fe: inc    %esi
   0x00007fc4ad34e400: cmp    $0x64,%esi
@@ -4323,17 +4323,17 @@ Code:
   0x00007fc4ad34e42b: lea    0x1(%rax),%rax
   0x00007fc4ad34e42f: mov    %rax,(%rdi,%rbx,1)
   0x00007fc4ad34e433: jle    0x00007fc4ad34e44e  ;*if_icmple
-                                                ; - com.chenluo.jvm.learn.TestVolatile::storeBarrierAfterInitOfFinalVariable@7 (line 69)
+                                                ; - com.chenluo.java.learn.TestVolatile::storeBarrierAfterInitOfFinalVariable@7 (line 69)
 
   0x00007fc4ad34e439: movabs $0x7fc4a99357d0,%rdi  ;   {metadata(method data for {method} {0x00007fc4a9935090} 'storeBarrierAfterInitOfFinalVariable' '(I)V' in 'com/chenluo/jvm/learn/TestVolatile')}
   0x00007fc4ad34e443: incl   0x128(%rdi)
   0x00007fc4ad34e449: jmpq   0x00007fc4ad34e453  ;*goto
-                                                ; - com.chenluo.jvm.learn.TestVolatile::storeBarrierAfterInitOfFinalVariable@11 (line 69)
+                                                ; - com.chenluo.java.learn.TestVolatile::storeBarrierAfterInitOfFinalVariable@11 (line 69)
 
   0x00007fc4ad34e44e: mov    $0x0,%esi
   0x00007fc4ad34e453: movabs $0x6b4a39ee0,%rdi  ;   {oop(a 'java/lang/Class' = 'com/chenluo/jvm/learn/TestVolatile')}
   0x00007fc4ad34e45d: mov    %esi,0x80(%rdi)    ;*putstatic dummy
-                                                ; - com.chenluo.jvm.learn.TestVolatile::storeBarrierAfterInitOfFinalVariable@15 (line 69)
+                                                ; - com.chenluo.java.learn.TestVolatile::storeBarrierAfterInitOfFinalVariable@15 (line 69)
 
   0x00007fc4ad34e463: add    $0x30,%rsp
   0x00007fc4ad34e467: pop    %rbp
@@ -4344,7 +4344,7 @@ Code:
   0x00007fc4ad34e474: movq   $0xffffffffffffffff,(%rsp)
   0x00007fc4ad34e47c: callq  0x00007fc4ad18f560  ; OopMap{off=193}
                                                 ;*synchronization entry
-                                                ; - com.chenluo.jvm.learn.TestVolatile::storeBarrierAfterInitOfFinalVariable@-1 (line 68)
+                                                ; - com.chenluo.java.learn.TestVolatile::storeBarrierAfterInitOfFinalVariable@-1 (line 68)
                                                 ;   {runtime_call}
   0x00007fc4ad34e481: jmpq   0x00007fc4ad34e3fe
   0x00007fc4ad34e486: nop
@@ -4404,23 +4404,23 @@ Code:
   #           [sp+0x20]  (sp of caller)
   0x00007fc4ad34e0e0: sub    $0x18,%rsp
   0x00007fc4ad34e0e7: mov    %rbp,0x10(%rsp)    ;*synchronization entry
-                                                ; - com.chenluo.jvm.learn.TestVolatile::storeBarrierAfterStoreOfVolatileVariable_compare@-1 (line 51)
+                                                ; - com.chenluo.java.learn.TestVolatile::storeBarrierAfterStoreOfVolatileVariable_compare@-1 (line 51)
 
   0x00007fc4ad34e0ec: movabs $0x6b4a39ee0,%r10  ;   {oop(a 'java/lang/Class' = 'com/chenluo/jvm/learn/TestVolatile')}
   0x00007fc4ad34e0f6: movl   $0x1,0x68(%r10)    ;*putstatic int1
-                                                ; - com.chenluo.jvm.learn.TestVolatile::storeBarrierAfterStoreOfVolatileVariable_compare@1 (line 51)
+                                                ; - com.chenluo.java.learn.TestVolatile::storeBarrierAfterStoreOfVolatileVariable_compare@1 (line 51)
 
   0x00007fc4ad34e0fe: movl   $0x5,0x7c(%r10)    ;*putstatic int5
-                                                ; - com.chenluo.jvm.learn.TestVolatile::storeBarrierAfterStoreOfVolatileVariable_compare@17 (line 55)
+                                                ; - com.chenluo.java.learn.TestVolatile::storeBarrierAfterStoreOfVolatileVariable_compare@17 (line 55)
 
   0x00007fc4ad34e106: movl   $0x4,0x78(%r10)    ;*putstatic int4
-                                                ; - com.chenluo.jvm.learn.TestVolatile::storeBarrierAfterStoreOfVolatileVariable_compare@13 (line 54)
+                                                ; - com.chenluo.java.learn.TestVolatile::storeBarrierAfterStoreOfVolatileVariable_compare@13 (line 54)
 
   0x00007fc4ad34e10e: movl   $0x3,0x74(%r10)    ;*putstatic int3_normal
-                                                ; - com.chenluo.jvm.learn.TestVolatile::storeBarrierAfterStoreOfVolatileVariable_compare@9 (line 53)
+                                                ; - com.chenluo.java.learn.TestVolatile::storeBarrierAfterStoreOfVolatileVariable_compare@9 (line 53)
 
   0x00007fc4ad34e116: movl   $0x2,0x6c(%r10)    ;*putstatic int2
-                                                ; - com.chenluo.jvm.learn.TestVolatile::storeBarrierAfterStoreOfVolatileVariable_compare@5 (line 52)
+                                                ; - com.chenluo.java.learn.TestVolatile::storeBarrierAfterStoreOfVolatileVariable_compare@5 (line 52)
 
   0x00007fc4ad34e11e: add    $0x10,%rsp
   0x00007fc4ad34e122: pop    %rbp
@@ -4471,18 +4471,18 @@ Code:
   0x00007fc4ad34de20: mov    %eax,-0x14000(%rsp)
   0x00007fc4ad34de27: push   %rbp
   0x00007fc4ad34de28: sub    $0x20,%rsp         ;*synchronization entry
-                                                ; - com.chenluo.jvm.learn.TestVolatile::storeBarrierAfterInitOfFinalVariable@-1 (line 68)
+                                                ; - com.chenluo.java.learn.TestVolatile::storeBarrierAfterInitOfFinalVariable@-1 (line 68)
 
   0x00007fc4ad34de2c: inc    %esi               ;*iadd
-                                                ; - com.chenluo.jvm.learn.TestVolatile::storeBarrierAfterInitOfFinalVariable@2 (line 68)
+                                                ; - com.chenluo.java.learn.TestVolatile::storeBarrierAfterInitOfFinalVariable@2 (line 68)
 
   0x00007fc4ad34de2e: cmp    $0x64,%esi
   0x00007fc4ad34de31: jle    0x00007fc4ad34de50  ;*if_icmple
-                                                ; - com.chenluo.jvm.learn.TestVolatile::storeBarrierAfterInitOfFinalVariable@7 (line 69)
+                                                ; - com.chenluo.java.learn.TestVolatile::storeBarrierAfterInitOfFinalVariable@7 (line 69)
 
   0x00007fc4ad34de33: movabs $0x6b4a39ee0,%r10  ;   {oop(a 'java/lang/Class' = 'com/chenluo/jvm/learn/TestVolatile')}
   0x00007fc4ad34de3d: mov    %esi,0x80(%r10)    ;*synchronization entry
-                                                ; - com.chenluo.jvm.learn.TestVolatile::storeBarrierAfterInitOfFinalVariable@-1 (line 68)
+                                                ; - com.chenluo.java.learn.TestVolatile::storeBarrierAfterInitOfFinalVariable@-1 (line 68)
 
   0x00007fc4ad34de44: add    $0x20,%rsp
   0x00007fc4ad34de48: pop    %rbp
@@ -4494,10 +4494,10 @@ Code:
   0x00007fc4ad34de58: data16 xchg %ax,%ax
   0x00007fc4ad34de5b: callq  0x00007fc4ad0453e0  ; OopMap{off=64}
                                                 ;*if_icmple
-                                                ; - com.chenluo.jvm.learn.TestVolatile::storeBarrierAfterInitOfFinalVariable@7 (line 69)
+                                                ; - com.chenluo.java.learn.TestVolatile::storeBarrierAfterInitOfFinalVariable@7 (line 69)
                                                 ;   {runtime_call}
   0x00007fc4ad34de60: callq  0x00007fc4c3a462e0  ;*if_icmple
-                                                ; - com.chenluo.jvm.learn.TestVolatile::storeBarrierAfterInitOfFinalVariable@7 (line 69)
+                                                ; - com.chenluo.java.learn.TestVolatile::storeBarrierAfterInitOfFinalVariable@7 (line 69)
                                                 ;   {runtime_call}
   0x00007fc4ad34de65: hlt    
   0x00007fc4ad34de66: hlt    

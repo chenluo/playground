@@ -6,7 +6,7 @@
  * Side Public License, v 1.
  */
 
-package com.chenluo.jvm.learn;
+package com.chenluo.java.learn;
 
 import java.util.concurrent.locks.ReentrantLock;
 

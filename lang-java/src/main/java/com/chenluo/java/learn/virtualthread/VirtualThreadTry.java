@@ -1,4 +1,4 @@
-package com.chenluo.jvm.learn.virtualthread;
+package com.chenluo.java.learn.virtualthread;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

@@ -1,4 +1,4 @@
-package com.chenluo.jvm.learn;
+package com.chenluo.java.learn;
 
 public class TestStaticVariable {
     static int a = 0;

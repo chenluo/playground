@@ -4320,7 +4320,7 @@ Code:
   0x00007f779d3495fe: movabs $0x6b4a39ae8,%rsi  ;   {oop(a 'java/lang/Class' = 'com/chenluo/jvm/learn/TestLock')}
   0x00007f779d349608: mov    0x6c(%rsi),%esi
   0x00007f779d34960b: shl    $0x3,%rsi          ;*getstatic reentrantLock
-                                                ; - com.chenluo.jvm.learn.TestLock::lockByLock@0 (line 32)
+                                                ; - com.chenluo.java.learn.TestLock::lockByLock@0 (line 32)
 
   0x00007f779d34960f: cmp    (%rsi),%rax        ; implicit exception: dispatches to 0x00007f779d34971a
   0x00007f779d349612: mov    %rsi,%rdi
@@ -4353,7 +4353,7 @@ Code:
   0x00007f779d3496a6: nop
   0x00007f779d3496a7: callq  0x00007f779d045de0  ; OopMap{off=236}
                                                 ;*invokevirtual tryLock
-                                                ; - com.chenluo.jvm.learn.TestLock::lockByLock@3 (line 32)
+                                                ; - com.chenluo.java.learn.TestLock::lockByLock@3 (line 32)
                                                 ;   {optimized virtual_call}
   0x00007f779d3496ac: cmp    $0x0,%eax
   0x00007f779d3496af: movabs $0x7f7783c03158,%rsi  ;   {metadata(method data for {method} {0x00007f7783c02cf8} 'lockByLock' '()V' in 'com/chenluo/jvm/learn/TestLock')}
@@ -4364,15 +4364,15 @@ Code:
   0x00007f779d3496d7: lea    0x1(%rbx),%rbx
   0x00007f779d3496db: mov    %rbx,(%rsi,%rdi,1)
   0x00007f779d3496df: je     0x00007f779d3496f7  ;*ifeq
-                                                ; - com.chenluo.jvm.learn.TestLock::lockByLock@6 (line 32)
+                                                ; - com.chenluo.java.learn.TestLock::lockByLock@6 (line 32)
 
   0x00007f779d3496e5: movabs $0x6b4a39ae8,%rsi  ;   {oop(a 'java/lang/Class' = 'com/chenluo/jvm/learn/TestLock')}
   0x00007f779d3496ef: mov    0x70(%rsi),%edi    ;*getstatic a
-                                                ; - com.chenluo.jvm.learn.TestLock::lockByLock@9 (line 33)
+                                                ; - com.chenluo.java.learn.TestLock::lockByLock@9 (line 33)
 
   0x00007f779d3496f2: inc    %edi
   0x00007f779d3496f4: mov    %edi,0x70(%rsi)    ;*putstatic a
-                                                ; - com.chenluo.jvm.learn.TestLock::lockByLock@14 (line 33)
+                                                ; - com.chenluo.java.learn.TestLock::lockByLock@14 (line 33)
 
   0x00007f779d3496f7: add    $0x30,%rsp
   0x00007f779d3496fb: pop    %rbp
@@ -4383,12 +4383,12 @@ Code:
   0x00007f779d349708: movq   $0xffffffffffffffff,(%rsp)
   0x00007f779d349710: callq  0x00007f779d339320  ; OopMap{off=341}
                                                 ;*synchronization entry
-                                                ; - com.chenluo.jvm.learn.TestLock::lockByLock@-1 (line 32)
+                                                ; - com.chenluo.java.learn.TestLock::lockByLock@-1 (line 32)
                                                 ;   {runtime_call}
   0x00007f779d349715: jmpq   0x00007f779d3495fe
   0x00007f779d34971a: callq  0x00007f779d333ec0  ; OopMap{rsi=Oop off=351}
                                                 ;*invokevirtual tryLock
-                                                ; - com.chenluo.jvm.learn.TestLock::lockByLock@3 (line 32)
+                                                ; - com.chenluo.java.learn.TestLock::lockByLock@3 (line 32)
                                                 ;   {runtime_call}
   0x00007f779d34971f: nop
   0x00007f779d349720: nop
