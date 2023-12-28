@@ -1,41 +1,28 @@
 import com.chenluo.test.kotlin.controller.MyController
 import com.chenluo.test.kotlin.service.MyService
-import com.chenluo.test.kotlin.service.MyServiceImpl
 import com.chenluo.test.kotlin.sharedservice.MySharedService
 import io.mockk.every
-import io.mockk.mockk
-import org.junit.jupiter.api.BeforeAll
+import io.mockk.impl.annotations.InjectMockKs
+import io.mockk.impl.annotations.MockK
+import io.mockk.junit5.MockKExtension
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
+@ExtendWith(MockKExtension::class)
 class MyControllerTest {
 
-    //    @Mock
+    @MockK
     private lateinit var mySharedService: MySharedService
 
-    //    @Spy
+    @MockK
     private lateinit var myService: MyService
 
-    //    @InjectMocks
+    @InjectMockKs
     private lateinit var myController: MyController
-
-    @BeforeAll
-    fun init() {
-//        MockitoAnnotations.openMocks(this);
-//        mySharedService = Mockito.mock(MySharedService::class.java)
-//        myService = Mockito.spy(MyServiceImpl(mySharedService))
-//        myController = MyController(myService)
-        mySharedService = mockk<MySharedService>()
-        myService = MyServiceImpl(mySharedService)
-        myController = MyController(myService)
-    }
-
-//    @Rule
-//    var rule: MockitoRule = MockitoJUnit.rule()
 
     @Test
     fun `test serve 1`() {
-//        Mockito.`when`(mySharedService.serve()).thenReturn(true)
-        every { mySharedService.serve() } returns true
+        every { myController.serveByMyService() } returns true
         assert(myController.serveByMyService())
     }
 }

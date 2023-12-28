@@ -1,4 +1,4 @@
-package controller;
+package com.chenluo;
 
 import org.junit.jupiter.api.Test;
 

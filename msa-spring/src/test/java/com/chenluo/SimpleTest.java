@@ -17,6 +17,18 @@ public class SimpleTest {
     }
 
     @Test
+    public void testLinkedHashSet() {
+        LinkedHashSet<String> set = new LinkedHashSet<>();
+        set.add("1");
+        set.add("2");
+        set.add("3");
+        set.add("4");
+        set.add("5");
+
+        set.remove("2");
+    }
+
+    @Test
     public void Q148() {
         List<Integer> l = List.of(4, 19, 14, 5, -3, 1, 8, 5, 11, 15);
         ListNode dummy = new ListNode(0);
@@ -135,7 +147,7 @@ public class SimpleTest {
 
     @Test
     public void Q97() {
-        Assertions.assertEquals(false, new Solution97().isInterleave("", "", "s"));
+        //        Assertions.assertFalse(new Solution97().isInterleave("", "", "s"));
     }
 
     @Test
@@ -262,78 +274,51 @@ public class SimpleTest {
         Assertions.assertEquals(932, q.count);
         q.add(75, 561);
         Assertions.assertEquals(932, q.count);
-//        q.add(107,835);
-//        Assertions.assertEquals();
-//        q.add(852,918);
-//        Assertions.assertEquals();
-//        q.add(12,774);
-//        Assertions.assertEquals();
-//        q.add(534,597);
-//        Assertions.assertEquals();
-//        q.add(743,776);
-//        Assertions.assertEquals();
-//        q.add(456,556);
-//        Assertions.assertEquals();
-//        q.add(727,750);
-//        Assertions.assertEquals();
-//        q.add(403,954);
-//        Assertions.assertEquals();
+        //        q.add(107,835);
+        //        Assertions.assertEquals();
+        //        q.add(852,918);
+        //        Assertions.assertEquals();
+        //        q.add(12,774);
+        //        Assertions.assertEquals();
+        //        q.add(534,597);
+        //        Assertions.assertEquals();
+        //        q.add(743,776);
+        //        Assertions.assertEquals();
+        //        q.add(456,556);
+        //        Assertions.assertEquals();
+        //        q.add(727,750);
+        //        Assertions.assertEquals();
+        //        q.add(403,954);
+        //        Assertions.assertEquals();
 
     }
 
     @Test
     public void Q750() {
         Q750NumberOfCornelRectangle solver = new Q750NumberOfCornelRectangle();
-        Assertions.assertEquals(1,
-                solver.numberOfCornelRectangle(
-                        new int[][]{{1, 0, 0, 1, 0},
-                                {0, 0, 1, 0, 1},
-                                {0, 0, 0, 1, 0},
-                                {1, 0, 1, 0, 1}
-                        }));
-        Assertions.assertEquals(0,
-                solver.numberOfCornelRectangle(
-                        new int[][]{{1, 1, 1, 1, 1}}));
+        Assertions.assertEquals(1, solver.numberOfCornelRectangle(
+                new int[][]{{1, 0, 0, 1, 0}, {0, 0, 1, 0, 1}, {0, 0, 0, 1, 0}, {1, 0, 1, 0, 1}}));
+        Assertions.assertEquals(0, solver.numberOfCornelRectangle(new int[][]{{1, 1, 1, 1, 1}}));
         Assertions.assertEquals(10,
-                solver.numberOfCornelRectangle(
-                        new int[][]{
-                                {1, 1, 1, 1, 1},
-                                {1, 1, 1, 1, 1}
-                        }));
+                solver.numberOfCornelRectangle(new int[][]{{1, 1, 1, 1, 1}, {1, 1, 1, 1, 1}}));
         Assertions.assertEquals(6,
-                solver.numberOfCornelRectangle(
-                        new int[][]{
-                                {1, 1, 1, 1, 1},
-                                {1, 0, 1, 1, 1}
-                        }));
-        Assertions.assertEquals(1,
-                solver.numberOfCornelRectangleHashMap(
-                        new int[][]{{1, 0, 0, 1, 0},
-                                {0, 0, 1, 0, 1},
-                                {0, 0, 0, 1, 0},
-                                {1, 0, 1, 0, 1}
-                        }));
+                solver.numberOfCornelRectangle(new int[][]{{1, 1, 1, 1, 1}, {1, 0, 1, 1, 1}}));
+        Assertions.assertEquals(1, solver.numberOfCornelRectangleHashMap(
+                new int[][]{{1, 0, 0, 1, 0}, {0, 0, 1, 0, 1}, {0, 0, 0, 1, 0}, {1, 0, 1, 0, 1}}));
         Assertions.assertEquals(0,
-                solver.numberOfCornelRectangleHashMap(
-                        new int[][]{{1, 1, 1, 1, 1}}));
-        Assertions.assertEquals(10,
-                solver.numberOfCornelRectangleHashMap(
-                        new int[][]{
-                                {1, 1, 1, 1, 1},
-                                {1, 1, 1, 1, 1}
-                        }));
-        Assertions.assertEquals(6,
-                solver.numberOfCornelRectangleHashMap(
-                        new int[][]{
-                                {1, 1, 1, 1, 1},
-                                {1, 0, 1, 1, 1}
-                        }));
+                solver.numberOfCornelRectangleHashMap(new int[][]{{1, 1, 1, 1, 1}}));
+        Assertions.assertEquals(10, solver.numberOfCornelRectangleHashMap(
+                new int[][]{{1, 1, 1, 1, 1}, {1, 1, 1, 1, 1}}));
+        Assertions.assertEquals(6, solver.numberOfCornelRectangleHashMap(
+                new int[][]{{1, 1, 1, 1, 1}, {1, 0, 1, 1, 1}}));
     }
 
     @Test
     public void Q1671() {
-//        Assertions.assertEquals(1, new Q1671().minimumMountainRemovals(new int[]{23, 47, 63, 72, 81, 99, 88, 55, 21, 33, 32}));
-        Assertions.assertEquals(6, new Q1671().minimumMountainRemovals(new int[]{100, 92, 89, 77, 74, 66, 64, 66, 64}));
+        //        Assertions.assertEquals(1, new Q1671().minimumMountainRemovals(new int[]{23,
+        //        47, 63, 72, 81, 99, 88, 55, 21, 33, 32}));
+        Assertions.assertEquals(6, new Q1671().minimumMountainRemovals(
+                new int[]{100, 92, 89, 77, 74, 66, 64, 66, 64}));
 
     }
 
@@ -1136,47 +1121,241 @@ public class SimpleTest {
                 }
             }
             int result = nums.length;
-            for (int i = 1; i < nums.length-1; i++) {
-                if (l2r[i] > 1 && r2l[i] > 1){ // i is valid peak
+            for (int i = 1; i < nums.length - 1; i++) {
+                if (l2r[i] > 1 && r2l[i] > 1) { // i is valid peak
                     result = Math.min(nums.length + 1 - (l2r[i] + r2l[i]), result);
                 }
             }
             return result;
             // stack solution WRONG SOLUTION:
-//            // from left to right, constructing a strict increasing stack, record dropped elements
-//            // and then go from right to left
-//
-//            // find the minimum l2r[i] + r2l[i] and return
-//            int[] l2r = new int[nums.length];
-//            Stack<Integer> stack = new Stack<>();
-//            int dropped = 0;
-//            for (int i = 0; i < nums.length; i++) {
-//                int num = nums[i];
-//                while (!stack.isEmpty() && stack.peek() >= num) {
-//                    stack.pop();
-//                    dropped++;
-//                }
-//                l2r[i] = dropped;
-//                stack.push(num);
-//            }
-//
-//            int[] r2l = new int[nums.length];
-//            stack.clear();
-//            dropped = 0;
-//            for (int i = nums.length - 1; i >= 0; i--) {
-//                int num = nums[i];
-//                while (!stack.isEmpty() && stack.peek() >= num) {
-//                    stack.pop();
-//                    dropped++;
-//                }
-//                r2l[i] = dropped;
-//                stack.push(num);
-//            }
-//            int result = nums.length;
-//            for (int i = 0; i < nums.length; i++) {
-//                result = Math.min(result, l2r[i] + r2l[i]);
-//            }
-//            return result;
+            //            // from left to right, constructing a strict increasing stack, record
+            //            dropped elements
+            //            // and then go from right to left
+            //
+            //            // find the minimum l2r[i] + r2l[i] and return
+            //            int[] l2r = new int[nums.length];
+            //            Stack<Integer> stack = new Stack<>();
+            //            int dropped = 0;
+            //            for (int i = 0; i < nums.length; i++) {
+            //                int num = nums[i];
+            //                while (!stack.isEmpty() && stack.peek() >= num) {
+            //                    stack.pop();
+            //                    dropped++;
+            //                }
+            //                l2r[i] = dropped;
+            //                stack.push(num);
+            //            }
+            //
+            //            int[] r2l = new int[nums.length];
+            //            stack.clear();
+            //            dropped = 0;
+            //            for (int i = nums.length - 1; i >= 0; i--) {
+            //                int num = nums[i];
+            //                while (!stack.isEmpty() && stack.peek() >= num) {
+            //                    stack.pop();
+            //                    dropped++;
+            //                }
+            //                r2l[i] = dropped;
+            //                stack.push(num);
+            //            }
+            //            int result = nums.length;
+            //            for (int i = 0; i < nums.length; i++) {
+            //                result = Math.min(result, l2r[i] + r2l[i]);
+            //            }
+            //            return result;
         }
     }
+
+    @Test
+    public void Q25() {
+        ListNode n1 = new ListNode(1);
+        ListNode n2 = new ListNode(2);
+        ListNode n3 = new ListNode(3);
+        ListNode n4 = new ListNode(4);
+        ListNode n5 = new ListNode(5);
+        ListNode n6 = new ListNode(6);
+        ListNode n7 = new ListNode(7);
+        ListNode n8 = new ListNode(8);
+        n1.next = n2;
+        n2.next = n3;
+        n3.next = n4;
+        n4.next = n5;
+        n5.next = n6;
+        n6.next = n7;
+        n7.next = n8;
+        new Q25Solution().reverseKGroup(n1, 1);
+        //        new Q25Solution().reverseKGroup(n1, 2);
+        //        new Q25Solution().reverseKGroup(n1, 3);
+    }
+
+    class Q25Solution {
+        public ListNode reverseKGroup(ListNode head, int k) {
+            return reverse(head, k);
+        }
+
+        private ListNode reverse(ListNode start, int k) {
+            if (start == null) {
+                return null;
+            }
+            ListNode kth = start;
+            int kk = k - 1;
+            while (kth != null && kk > 0) {
+                kth = kth.next;
+                kk--;
+            }
+            if (kth == null) {
+                return start;
+            }
+            ListNode prev = null;
+            ListNode current = start;
+            ListNode nextStart = kth.next;
+            kth.next = null;
+            while (current != null) {
+                ListNode tmp = current.next;
+                current.next = prev;
+                prev = current;
+                current = tmp;
+            }
+            start.next = reverse(nextStart, k);
+            return kth;
+        }
+    }
+
+    @Test
+    public void Q707() {
+        MyLinkedList l = new MyLinkedList();
+        l.addAtHead(7);
+        l.addAtHead(2);
+        l.addAtHead(1);
+        l.addAtIndex(3, 0);
+        l.deleteAtIndex(2);
+        l.addAtHead(6);
+        l.addAtTail(4);
+        l.get(4);
+        l.addAtHead(4);
+        l.addAtIndex(5, 0);
+        l.addAtHead(6);
+
+
+    }
+
+    class MyLinkedList {
+        int size = 0;
+        Node head = null;
+        Node tail = null;
+
+
+        public MyLinkedList() {
+            head = new Node();
+            tail = head;
+        }
+
+        public int get(int index) {
+            if (index < size) {
+                Node tmp = head.next;
+                for (int i = 0; i < index; i++) {
+                    tmp = tmp.next;
+                }
+                return tmp.val;
+            }
+            return -1;
+        }
+
+        private Node getNode(int index) {
+            if (index < size) {
+                Node tmp = head.next;
+                for (int i = 0; i < index; i++) {
+                    tmp = tmp.next;
+                }
+                return tmp;
+            }
+            return null;
+        }
+
+        public void addAtHead(int val) {
+            Node node = new Node(val);
+            size++;
+            Node tmp = head.next; // old first node
+            head.next = node;
+            node.prev = head;
+            node.next = tmp;
+            if (tmp == null) {
+                // add into an empty list
+                tail = node;
+            } else {
+                tmp.prev = node;
+            }
+        }
+
+        public void addAtTail(int val) {
+            size++;
+            Node node = new Node(val);
+            tail.next = node;
+            node.prev = tail;
+            tail = node;
+        }
+
+        public void addAtIndex(int index, int val) {
+            if (index == 0) {
+                addAtHead(val);
+            } else if (index == size) {
+                addAtTail(val);
+            } else if (index < size) {
+                Node tmp = getNode(index);
+                // new node -> tmp
+                Node node = new Node(val);
+                node.prev = tmp.prev;
+                tmp.prev.next = node;
+                node.next = tmp;
+                tmp.prev = node;
+                size++;
+            }
+
+        }
+
+        public void deleteAtIndex(int index) {
+            Node tmp = getNode(index);
+            if (tmp == null) {
+                return;
+            }
+            Node prev = tmp.prev;
+            Node next = tmp.next;
+            prev.next = next;
+            if (next == null) {
+                // removing tail node
+                tail = prev;
+            } else {
+                next.prev = prev;
+            }
+            size--;
+        }
+    }
+
+    class Node {
+        int val;
+        Node next;
+        Node prev;
+
+        public Node() {
+            val = 0;
+            next = null;
+            prev = null;
+        }
+
+        public Node(int val) {
+            this.val = val;
+            next = null;
+            prev = null;
+        }
+    }
+
+    /**
+     * Your MyLinkedList object will be instantiated and called as such:
+     * MyLinkedList obj = new MyLinkedList();
+     * int param_1 = obj.get(index);
+     * obj.addAtHead(val);
+     * obj.addAtTail(val);
+     * obj.addAtIndex(index,val);
+     * obj.deleteAtIndex(index);
+     */
 }

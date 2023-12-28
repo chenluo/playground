@@ -28,9 +28,13 @@ public class TLSTest {
             String l = null;
             while ((l = bufferedReader.readLine()) != null) {
                 System.out.println(l);
+                if (l.equals("0")) {
+                    break;
+                }
             }
-            printWriter.close();
+            bufferedReader.close();
             inputStreamReader.close();
+            printWriter.close();
         }
     }
 }

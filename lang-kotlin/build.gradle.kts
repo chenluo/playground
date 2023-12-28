@@ -1,20 +1,20 @@
 plugins {
     id("java")
+    id("application")
     kotlin("jvm") version "1.7.10"
-    id("org.springframework.boot") version "2.7.1"
-    id("io.spring.dependency-management") version "1.0.11.RELEASE"
+    alias(versions.plugins.springboot)
+    alias(versions.plugins.springboot.dependency.management)
 }
 
-group = "org.example"
-version = "2202.09.19.2044"
+application {
+    mainClass.set("com.chenluo.test.kotlin.App")
+}
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")
     implementation(kotlin("stdlib-jdk8"))
     // https://mvnrepository.com/artifact/org.mockito/mockito-core
     testImplementation("io.mockk:mockk:1.12.8")
@@ -24,7 +24,13 @@ dependencies {
     implementation("org.springframework.retry:spring-retry:2.0.0")
     implementation("org.springframework:spring-aspects")
 
+}
 
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlinOptions {
+        freeCompilerArgs += "-Xjsr305=strict"
+        jvmTarget = "17"
+    }
 }
 
 tasks.getByName<Test>("test") {

@@ -21,25 +21,21 @@ public class MyServletListener implements ServletRequestListener, ServletContext
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        ServletContextListener.super.contextInitialized(sce);
         logger.info("contextInitialized");
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
-        ServletContextListener.super.contextDestroyed(sce);
         logger.info("contextDestroyed");
     }
 
     @Override
     public void requestDestroyed(ServletRequestEvent sre) {
-        ServletRequestListener.super.requestDestroyed(sre);
         logger.info("requestDestroyed");
     }
 
     @Override
     public void requestInitialized(ServletRequestEvent sre) {
-        ServletRequestListener.super.requestInitialized(sre);
         logger.info("requestInitialized");
     }
 }

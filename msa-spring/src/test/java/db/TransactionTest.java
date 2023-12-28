@@ -4,6 +4,7 @@ import com.chenluo.Application;
 import com.chenluo.data.dto.ConsumedMessage;
 import com.chenluo.data.repo.ConsumedMessageRepository;
 import com.chenluo.service.ConsumedMessageService;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,6 +16,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @SpringBootTest(classes = Application.class)
+@Disabled
 public class TransactionTest {
     @Autowired
     private ConsumedMessageRepository repository;

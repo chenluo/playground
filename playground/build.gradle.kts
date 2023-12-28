@@ -1,14 +1,8 @@
 plugins {
-    id("org.springframework.boot") version "2.7.1"
-    id("io.spring.dependency-management") version "1.0.11.RELEASE"
+    alias(versions.plugins.springboot)
+    alias(versions.plugins.springboot.dependency.management)
     id("java")
     id("application")
-}
-
-group = "com.example.sub"
-version = "0.0.1-SNAPSHOT"
-repositories {
-    mavenCentral()
 }
 
 //jar {
@@ -22,8 +16,6 @@ repositories {
 //}
 
 dependencies {
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.0")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.6.0")
     implementation("org.springframework.boot:spring-boot-starter-web") {
         exclude("org.springframework.boot:spring-boot-starter-logging")
     }
@@ -67,6 +59,7 @@ dependencies {
 // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
     implementation("org.apache.commons:commons-lang3:3.0")
     implementation(project(":tool-logger"))
-
+    // https://mvnrepository.com/artifact/javax.servlet/servlet-api
+    compileOnly("javax.servlet:servlet-api:2.5")
 
 }

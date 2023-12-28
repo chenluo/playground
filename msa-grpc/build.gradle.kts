@@ -3,8 +3,6 @@ plugins {
     id("com.google.protobuf") version "0.9.1"
 }
 
-group = "com.chenluo"
-version = "unspecified"
 
 // IMPORTANT: You probably want the non-SNAPSHOT version of gRPC. Make sure you
 // are looking at a tagged version of the example and not "master"!
@@ -21,8 +19,6 @@ repositories {
 }
 
 dependencies {
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")
     implementation("io.grpc:grpc-protobuf:${grpcVersion}")
     implementation("io.grpc:grpc-services:${grpcVersion}")
     implementation("io.grpc:grpc-stub:${grpcVersion}")

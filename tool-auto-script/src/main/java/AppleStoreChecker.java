@@ -5,7 +5,6 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.ZonedDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,14 +24,14 @@ public class AppleStoreChecker {
         int failCount = 0;
 
         String[] productCodes = {
-//                "MLT63CH/A", // 银色
+                //                "MLT63CH/A", // 银色
                 "MLT53CH/A", // 石墨色
-//                "MLT83CH/A" // 蓝色
+                //                "MLT83CH/A" // 蓝色
         };
         for (int i = 0; i < 1000; i++) {
             try {
                 for (int j = 0; j < productCodes.length; j++) {
-//                    checkRecommend(productCode);
+                    //                    checkRecommend(productCode);
                     check(productCodes[j]);
                 }
                 try {
@@ -50,13 +49,14 @@ public class AppleStoreChecker {
             }
         }
 
-//        sendMail("testSubject", "testBody");
+        //        sendMail("testSubject", "testBody");
     }
 
     private void sendSlackMessage(String message) throws IOException {
-//        curl -X POST -H 'Content-type: application/json' --data '{"text":"Hello, World!"}' https://hooks.slack
-//        .com/services/T0D189UMD/B02JQAG7BSL/DDggdBoSSUZZAFfnCc7JXOWs
-        URL url = new URL("https://hooks.slack.com/services/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");
+        //        curl -X POST -H 'Content-type: application/json' --data '{"text":"Hello, World!"}' https://hooks.slack
+        //        .com/services/T0D189UMD/B02JQAG7BSL/DDggdBoSSUZZAFfnCc7JXOWs
+        URL url = new URL("https://hooks.slack.com/services/T0D189UMD/B02JQAG7BSL" +
+                "/DDggdBoSSUZZAFfnCc7JXOWs");
         HttpURLConnection hc = ((HttpURLConnection) url.openConnection());
         hc.setRequestMethod("POST");
         hc.setDoOutput(true);
@@ -83,26 +83,28 @@ public class AppleStoreChecker {
 
     private void check(String productCode) throws IOException {
         System.out.println("[Check Main Product] start:" + productCode);
-        String url = String.format("https://www.apple.com.cn/shop/fulfillment-messages?pl=true&mt=compact&parts" +
-                ".0=%s&searchNearby=true&store=R401", productCode);
+        String url = String.format(
+                "https://www.apple.com.cn/shop/fulfillment-messages?pl=true&mt=compact&parts" +
+                        ".0=%s&searchNearby=true&store=R401", productCode);
         String content = readContent(url);
         Gson gson = new Gson();
         Map<String, Object> body = ((Map) gson.fromJson(content, HashMap.class).get("body"));
-        List<Map<String, Object>> storeList = (List) ((Map) ((Map<Object, Object>) body.get("content")).get(
-                "pickupMessage")).get("stores");
+        List<Map<String, Object>> storeList =
+                (List) ((Map) ((Map<Object, Object>) body.get("content")).get("pickupMessage")).get(
+                        "stores");
         List<String> availableStore = new ArrayList<>();
 
         ZonedDateTime now = ZonedDateTime.now();
 
         for (Map<String, Object> store : storeList) {
             String storeName = ((String) store.get("storeName"));
-            String availability =
-                    ((String) ((Map<Object, Object>) ((Map<Object, Object>) store.get("partsAvailability")).get(productCode)).get("pickupDisplay"));
+            String availability = ((String) ((Map<Object, Object>) ((Map<Object, Object>) store.get(
+                    "partsAvailability")).get(productCode)).get("pickupDisplay"));
             if (!availability.equals("unavailable")) {
                 System.out.println(availability);
                 System.out.println(storeName);
                 stockToAvailableTime.compute(storeName, (s, lastSeenTime) -> {
-                    if (null == lastSeenTime || lastSeenTime.isBefore(now.minus(60, ChronoUnit.SECONDS))) {
+                    if (null == lastSeenTime || lastSeenTime.isBefore(now.minusSeconds(60))) {
                         availableStore.add(storeName);
                         return now;
                     }
@@ -115,15 +117,18 @@ public class AppleStoreChecker {
         } else {
             System.out.println(availableStore);
 
-            sendSlackMessage(availableStore.stream().reduce((s1, s2) -> s1 + ", " + s2).get() + ", url: " + String.format(productUrlTemplate, productCode));
+            sendSlackMessage(
+                    availableStore.stream().reduce((s1, s2) -> s1 + ", " + s2).get() + ", url: " +
+                            String.format(productUrlTemplate, productCode));
         }
         System.out.println("[Check Main Product] end:" + productCode);
     }
 
     private void checkRecommend(String productCode) throws IOException {
         System.out.println("[Check Recommend Product] start:" + productCode);
-        String url = String.format("https://www.apple.com.cn/shop/pickup-message-recommendations?mt=compact" +
-                "&searchNearby=true&store=R401&product=%s", productCode);
+        String url = String.format(
+                "https://www.apple.com.cn/shop/pickup-message-recommendations?mt=compact" +
+                        "&searchNearby=true&store=R401&product=%s", productCode);
         String content = readContent(url);
         Gson gson = new Gson();
         Map<String, Object> body = ((Map) gson.fromJson(content, HashMap.class).get("body"));
@@ -148,84 +153,84 @@ public class AppleStoreChecker {
 
         int status = con.getResponseCode();
         StringBuffer content = new StringBuffer();
-        try (BufferedReader in = new BufferedReader(
-                new InputStreamReader(con.getInputStream()))) {
+        try (BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()))) {
             String inputLine;
 
             while ((inputLine = in.readLine()) != null) {
                 content.append(inputLine);
             }
         }
-//        con.disconnect();
+        //        con.disconnect();
         return content.toString();
     }
 
-//    private void sendMail(String subject, String body) {
-//        // Recipient's email ID needs to be mentioned.
-//        String to = "chenluo.cn@gmail.com";
-//
-//        // Sender's email ID needs to be mentioned
-//        String from = "chenluo.cn@gmail.com";
-//
-//        // Used to debug SMTP issues
-//        getSession().setDebug(true);
-//
-//        try {
-//            // Create a default MimeMessage object.
-//            MimeMessage message = new MimeMessage(session);
-//
-//            // Set From: header field of the header.
-//            message.setFrom(new InternetAddress(from));
-//
-//            // Set To: header field of the header.
-//            message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-//
-//            // Set Subject: header field
-//            message.setSubject(subject);
-//
-//            // Now set the actual message
-//            message.setText(body);
-//
-//            System.out.println("sending...");
-//            // Send message
-//            Transport.send(message);
-//            System.out.println("Sent message successfully....");
-//        } catch (MessagingException mex) {
-//            mex.printStackTrace();
-//        }
-//    }
+    //    private void sendMail(String subject, String body) {
+    //        // Recipient's email ID needs to be mentioned.
+    //        String to = "chenluo.cn@gmail.com";
+    //
+    //        // Sender's email ID needs to be mentioned
+    //        String from = "chenluo.cn@gmail.com";
+    //
+    //        // Used to debug SMTP issues
+    //        getSession().setDebug(true);
+    //
+    //        try {
+    //            // Create a default MimeMessage object.
+    //            MimeMessage message = new MimeMessage(session);
+    //
+    //            // Set From: header field of the header.
+    //            message.setFrom(new InternetAddress(from));
+    //
+    //            // Set To: header field of the header.
+    //            message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+    //
+    //            // Set Subject: header field
+    //            message.setSubject(subject);
+    //
+    //            // Now set the actual message
+    //            message.setText(body);
+    //
+    //            System.out.println("sending...");
+    //            // Send message
+    //            Transport.send(message);
+    //            System.out.println("Sent message successfully....");
+    //        } catch (MessagingException mex) {
+    //            mex.printStackTrace();
+    //        }
+    //    }
 
-//    private Session getSession() {
-//        if (session == null) {
-//            synchronized (this) {
-//                if (session != null) {
-//                    return session;
-//                }
-//                // Setup mail server
-//                // Get system properties
-//                Properties properties = System.getProperties();
-//                // Assuming you are sending email from through gmails smtp
-//                String host = "smtp.gmail.com";
-//                properties.put("mail.smtp.host", host);
-////               properties.put("mail.smtp.ssl.trust", host);
-//                properties.put("mail.smtp.port", "465");
-//                properties.put("mail.smtp.ssl.enable", "true");
-//                properties.put("mail.smtp.auth", "true");
-////               properties.put("mail.smtp.starttls.enable", "true");
-////               properties.put("mail.smtp.socketFactory.port", "465");
-////               properties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-//
-//                // Get the Session object.// and pass username and password
-//                session = Session.getInstance(properties, new javax.mail.Authenticator() {
-//                    protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
-//                        return new javax.mail.PasswordAuthentication("chenluo.cn@gmail.com", "l0u8o1c3h5enGoogle");
-//
-//                    }
-//                });
-//                return session;
-//            }
-//        }
-//        return session;
-//
-//    }
+    //    private Session getSession() {
+    //        if (session == null) {
+    //            synchronized (this) {
+    //                if (session != null) {
+    //                    return session;
+    //                }
+    //                // Setup mail server
+    //                // Get system properties
+    //                Properties properties = System.getProperties();
+    //                // Assuming you are sending email from through gmails smtp
+    //                String host = "smtp.gmail.com";
+    //                properties.put("mail.smtp.host", host);
+    ////               properties.put("mail.smtp.ssl.trust", host);
+    //                properties.put("mail.smtp.port", "465");
+    //                properties.put("mail.smtp.ssl.enable", "true");
+    //                properties.put("mail.smtp.auth", "true");
+    ////               properties.put("mail.smtp.starttls.enable", "true");
+    ////               properties.put("mail.smtp.socketFactory.port", "465");
+    ////               properties.put("mail.smtp.socketFactory.class", "javax.net.ssl
+    // .SSLSocketFactory");
+    //
+    //                // Get the Session object.// and pass username and password
+    //                session = Session.getInstance(properties, new javax.mail.Authenticator() {
+    //                    protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
+    //                        return new javax.mail.PasswordAuthentication("chenluo.cn@gmail.com", "l0u8o1c3h5enGoogle");
+    //
+    //                    }
+    //                });
+    //                return session;
+    //            }
+    //        }
+    //        return session;
+    //
+    //    }
 }

@@ -1,20 +1,18 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.springframework.boot") version "2.6.13"
-    id("io.spring.dependency-management") version "1.0.15.RELEASE"
-    kotlin("jvm") version "1.6.21"
-    kotlin("plugin.spring") version "1.6.21"
+    alias(versions.plugins.springboot)
+    alias(versions.plugins.springboot.dependency.management)
+    kotlin("jvm") version "1.7.10"
+    kotlin("plugin.spring") version "1.7.10"
 }
 
-group = "com.chenluo"
-version = "0.0.1-SNAPSHOT"
 
 repositories {
     mavenCentral()
 }
 
-extra["springCloudVersion"] = "2021.0.5"
+extra["springCloudVersion"] = "2023.0.0"
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
@@ -35,7 +33,7 @@ dependencyManagement {
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
 }
 

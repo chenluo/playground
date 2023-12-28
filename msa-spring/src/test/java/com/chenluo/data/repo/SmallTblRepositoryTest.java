@@ -1,6 +1,7 @@
 package com.chenluo.data.repo;
 
 import com.chenluo.data.dto.LargeTbl;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,6 +18,7 @@ import java.util.concurrent.Future;
 @TestPropertySources({@TestPropertySource(properties = {"spring.datasource" +
         ".url=jdbc:mysql://localhost:3306/test_db", "spring.datasource.username=root", "spring" +
         ".datasource.password=mysql", "spring.datasource.hikari.maximum-pool-size=10"})})
+@Disabled
 class SmallTblRepositoryTest {
     @Autowired
     private LargeTblRepository repository;

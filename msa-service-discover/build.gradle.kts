@@ -1,11 +1,9 @@
 plugins {
 	java
-	id("org.springframework.boot") version "3.0.1"
-	id("io.spring.dependency-management") version "1.1.0"
+    alias(versions.plugins.springboot)
+    alias(versions.plugins.springboot.dependency.management)
 }
 
-group = "com.chenluo"
-version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {
@@ -13,7 +11,7 @@ repositories {
 	maven { url = uri("https://artifactory-oss.prod.netflix.net/artifactory/maven-oss-candidates") }
 }
 
-extra["springCloudVersion"] = "2022.0.0"
+extra["springCloudVersion"] = "2023.0.0"
 
 dependencies {
 //	implementation("org.springframework.boot:spring-boot-starter-actuator")

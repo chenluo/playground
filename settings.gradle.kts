@@ -2,7 +2,7 @@ rootProject.name = "java-gradle"
 println("executing settings.gradle.kts")
 include("playground")
 include("io-netty")
-include("io-webflux")
+include("msa-webflux")
 include("lang-java")
 include("lang-kotlin")
 include("msa-service")
@@ -29,7 +29,7 @@ include("demo-jpa")
 dependencyResolutionManagement {
     versionCatalogs {
         create("versions") {
-            plugin("springboot", "org.springframework.boot").version("3.0.1")
+            plugin("springboot", "org.springframework.boot").version("3.2.1")
             plugin("springboot-dependency-management",
                 "io.spring.dependency-management").version("1.0.11.RELEASE")
             plugin("flyway", "org.flywaydb.flyway").version("9.8.1")

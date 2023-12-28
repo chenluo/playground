@@ -9,8 +9,6 @@ repositories {
 }
 
 dependencies {
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.0")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.6.0")
     // testImplementation("org.springframework.boot:spring-boot-aop")
     implementation("org.slf4j:slf4j-api:1.7.30")
     // https://mvnrepository.com/artifact/io.netty/netty-all

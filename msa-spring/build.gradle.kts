@@ -1,7 +1,3 @@
-import java.time.Instant
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 plugins {
     alias(versions.plugins.springboot)
@@ -12,16 +8,12 @@ plugins {
     alias(versions.plugins.flyway)
 }
 
-group = "com.chenluo"
-version = Instant.now().toEpochMilli()
 
 application {
     mainClass.set("com.chenluo.Application")
 }
 
 dependencies {
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.2")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.2")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-cache")
 //    implementation("org.springframework.boot:spring-boot-starter-security")
