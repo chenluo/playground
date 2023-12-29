@@ -2,6 +2,10 @@ import java.time.Instant
 
 plugins {
     id("java")
+    kotlin("jvm") version "1.9.20"
+    id("com.google.protobuf") version "0.9.1"
+    kotlin("plugin.spring") version "1.9.20"
+    kotlin("plugin.jpa") version "1.9.20"
 }
 allprojects {
     repositories {

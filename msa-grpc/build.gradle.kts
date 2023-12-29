@@ -1,6 +1,6 @@
 plugins {
     id("java")
-    id("com.google.protobuf") version "0.9.1"
+    id("com.google.protobuf")
 }
 
 

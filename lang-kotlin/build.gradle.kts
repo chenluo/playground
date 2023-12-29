@@ -1,7 +1,5 @@
 plugins {
-    id("java")
     id("application")
-    kotlin("jvm") version "1.7.10"
     alias(versions.plugins.springboot)
     alias(versions.plugins.springboot.dependency.management)
 }
@@ -29,7 +27,7 @@ dependencies {
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs += "-Xjsr305=strict"
-        jvmTarget = "17"
+        jvmTarget = "21"
     }
 }
 
