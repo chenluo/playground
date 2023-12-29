@@ -4,7 +4,6 @@ plugins {
     alias(versions.plugins.springboot.dependency.management)
 }
 
-java.sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {
 	mavenCentral()

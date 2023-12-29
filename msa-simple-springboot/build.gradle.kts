@@ -5,17 +5,10 @@ plugins {
 }
 
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_17
-}
-
-repositories {
-    mavenCentral()
-}
-
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    implementation(project(":tool-logger"))
 }
 
 tasks.withType<Test> {

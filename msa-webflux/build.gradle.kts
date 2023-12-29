@@ -9,9 +9,6 @@ repositories {
     mavenCentral()
 }
 
-configurations.all() {
-    exclude("org.springframework.boot", "spring-boot-starter-logging")
-}
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-webflux")

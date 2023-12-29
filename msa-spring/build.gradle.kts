@@ -25,7 +25,7 @@ dependencies {
     runtimeOnly("mysql:mysql-connector-java:8.0.28")
     implementation("org.flywaydb:flyway-core")
     implementation("org.flywaydb:flyway-mysql")
-    implementation("org.apache.kafka:kafka-clients:2.8.0")
+    implementation("org.apache.kafka:kafka-clients:3.1.0")
     // https://mvnrepository.com/artifact/org.springframework.kafka/spring-kafka
     implementation("org.springframework.kafka:spring-kafka")
     // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
@@ -40,6 +40,7 @@ dependencies {
     testImplementation("org.testcontainers:junit-jupiter:1.18.3")
 
     implementation(project(":msa-base"))
+    implementation(project(":tool-logger"))
 }
 
 

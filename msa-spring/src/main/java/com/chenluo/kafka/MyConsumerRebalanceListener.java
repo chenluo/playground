@@ -2,10 +2,8 @@ package com.chenluo.kafka;
 
 import org.apache.kafka.clients.consumer.ConsumerRebalanceListener;
 import org.apache.kafka.common.TopicPartition;
-import org.apache.logging.log4j.util.Strings;
 
 import java.util.Collection;
-import java.util.stream.Collectors;
 
 public class MyConsumerRebalanceListener implements ConsumerRebalanceListener {
     @Override
@@ -23,8 +21,7 @@ public class MyConsumerRebalanceListener implements ConsumerRebalanceListener {
     }
 
     private String collectToStr(Collection<TopicPartition> partitions) {
-        return Strings.join(
-                partitions.stream().map(TopicPartition::partition).collect(Collectors.toList()),
-                ',');
+        return String.join(",",
+                partitions.stream().map(TopicPartition::partition).map(String::valueOf).toList());
     }
 }
