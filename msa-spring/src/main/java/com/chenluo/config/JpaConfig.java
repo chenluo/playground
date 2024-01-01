@@ -1,6 +1,7 @@
 package com.chenluo.config;
 
 import com.zaxxer.hikari.HikariDataSource;
+
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 
 import javax.sql.DataSource;

@@ -72,8 +72,15 @@ public class CanvasDisplay {
 
         void mov(int targetRow, int targetCol) {
             System.out.println(
-                    "Move from [" + this.posRow + "," + this.posColumn + "] to [" + targetRow +
-                            "," + targetCol + "]");
+                    "Move from ["
+                            + this.posRow
+                            + ","
+                            + this.posColumn
+                            + "] to ["
+                            + targetRow
+                            + ","
+                            + targetCol
+                            + "]");
             posRow = targetRow;
             posColumn = targetCol;
             System.out.println("repainting");

@@ -7,8 +7,7 @@ import java.time.LocalDateTime;
 
 @Table("reminder")
 public class Reminder {
-    @Id
-    private Long id;
+    @Id private Long id;
     private int outboxMsgId;
     private String supplierCorpId;
     private int type;
@@ -18,12 +17,18 @@ public class Reminder {
     private String version;
     private String sortCol;
 
-    public Reminder() {
-    }
+    public Reminder() {}
 
-    public Reminder(Long id, int outboxMsgId, String supplierCorpId, int type,
-                    LocalDateTime remindTime, String creator, int isTarget, String version,
-                    String sortCol) {
+    public Reminder(
+            Long id,
+            int outboxMsgId,
+            String supplierCorpId,
+            int type,
+            LocalDateTime remindTime,
+            String creator,
+            int isTarget,
+            String version,
+            String sortCol) {
         this.id = id;
         this.outboxMsgId = outboxMsgId;
         this.supplierCorpId = supplierCorpId;

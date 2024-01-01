@@ -1,4 +1,3 @@
 package com.chenluo.feigninterface;
 
-public class Store {
-}
+public class Store {}

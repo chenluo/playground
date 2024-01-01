@@ -29,8 +29,11 @@ public class SpringKafkaAnnotationConsumers {
         }
     }
 
-    @KafkaListener(topics = "test-topic", groupId = "spring-kafka-b", concurrency = "1", filter =
-            "recordFilterStrategy1")
+    @KafkaListener(
+            topics = "test-topic",
+            groupId = "spring-kafka-b",
+            concurrency = "1",
+            filter = "recordFilterStrategy1")
     //    public void consumeBlockRetry(ConsumerRecord<String, String> record, Acknowledgment ack)
     public void consumeBlockRetry(ConsumerRecord<String, String> record)
             throws InterruptedException {
@@ -46,8 +49,10 @@ public class SpringKafkaAnnotationConsumers {
     }
 
     //    @DltHandler
-    public void dlt(String message, @Header(KafkaHeaders.RECEIVED_TOPIC) String topic,
-                    @Header(KafkaHeaders.ORIGINAL_TOPIC) String originTopic) {
+    public void dlt(
+            String message,
+            @Header(KafkaHeaders.RECEIVED_TOPIC) String topic,
+            @Header(KafkaHeaders.ORIGINAL_TOPIC) String originTopic) {
         System.out.println("dlt %s, %s".formatted(message, topic));
     }
 }

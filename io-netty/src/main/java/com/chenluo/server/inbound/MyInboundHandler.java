@@ -8,6 +8,11 @@
 
 package com.chenluo.server.inbound;
 
+import static io.netty.handler.codec.http.HttpHeaderNames.*;
+import static io.netty.handler.codec.http.HttpHeaderValues.*;
+import static io.netty.handler.codec.http.HttpHeaderValues.KEEP_ALIVE;
+import static io.netty.handler.codec.http.HttpResponseStatus.OK;
+
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
@@ -17,15 +22,11 @@ import io.netty.handler.codec.http.DefaultFullHttpResponse;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpObject;
 import io.netty.handler.codec.http.HttpRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.nio.charset.StandardCharsets;
-
-import static io.netty.handler.codec.http.HttpHeaderNames.*;
-import static io.netty.handler.codec.http.HttpHeaderValues.KEEP_ALIVE;
-import static io.netty.handler.codec.http.HttpHeaderValues.*;
-import static io.netty.handler.codec.http.HttpResponseStatus.OK;
 
 public class MyInboundHandler extends SimpleChannelInboundHandler<HttpObject> {
     Logger logger = LoggerFactory.getLogger(MyInboundHandler.class);
@@ -38,8 +39,12 @@ public class MyInboundHandler extends SimpleChannelInboundHandler<HttpObject> {
 
             //            boolean keepAlive = HttpUtil.isKeepAlive(req);
             boolean keepAlive = false;
-            FullHttpResponse response = new DefaultFullHttpResponse(req.protocolVersion(), OK,
-                    Unpooled.wrappedBuffer("Hello World!".getBytes(StandardCharsets.UTF_8)));
+            FullHttpResponse response =
+                    new DefaultFullHttpResponse(
+                            req.protocolVersion(),
+                            OK,
+                            Unpooled.wrappedBuffer(
+                                    "Hello World!".getBytes(StandardCharsets.UTF_8)));
             response.headers()
                     .set(CONTENT_TYPE, TEXT_PLAIN)
                     .setInt(CONTENT_LENGTH, response.content().readableBytes());
@@ -53,13 +58,16 @@ public class MyInboundHandler extends SimpleChannelInboundHandler<HttpObject> {
                 response.headers().set(CONNECTION, CLOSE);
             }
 
-            ChannelFuture f = ctx.write(response).addListener(future -> {
-                if (future.isSuccess()) {
-                    logger.info("success write response");
-                } else {
-                    logger.error("failed write response");
-                }
-            });
+            ChannelFuture f =
+                    ctx.write(response)
+                            .addListener(
+                                    future -> {
+                                        if (future.isSuccess()) {
+                                            logger.info("success write response");
+                                        } else {
+                                            logger.error("failed write response");
+                                        }
+                                    });
 
             if (!keepAlive) {
                 f.addListener(ChannelFutureListener.CLOSE);

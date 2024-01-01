@@ -1,6 +1,7 @@
 package com.chenluo.aspect;
 
 import com.chenluo.annotation.MyAnnotation;
+
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.slf4j.Logger;
@@ -13,17 +14,20 @@ public class MyAspect {
     Logger logger = LoggerFactory.getLogger(MyAspect.class);
 
     @Pointcut(value = "@annotation(myAnnotation)")
-    public void myAnnotationMethod(MyAnnotation myAnnotation) {
-    }
+    public void myAnnotationMethod(MyAnnotation myAnnotation) {}
 
-    @AfterReturning(value = "myAnnotationMethod(myAnnotation)", returning = "result", argNames =
-            "myAnnotation,result")
+    @AfterReturning(
+            value = "myAnnotationMethod(myAnnotation)",
+            returning = "result",
+            argNames = "myAnnotation,result")
     public void afterReturning(MyAnnotation myAnnotation, Object result) {
         logger.info("afterReturning");
     }
 
-    @AfterThrowing(value = "myAnnotationMethod(myAnnotation)", throwing = "e", argNames =
-            "myAnnotation,e")
+    @AfterThrowing(
+            value = "myAnnotationMethod(myAnnotation)",
+            throwing = "e",
+            argNames = "myAnnotation,e")
     public void afterThrowing(MyAnnotation myAnnotation, Throwable e) {
         logger.info("afterThrowing");
     }

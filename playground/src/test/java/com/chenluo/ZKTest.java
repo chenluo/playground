@@ -17,14 +17,17 @@ import java.util.concurrent.*;
 // @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ZKTest {
     private final ExecutorService executor =
-            new ThreadPoolExecutor(10, 100, 10, TimeUnit.SECONDS, new LinkedBlockingDeque<>(10000),
+            new ThreadPoolExecutor(
+                    10,
+                    100,
+                    10,
+                    TimeUnit.SECONDS,
+                    new LinkedBlockingDeque<>(10000),
                     new ThreadPoolExecutor.CallerRunsPolicy());
     private final Logger logger = LoggerFactory.getLogger(ZKTest.class);
-    @LocalServerPort
-    private int port;
+    @LocalServerPort private int port;
     private URL base;
-    @Autowired
-    private TestRestTemplate template;
+    @Autowired private TestRestTemplate template;
 
     @BeforeEach
     public void setUp() throws MalformedURLException {
@@ -36,14 +39,15 @@ public class ZKTest {
         CountDownLatch latch = new CountDownLatch(count);
         for (int i = 0; i < count; i++) {
             try {
-                executor.submit(() -> {
-                    ResponseEntity<String> response =
-                            template.getForEntity(base.toString() + url, String.class);
-                    if (!response.getStatusCode().equals(HttpStatus.OK)) {
-                        logger.error("failed", response.getStatusCode());
-                    }
-                    latch.countDown();
-                });
+                executor.submit(
+                        () -> {
+                            ResponseEntity<String> response =
+                                    template.getForEntity(base.toString() + url, String.class);
+                            if (!response.getStatusCode().equals(HttpStatus.OK)) {
+                                logger.error("failed", response.getStatusCode());
+                            }
+                            latch.countDown();
+                        });
             } catch (RejectedExecutionException e) {
                 logger.info("failed to execute: {}", i);
             }

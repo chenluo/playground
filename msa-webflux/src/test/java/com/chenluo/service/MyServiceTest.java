@@ -1,22 +1,20 @@
 package com.chenluo.service;
 
 import org.junit.jupiter.api.Test;
+
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 class MyServiceTest {
 
     @Test
-    void findById() {
-    }
+    void findById() {}
 
     @Test
-    void removeById() {
-    }
+    void removeById() {}
 
     @Test
-    void findAndRemove() {
-    }
+    void findAndRemove() {}
 
     @Test
     void testReactor() {

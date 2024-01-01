@@ -9,8 +9,7 @@ public class Singleton {
     private static Singleton instance = null;
     private final int[] heap = new int[1_000_000_000];
 
-    private Singleton() {
-    }
+    private Singleton() {}
 
     public static Singleton getInstance() {
         Thread.yield();
@@ -30,13 +29,14 @@ public class Singleton {
     public static void main(String[] args) throws InterruptedException {
         ExecutorService executorService = Executors.newFixedThreadPool(100);
         for (int i = 0; i < 200; i++) {
-            Future<?> submit = executorService.submit(() -> {
-                System.out.println(Singleton.getInstance().init());
-            });
+            Future<?> submit =
+                    executorService.submit(
+                            () -> {
+                                System.out.println(Singleton.getInstance().init());
+                            });
         }
         executorService.shutdown();
-        while (!executorService.awaitTermination(100, TimeUnit.SECONDS)) {
-        }
+        while (!executorService.awaitTermination(100, TimeUnit.SECONDS)) {}
 
         System.out.println("exit");
     }

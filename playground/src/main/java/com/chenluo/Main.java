@@ -1,6 +1,7 @@
 package com.chenluo;
 
 import com.google.common.base.Supplier;
+
 import org.openjdk.jol.info.ClassLayout;
 import org.openjdk.jol.info.GraphLayout;
 
@@ -28,10 +29,11 @@ public class Main {
         System.out.println(isoZonedDatetimeString);
         System.out.println(ZonedDateTime.parse(isoZonedDatetimeString));
         String s = "s";
-        Comparator<String> stringStringBiConsumer = (a, b) -> {
-            System.out.println(args[0]);
-            return 1;
-        };
+        Comparator<String> stringStringBiConsumer =
+                (a, b) -> {
+                    System.out.println(args[0]);
+                    return 1;
+                };
         new Main().testLambda(s);
         s = "ss";
         System.out.println(s);
@@ -41,10 +43,11 @@ public class Main {
     }
 
     public void testLambda(String s) {
-        Supplier<Integer> integerSupplier = () -> {
-            System.out.println(s);
-            return 1;
-        };
+        Supplier<Integer> integerSupplier =
+                () -> {
+                    System.out.println(s);
+                    return 1;
+                };
     }
 
     /**
@@ -114,11 +117,14 @@ public class Main {
         for (int i = 1; i < word1.length() + 1; i++) {
             for (int j = 1; j < word2.length() + 1; j++) {
                 if (word1.charAt(i - 1) == word2.charAt(j - 1)) {
-                    dp[i][j] = Math.min(dp[i - 1][j - 1],
-                            Math.min(dp[i - 1][j] + 1, dp[i][j - 1] + 1));
+                    dp[i][j] =
+                            Math.min(
+                                    dp[i - 1][j - 1], Math.min(dp[i - 1][j] + 1, dp[i][j - 1] + 1));
                 } else {
-                    dp[i][j] = Math.min(dp[i - 1][j - 1] + 2,
-                            Math.min(dp[i - 1][j] + 1, dp[i][j - 1] + 1));
+                    dp[i][j] =
+                            Math.min(
+                                    dp[i - 1][j - 1] + 2,
+                                    Math.min(dp[i - 1][j] + 1, dp[i][j - 1] + 1));
                 }
             }
         }
@@ -137,45 +143,53 @@ public class Main {
         }
 
         ExecutorService executor =
-                new ThreadPoolExecutor(10, 20, 10, TimeUnit.SECONDS, new ArrayBlockingQueue<>(10),
+                new ThreadPoolExecutor(
+                        10,
+                        20,
+                        10,
+                        TimeUnit.SECONDS,
+                        new ArrayBlockingQueue<>(10),
                         new ThreadPoolExecutor.AbortPolicy());
-        Runnable t1 = () -> {
-            int count = 1;
-            while (count-- != 0) {
-                synchronized (lock) {
-                    System.out.println(ClassLayout.parseInstance(lock).toPrintable());
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                        Thread.interrupted();
+        Runnable t1 =
+                () -> {
+                    int count = 1;
+                    while (count-- != 0) {
+                        synchronized (lock) {
+                            System.out.println(ClassLayout.parseInstance(lock).toPrintable());
+                            try {
+                                Thread.sleep(100);
+                            } catch (InterruptedException e) {
+                                Thread.interrupted();
+                            }
+                        }
                     }
-                }
-            }
-        };
+                };
 
-        Callable<Boolean> callable = () -> {
-            try {
-                t1.run();
-                return true;
-            } catch (Exception e) {
-                System.out.println(e);
-                return false;
-            }
-        };
-
-        Runnable t2 = () -> {
-            int count = 1;
-            while (count-- != 0) {
-                synchronized (lock) {
-                    System.out.println(ClassLayout.parseInstance(lock).toPrintable());
+        Callable<Boolean> callable =
+                () -> {
                     try {
-                        Thread.sleep(200);
-                    } catch (InterruptedException e) {
-                        Thread.interrupted();
+                        t1.run();
+                        return true;
+                    } catch (Exception e) {
+                        System.out.println(e);
+                        return false;
                     }
-                }
-            }
-        };
+                };
+
+        Runnable t2 =
+                () -> {
+                    int count = 1;
+                    while (count-- != 0) {
+                        synchronized (lock) {
+                            System.out.println(ClassLayout.parseInstance(lock).toPrintable());
+                            try {
+                                Thread.sleep(200);
+                            } catch (InterruptedException e) {
+                                Thread.interrupted();
+                            }
+                        }
+                    }
+                };
 
         executor.execute(t1);
         executor.execute(t2);
@@ -442,8 +456,10 @@ public class Main {
             for (int i = 1; i < prices.length; i++) { // iter i sell ops
                 for (int j = 0; j < prices.length; j++) { // iter j sell points/days
                     for (int k = 0; k < j; k++) {
-                        dp[i][j] = Math.max(dp[i - 1][k],
-                                Math.max(dp[i - 1][k] + prices[j] - prices[k], dp[i][j]));
+                        dp[i][j] =
+                                Math.max(
+                                        dp[i - 1][k],
+                                        Math.max(dp[i - 1][k] + prices[j] - prices[k], dp[i][j]));
                     }
 
                     if (dp[i][j] > result) {
@@ -578,8 +594,10 @@ class Solution {
         for (int i = 1; i < prices.length; i++) { // iter i sell ops
             for (int j = 0; j < prices.length; j++) { // iter j sell points/days
                 for (int k = 0; k < j; k++) {
-                    dp[i][j] = Math.max(dp[i - 1][k],
-                            Math.max(dp[i - 1][k] + prices[j] - prices[k], dp[i][j]));
+                    dp[i][j] =
+                            Math.max(
+                                    dp[i - 1][k],
+                                    Math.max(dp[i - 1][k] + prices[j] - prices[k], dp[i][j]));
                 }
 
                 if (dp[i][j] > result) {

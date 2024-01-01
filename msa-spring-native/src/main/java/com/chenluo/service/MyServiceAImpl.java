@@ -18,12 +18,10 @@ import org.springframework.stereotype.Service;
 public class MyServiceAImpl implements InitializingBean, ApplicationContextAware {
     private ApplicationContext applicationContext;
 
-    public MyServiceAImpl() {
-    }
+    public MyServiceAImpl() {}
 
     @Override
-    public void afterPropertiesSet() throws Exception {
-    }
+    public void afterPropertiesSet() throws Exception {}
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {

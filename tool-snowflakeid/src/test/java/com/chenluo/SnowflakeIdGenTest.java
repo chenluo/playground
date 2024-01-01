@@ -39,11 +39,12 @@ class SnowflakeIdGenTest {
         for (int i = 0; i < instance; i++) {
             SnowflakeIdGen gen = new SnowflakeIdGen(connectionString);
             for (int j = 0; j < thread; j++) {
-                executor.submit(() -> {
-                    for (int k = 0; k < cnt; k++) {
-                        generated.put(gen.nextId(), 1);
-                    }
-                });
+                executor.submit(
+                        () -> {
+                            for (int k = 0; k < cnt; k++) {
+                                generated.put(gen.nextId(), 1);
+                            }
+                        });
             }
         }
         executor.shutdown();

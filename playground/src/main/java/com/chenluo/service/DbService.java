@@ -2,6 +2,7 @@ package com.chenluo.service;
 
 import com.chenluo.db.UserDo;
 import com.chenluo.db.UserRepo;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -78,7 +79,8 @@ public class DbService {
             if (i > 50) {
                 throw new RuntimeException("manual exception.");
             }
-            namedParameterJdbcTemplate.getJdbcOperations()
+            namedParameterJdbcTemplate
+                    .getJdbcOperations()
                     .update("insert into testTbl(v) values(?)", String.valueOf(i));
         }
     }

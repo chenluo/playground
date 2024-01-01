@@ -2,6 +2,7 @@ package com.chenluo.data.repo;
 
 import com.chenluo.TestBase;
 import com.chenluo.data.dto.LargeTbl;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,8 +15,7 @@ import java.util.concurrent.Future;
 
 @SpringBootTest
 class SmallTblRepositoryTest extends TestBase {
-    @Autowired
-    private LargeTblRepository repository;
+    @Autowired private LargeTblRepository repository;
     private final int amount = 1_000;
 
     @Test
@@ -53,16 +53,18 @@ class SmallTblRepositoryTest extends TestBase {
         stopWatch.start();
         List<Future> futures = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            futures.add(CompletableFuture.runAsync(() -> {
-                List<LargeTbl> batch = new ArrayList<>();
-                for (int j = 0; j < amount / 500; j++) {
-                    for (int k = 0; k < 500; k++) {
-                        batch.add(new LargeTbl());
-                    }
-                    repository.saveAll(batch);
-                    batch.clear();
-                }
-            }));
+            futures.add(
+                    CompletableFuture.runAsync(
+                            () -> {
+                                List<LargeTbl> batch = new ArrayList<>();
+                                for (int j = 0; j < amount / 500; j++) {
+                                    for (int k = 0; k < 500; k++) {
+                                        batch.add(new LargeTbl());
+                                    }
+                                    repository.saveAll(batch);
+                                    batch.clear();
+                                }
+                            }));
         }
         for (Future future : futures) {
             future.get();

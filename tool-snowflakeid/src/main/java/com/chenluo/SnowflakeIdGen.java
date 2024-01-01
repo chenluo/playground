@@ -26,8 +26,11 @@ public class SnowflakeIdGen {
         curator.start();
         try {
             String prefix = "/snowflake/machineId-";
-            String machineId = curator.create().creatingParentContainersIfNeeded()
-                    .withMode(CreateMode.EPHEMERAL_SEQUENTIAL).forPath(prefix, new byte[0]);
+            String machineId =
+                    curator.create()
+                            .creatingParentContainersIfNeeded()
+                            .withMode(CreateMode.EPHEMERAL_SEQUENTIAL)
+                            .forPath(prefix, new byte[0]);
             String no = machineId.substring(prefix.length());
             setMachineId(Long.parseLong(no));
         } catch (Exception e) {

@@ -44,8 +44,11 @@ public class VanillaEchoServer {
                     if (key.isReadable()) {
                         readReadyCount++;
                         System.out.println(
-                                Strings.repeat('-', 10) + "no. " + readReadyCount + " ready read" +
-                                        Strings.repeat('-', 10));
+                                Strings.repeat('-', 10)
+                                        + "no. "
+                                        + readReadyCount
+                                        + " ready read"
+                                        + Strings.repeat('-', 10));
                         SocketChannel client = null;
                         try {
                             client = (SocketChannel) key.channel();

@@ -2,6 +2,7 @@ package com.chenluo;
 
 import com.chenluo.data.dto.Reminder;
 import com.chenluo.data.repo.ReminderRepository;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -32,8 +33,7 @@ public class ReminderTest {
     static KafkaContainer kafkaContainer =
             new KafkaContainer(DockerImageName.parse("confluentinc/cp-kafka:latest"));
 
-    @Autowired
-    private ReminderRepository reminderRepository;
+    @Autowired private ReminderRepository reminderRepository;
 
     @DynamicPropertySource
     static void kafkaProperties(DynamicPropertyRegistry registry) {
@@ -41,8 +41,8 @@ public class ReminderTest {
         kafkaContainer.start();
         registry.add("spring.kafka.bootstrap-servers", kafkaContainer::getBootstrapServers);
         registry.add("spring.datasource.url", () -> mySQLContainer.getJdbcUrl());
-        registry.add("spring.datasource.driverClassName",
-                () -> mySQLContainer.getDriverClassName());
+        registry.add(
+                "spring.datasource.driverClassName", () -> mySQLContainer.getDriverClassName());
         registry.add("spring.datasource.username", () -> mySQLContainer.getUsername());
         registry.add("spring.datasource.password", () -> mySQLContainer.getPassword());
         registry.add("spring.datasource.flyway.enabled", () -> "true");
@@ -52,35 +52,83 @@ public class ReminderTest {
     @BeforeAll
     public void setup() {
         reminderRepository.save(
-                new Reminder(null, 1, "corp", 1, LocalDateTime.now(), "user", 1, "1",
+                new Reminder(
+                        null,
+                        1,
+                        "corp",
+                        1,
+                        LocalDateTime.now(),
+                        "user",
+                        1,
+                        "1",
                         String.valueOf(
-                                LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli() %
-                                        10000000)));
+                                LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()
+                                        % 10000000)));
         reminderRepository.save(
-                new Reminder(null, 1, "corp", 2, LocalDateTime.now(), "user", 1, "1",
+                new Reminder(
+                        null,
+                        1,
+                        "corp",
+                        2,
+                        LocalDateTime.now(),
+                        "user",
+                        1,
+                        "1",
                         String.valueOf(
-                                LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli() %
-                                        10000000)));
+                                LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()
+                                        % 10000000)));
         reminderRepository.save(
-                new Reminder(null, 1, "corp", 3, LocalDateTime.now(), "user", 1, "1",
+                new Reminder(
+                        null,
+                        1,
+                        "corp",
+                        3,
+                        LocalDateTime.now(),
+                        "user",
+                        1,
+                        "1",
                         String.valueOf(
-                                LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli() %
-                                        10000000)));
+                                LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()
+                                        % 10000000)));
         reminderRepository.save(
-                new Reminder(null, 2, "corp", 2, LocalDateTime.now(), "user", 1, "1",
+                new Reminder(
+                        null,
+                        2,
+                        "corp",
+                        2,
+                        LocalDateTime.now(),
+                        "user",
+                        1,
+                        "1",
                         String.valueOf(
-                                LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli() %
-                                        10000000)));
+                                LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()
+                                        % 10000000)));
         reminderRepository.save(
-                new Reminder(null, 2, "corp", 3, LocalDateTime.now(), "user", 1, "1",
+                new Reminder(
+                        null,
+                        2,
+                        "corp",
+                        3,
+                        LocalDateTime.now(),
+                        "user",
+                        1,
+                        "1",
                         String.valueOf(
-                                LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli() %
-                                        10000000)));
+                                LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()
+                                        % 10000000)));
         reminderRepository.save(
-                new Reminder(null, 3, "corp", 3, LocalDateTime.now(), "user", 1, "1",
+                new Reminder(
+                        null,
+                        3,
+                        "corp",
+                        3,
+                        LocalDateTime.now(),
+                        "user",
+                        1,
+                        "1",
                         String.valueOf(
-                                LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli() %
-                                        10000000)));
+                                LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli()
+                                        % 10000000)));
     }
 
     @AfterAll
@@ -89,8 +137,7 @@ public class ReminderTest {
     }
 
     @Test
-    public void start() {
-    }
+    public void start() {}
 
     @Test
     public void testFindType1() {

@@ -23,38 +23,41 @@ public class ESDataMocker {
 
         ExecutorService executorService = Executors.newFixedThreadPool(threadCount);
         for (int i = 0; i < threadCount; i++) {
-            executorService.submit(() -> {
-                int failCount = 0;
-                for (int j = 0; j < totalDocCount; j++) {
-                    if ((j + 1) % 1000 == 0) {
-                        System.out.println(
-                                Thread.currentThread().getName() + ": progress " + j + "/" +
-                                        totalDocCount);
-                    }
-                    try {
-                        postData();
-                        //                try {
-                        //                    Thread.sleep(1);
-                        //                } catch (InterruptedException e) {
-                        //                    e.printStackTrace();
-                        //                }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        failCount++;
-                        if (failCount > 10) {
-                            System.out.println("[Main] failed too many times.");
-                            break;
+            executorService.submit(
+                    () -> {
+                        int failCount = 0;
+                        for (int j = 0; j < totalDocCount; j++) {
+                            if ((j + 1) % 1000 == 0) {
+                                System.out.println(
+                                        Thread.currentThread().getName()
+                                                + ": progress "
+                                                + j
+                                                + "/"
+                                                + totalDocCount);
+                            }
+                            try {
+                                postData();
+                                //                try {
+                                //                    Thread.sleep(1);
+                                //                } catch (InterruptedException e) {
+                                //                    e.printStackTrace();
+                                //                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                failCount++;
+                                if (failCount > 10) {
+                                    System.out.println("[Main] failed too many times.");
+                                    break;
+                                }
+                            }
                         }
-                    }
-                }
-                latch.countDown();
-            });
+                        latch.countDown();
+                    });
         }
         try {
             latch.await();
             executorService.shutdown();
-            while (!executorService.awaitTermination(1000, TimeUnit.MILLISECONDS)) {
-            }
+            while (!executorService.awaitTermination(1000, TimeUnit.MILLISECONDS)) {}
 
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
@@ -70,8 +73,9 @@ public class ESDataMocker {
         httpURLConnection.setDoInput(true);
         httpURLConnection.setUseCaches(false);
 
-        String authHeader = Base64.getEncoder()
-                .encodeToString("elastic:elastic".getBytes(StandardCharsets.UTF_8));
+        String authHeader =
+                Base64.getEncoder()
+                        .encodeToString("elastic:elastic".getBytes(StandardCharsets.UTF_8));
 
         httpURLConnection.setRequestProperty("Content-type", "application/json;utf-8");
         httpURLConnection.setRequestProperty("Authorization", "Basic " + authHeader);
@@ -86,7 +90,8 @@ public class ESDataMocker {
             String keywordField = UUID.randomUUID().toString();
             docList.add(String.format(docTemplate, textField, keywordField));
         }
-        stringBuilder.append(String.join(System.lineSeparator(), docList))
+        stringBuilder
+                .append(String.join(System.lineSeparator(), docList))
                 .append(System.lineSeparator());
 
         try (OutputStream outputStream = httpURLConnection.getOutputStream()) {
@@ -112,10 +117,16 @@ public class ESDataMocker {
         int leftLimit = 48; // numeral '0'
         int rightLimit = 122; // letter 'z'
 
-        String generatedString = ThreadLocalRandom.current().ints(leftLimit, rightLimit + 1)
-                .map(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97) ? i : 32).limit(length)
-                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-                .toString();
+        String generatedString =
+                ThreadLocalRandom.current()
+                        .ints(leftLimit, rightLimit + 1)
+                        .map(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97) ? i : 32)
+                        .limit(length)
+                        .collect(
+                                StringBuilder::new,
+                                StringBuilder::appendCodePoint,
+                                StringBuilder::append)
+                        .toString();
         return generatedString;
     }
 }

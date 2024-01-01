@@ -1,18 +1,23 @@
 package com.chenluo.java.learn.security;
 
+import java.security.*;
+import java.util.*;
+
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
-import java.security.*;
-import java.util.*;
 
 public class Security {
     private static final String originalMsg = "content to hash";
 
     public static void main(String[] args)
-            throws NoSuchAlgorithmException, SignatureException, InvalidKeyException,
-                   NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
+            throws NoSuchAlgorithmException,
+                    SignatureException,
+                    InvalidKeyException,
+                    NoSuchPaddingException,
+                    IllegalBlockSizeException,
+                    BadPaddingException {
         Security security = new Security();
         security.msgDigest();
         security.msgSig();
@@ -27,13 +32,18 @@ public class Security {
                 "digest via SHA-256: %s".formatted(Base64.getEncoder().encodeToString(digest)));
 
         byte[] changed = instance.digest((originalMsg + "slight change").getBytes());
-        System.out.println("[changed] digest via SHA-256: %s".formatted(
-                Base64.getEncoder().encodeToString(changed)));
+        System.out.println(
+                "[changed] digest via SHA-256: %s"
+                        .formatted(Base64.getEncoder().encodeToString(changed)));
     }
 
     private void msgSig()
-            throws NoSuchAlgorithmException, InvalidKeyException, SignatureException,
-                   NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
+            throws NoSuchAlgorithmException,
+                    InvalidKeyException,
+                    SignatureException,
+                    NoSuchPaddingException,
+                    IllegalBlockSizeException,
+                    BadPaddingException {
         KeyPairGenerator rsa = KeyPairGenerator.getInstance("RSA");
         rsa.initialize(2048);
         KeyPair rsaKeyPair = rsa.generateKeyPair();
@@ -42,8 +52,9 @@ public class Security {
         sigInst.initSign(rsaKeyPair.getPrivate());
         sigInst.update(originalMsg.getBytes());
         byte[] sig = sigInst.sign();
-        System.out.println("computed sig by private key: %s".formatted(
-                Base64.getEncoder().encodeToString(sig)));
+        System.out.println(
+                "computed sig by private key: %s"
+                        .formatted(Base64.getEncoder().encodeToString(sig)));
 
         Signature verifyInst = Signature.getInstance("SHA256withRSA");
         verifyInst.initVerify(rsaKeyPair.getPublic());
@@ -66,17 +77,23 @@ public class Security {
         rsaCipher.update(encrypted);
         byte[] decrypted = rsaCipher.doFinal();
         System.out.println("digest: %s".formatted(Base64.getEncoder().encodeToString(digest)));
-        System.out.println("encrypted from digest -> signature: %s".formatted(
-                Base64.getEncoder().encodeToString(encrypted)));
-        System.out.println("decrypted from signature -> digest: %s".formatted(
-                Base64.getEncoder().encodeToString(decrypted)));
-        System.out.println("decrypted from signature is equal to digest? %s".formatted(
-                Arrays.equals(decrypted, digest)));
+        System.out.println(
+                "encrypted from digest -> signature: %s"
+                        .formatted(Base64.getEncoder().encodeToString(encrypted)));
+        System.out.println(
+                "decrypted from signature -> digest: %s"
+                        .formatted(Base64.getEncoder().encodeToString(decrypted)));
+        System.out.println(
+                "decrypted from signature is equal to digest? %s"
+                        .formatted(Arrays.equals(decrypted, digest)));
     }
 
     private void encryptAndDecryptRSA()
-            throws InvalidKeyException, IllegalBlockSizeException, BadPaddingException,
-                   NoSuchPaddingException, NoSuchAlgorithmException {
+            throws InvalidKeyException,
+                    IllegalBlockSizeException,
+                    BadPaddingException,
+                    NoSuchPaddingException,
+                    NoSuchAlgorithmException {
         String msgToEncrypt = "";
         for (int i = 0; i < 1000; i++) {
             msgToEncrypt += UUID.randomUUID().toString();
@@ -92,7 +109,9 @@ public class Security {
         int originalLength = msgToEncrypt.getBytes().length;
         int chunkSizeWhenEncrypt = 245; // for rsa 2048
         while (offset < originalLength) {
-            rsaCipher.update(msgToEncrypt.getBytes(), offset,
+            rsaCipher.update(
+                    msgToEncrypt.getBytes(),
+                    offset,
                     Math.min(chunkSizeWhenEncrypt, originalLength - offset));
             for (byte b : rsaCipher.doFinal()) {
                 encrypted.add(b);
@@ -123,7 +142,8 @@ public class Security {
         }
         String decryptedString = new String(bytes);
         System.out.println(decryptedString);
-        System.out.println("decrypted string and original string is equal? %s".formatted(
-                decryptedString.equals(msgToEncrypt)));
+        System.out.println(
+                "decrypted string and original string is equal? %s"
+                        .formatted(decryptedString.equals(msgToEncrypt)));
     }
 }

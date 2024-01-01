@@ -5,6 +5,7 @@ import com.chenluo.TestBase;
 import com.chenluo.data.dto.ConsumedMessage;
 import com.chenluo.data.repo.ConsumedMessageRepository;
 import com.chenluo.service.ConsumedMessageService;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +20,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 @SpringBootTest(classes = Application.class)
 public class TransactionTest extends TestBase {
     private static final int COUNT = 10;
-    @Autowired
-    private ConsumedMessageRepository repository;
-    @Autowired
-    private ConsumedMessageService service;
+    @Autowired private ConsumedMessageRepository repository;
+    @Autowired private ConsumedMessageService service;
     private final ExecutorService executorService = Executors.newFixedThreadPool(4);
 
     @Test
@@ -34,10 +33,11 @@ public class TransactionTest extends TestBase {
         AtomicInteger executed = new AtomicInteger();
 
         for (int i = 0; i < COUNT; i++) {
-            executorService.execute(() -> {
-                executed.incrementAndGet();
-                service.increament(uuid);
-            });
+            executorService.execute(
+                    () -> {
+                        executed.incrementAndGet();
+                        service.increament(uuid);
+                    });
         }
 
         executorService.shutdown();
@@ -55,16 +55,18 @@ public class TransactionTest extends TestBase {
         AtomicInteger executed = new AtomicInteger();
 
         for (int i = 0; i < COUNT; i++) {
-            executorService.execute(() -> {
-                executed.incrementAndGet();
-                service.increamentByLock(uuid);
-            });
+            executorService.execute(
+                    () -> {
+                        executed.incrementAndGet();
+                        service.increamentByLock(uuid);
+                    });
         }
 
         executorService.shutdown();
         executorService.awaitTermination(100, TimeUnit.SECONDS);
         ConsumedMessage finalMessage = repository.findByUuid(uuid.toString());
-        assert finalMessage.count == COUNT : "message count is %d rather than %d".formatted(
-                finalMessage.count, executed.get());
+        assert finalMessage.count == COUNT
+                : "message count is %d rather than %d"
+                        .formatted(finalMessage.count, executed.get());
     }
 }

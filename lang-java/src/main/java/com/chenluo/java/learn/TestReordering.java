@@ -11,24 +11,28 @@ public class TestReordering {
     // invalid test.
     private void run() throws InterruptedException {
         final int[] ordinaryInt = {0};
-        Thread readT = new Thread(() -> {
-            while (!Thread.currentThread().isInterrupted()) {
-                int prev = ordinaryInt[0];
-                int next = ordinaryInt[0];
-                if (prev > next) {
-                    System.out.println("reordering occurred.");
-                }
-            }
-        });
+        Thread readT =
+                new Thread(
+                        () -> {
+                            while (!Thread.currentThread().isInterrupted()) {
+                                int prev = ordinaryInt[0];
+                                int next = ordinaryInt[0];
+                                if (prev > next) {
+                                    System.out.println("reordering occurred.");
+                                }
+                            }
+                        });
 
-        Thread writeT = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (!Thread.currentThread().isInterrupted()) {
-                    ordinaryInt[0]++;
-                }
-            }
-        });
+        Thread writeT =
+                new Thread(
+                        new Runnable() {
+                            @Override
+                            public void run() {
+                                while (!Thread.currentThread().isInterrupted()) {
+                                    ordinaryInt[0]++;
+                                }
+                            }
+                        });
         readT.start();
         writeT.start();
 

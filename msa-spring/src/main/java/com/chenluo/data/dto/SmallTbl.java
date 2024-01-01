@@ -5,10 +5,8 @@ import org.springframework.data.relational.core.mapping.Table;
 
 @Table("small_tbl")
 public class SmallTbl {
-    @Id
-    private Integer id;
+    @Id private Integer id;
     private int isTarget;
 
-    public SmallTbl() {
-    }
+    public SmallTbl() {}
 }

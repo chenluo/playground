@@ -29,23 +29,30 @@ public class NWayCacheNaiveImpl<K, V> implements NWayCache<K, V> {
         //        nWayCacheImpl.put("AA", "AA");
         //        System.out.println(nWayCacheImpl.get("A"));
         //        System.out.println(nWayCacheImpl.get("A"+"A"));
-        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(64, 64, 1, TimeUnit.SECONDS,
-                new ArrayBlockingQueue<>(100000), new ThreadPoolExecutor.CallerRunsPolicy());
+        ThreadPoolExecutor threadPoolExecutor =
+                new ThreadPoolExecutor(
+                        64,
+                        64,
+                        1,
+                        TimeUnit.SECONDS,
+                        new ArrayBlockingQueue<>(100000),
+                        new ThreadPoolExecutor.CallerRunsPolicy());
         for (int i = 0; i < 200000000; i++) {
             //            System.out.println("put " + i);
             int finalI = i;
             if (finalI % 1000000 == 0) {
                 System.out.println(finalI);
             }
-            threadPoolExecutor.execute(() -> {
-                nWayCacheImpl.put(String.valueOf(finalI), String.valueOf(finalI));
-                //                nWayCacheImpl.print();
-                //                if (finalI % 5 == 0) {
-                //                    //                    System.out.println("get 0");
-                //                    nWayCacheImpl.get(String.valueOf(0));
-                //                    //                    nWayCacheImpl.print();
-                //                }
-            });
+            threadPoolExecutor.execute(
+                    () -> {
+                        nWayCacheImpl.put(String.valueOf(finalI), String.valueOf(finalI));
+                        //                nWayCacheImpl.print();
+                        //                if (finalI % 5 == 0) {
+                        //                    //                    System.out.println("get 0");
+                        //                    nWayCacheImpl.get(String.valueOf(0));
+                        //                    //                    nWayCacheImpl.print();
+                        //                }
+                    });
         }
         threadPoolExecutor.shutdown();
         while (true) {
@@ -88,8 +95,7 @@ public class NWayCacheNaiveImpl<K, V> implements NWayCache<K, V> {
     @Override
     public void print() {
         //        System.out.println("------------------");
-        for (int i = 0; i < S; i++) {
-        }
+        for (int i = 0; i < S; i++) {}
         //        System.out.println("------------------");
     }
 

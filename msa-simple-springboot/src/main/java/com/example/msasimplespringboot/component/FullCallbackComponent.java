@@ -1,7 +1,10 @@
 package com.example.msasimplespringboot.component;
 
+import static com.example.msasimplespringboot.LogUtil.logStackTrace;
+
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -11,13 +14,12 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.stereotype.Component;
 
-import static com.example.msasimplespringboot.LogUtil.logStackTrace;
-
 @Component
-public class FullCallbackComponent implements BeanPostProcessor, //
-                                              BeanNameAware, //
-                                              InitializingBean, //
-                                              DisposableBean //
+public class FullCallbackComponent
+        implements BeanPostProcessor, //
+                BeanNameAware, //
+                InitializingBean, //
+                DisposableBean //
 {
     private final Logger logger = LoggerFactory.getLogger(FullCallbackComponent.class);
 

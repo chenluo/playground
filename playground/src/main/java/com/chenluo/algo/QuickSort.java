@@ -14,7 +14,7 @@ public class QuickSort {
     public static void main(String[] args) {
         random.nextInt();
         Random random = new Random(19900928);
-        for (int k : new int[]{10, 100, 10000, 100000000}) {
+        for (int k : new int[] {10, 100, 10000, 100000000}) {
             List<Integer> unsortedList = new ArrayList<>(k);
             for (int i = 0; i < k; i++) {
                 unsortedList.add(random.nextInt());
@@ -39,9 +39,8 @@ public class QuickSort {
         }
     }
 
-    public static <T extends Comparable<? super T>> void sort(List<T> unsorted,
-                                                              int start /*inclusive*/,
-                                                              int end /*exclusive*/) {
+    public static <T extends Comparable<? super T>> void sort(
+            List<T> unsorted, int start /*inclusive*/, int end /*exclusive*/) {
         if (start >= end) {
             return;
         }
@@ -50,8 +49,8 @@ public class QuickSort {
         sort(unsorted, pivotIdx + 1, end);
     }
 
-    private static <T extends Comparable<? super T>> int partition(List<T> unsorted, int start,
-                                                                   int end) {
+    private static <T extends Comparable<? super T>> int partition(
+            List<T> unsorted, int start, int end) {
         if (start >= end) {
             return start;
         }
@@ -69,8 +68,8 @@ public class QuickSort {
         return start + small;
     }
 
-    private static <T extends Comparable<? super T>> void swap(List<T> unsorted, int idx1,
-                                                               int idx2) {
+    private static <T extends Comparable<? super T>> void swap(
+            List<T> unsorted, int idx1, int idx2) {
         T temp = unsorted.get(idx1);
         unsorted.set(idx1, unsorted.get(idx2));
         unsorted.set(idx2, temp);

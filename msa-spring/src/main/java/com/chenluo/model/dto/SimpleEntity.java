@@ -5,8 +5,7 @@ import org.springframework.data.relational.core.mapping.Table;
 
 @Table("simple_tbl")
 public class SimpleEntity {
-    @Id
-    public int id;
+    @Id public int id;
     public String uuid;
     public String val;
 

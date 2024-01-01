@@ -2,6 +2,7 @@ package com.chenluo.service;
 
 import com.chenluo.data.dto.ConsumedMessage;
 import com.chenluo.data.repo.ConsumedMessageRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -11,8 +12,7 @@ import java.util.UUID;
 
 @Service
 public class ConsumedMessageService {
-    @Autowired
-    private ConsumedMessageRepository repository;
+    @Autowired private ConsumedMessageRepository repository;
 
     @Transactional(isolation = Isolation.REPEATABLE_READ)
     public void increament(UUID uuid) {

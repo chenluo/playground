@@ -5,6 +5,7 @@ import com.amazonaws.services.sqs.AmazonSQSClientBuilder;
 import com.amazonaws.services.sqs.model.AmazonSQSException;
 import com.amazonaws.services.sqs.model.CreateQueueResult;
 import com.amazonaws.services.sqs.model.Message;
+
 import org.springframework.context.SmartLifecycle;
 
 import java.util.List;
@@ -19,8 +20,7 @@ public class Consumer implements SmartLifecycle {
     final AmazonSQS sqs = AmazonSQSClientBuilder.defaultClient();
     private final AtomicBoolean isRunning = new AtomicBoolean(false);
 
-    public static void main(String[] args) {
-    }
+    public static void main(String[] args) {}
 
     @Override
     public void start() {
@@ -34,21 +34,22 @@ public class Consumer implements SmartLifecycle {
         ExecutorService executorService = Executors.newFixedThreadPool(1);
 
         String queueUrl = sqs.getQueueUrl(QUEUE_NAME).getQueueUrl();
-        executorService.execute(() -> {
-            while (true) {
-                List<Message> messages = sqs.receiveMessage(queueUrl).getMessages();
-                // delete messages from the queue
-                for (Message m : messages) {
-                    System.out.println(m.getBody());
-                    sqs.deleteMessage(queueUrl, m.getReceiptHandle());
-                }
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        });
+        executorService.execute(
+                () -> {
+                    while (true) {
+                        List<Message> messages = sqs.receiveMessage(queueUrl).getMessages();
+                        // delete messages from the queue
+                        for (Message m : messages) {
+                            System.out.println(m.getBody());
+                            sqs.deleteMessage(queueUrl, m.getReceiptHandle());
+                        }
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                });
     }
 
     @Override

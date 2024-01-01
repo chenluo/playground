@@ -30,8 +30,11 @@ public class KafkaDupMsgCase {
         int key = 0;
         while (key < totalMsgCount) {
             producer.getProducer()
-                    .send(new ProducerRecord<>(KafkaConstants.TOPIC, String.valueOf(key),
-                            String.valueOf(key)));
+                    .send(
+                            new ProducerRecord<>(
+                                    KafkaConstants.TOPIC,
+                                    String.valueOf(key),
+                                    String.valueOf(key)));
             key++;
         }
 
@@ -42,45 +45,52 @@ public class KafkaDupMsgCase {
         AtomicBoolean stopConsumer1 = new AtomicBoolean();
 
         // consume but not commit
-        executorService.execute(() -> {
-            while (!stopConsumer1.get()) {
-                for (ConsumerRecord<String, String> msg : consumer1.getConsumer()
-                        .poll(Duration.ofMillis(100))) {
-                    Integer kk = Integer.valueOf(msg.key());
-                    consumedBy1.compute(kk, (k, v) -> {
-                        if (v == null) {
-                            return 1;
+        executorService.execute(
+                () -> {
+                    while (!stopConsumer1.get()) {
+                        for (ConsumerRecord<String, String> msg :
+                                consumer1.getConsumer().poll(Duration.ofMillis(100))) {
+                            Integer kk = Integer.valueOf(msg.key());
+                            consumedBy1.compute(
+                                    kk,
+                                    (k, v) -> {
+                                        if (v == null) {
+                                            return 1;
+                                        }
+                                        return v + 1;
+                                    });
                         }
-                        return v + 1;
-                    });
-                }
-            }
-            System.out.println("consumer1 exit");
-            consumer1.getConsumer().close();
-        });
+                    }
+                    System.out.println("consumer1 exit");
+                    consumer1.getConsumer().close();
+                });
 
         AtomicBoolean stopConsumer2 = new AtomicBoolean();
-        executorService.execute(() -> {
-            System.out.printf("consume2 is running on %s%n", Thread.currentThread().getName());
-            try {
-                while (!stopConsumer2.get()) {
-                    for (ConsumerRecord<String, String> msg : consumer2.getConsumer()
-                            .poll(Duration.ofMillis(100))) {
-                        Integer kk = Integer.valueOf(msg.key());
-                        consumedBy2.compute(kk, (k, v) -> {
-                            if (v == null) {
-                                return 1;
+        executorService.execute(
+                () -> {
+                    System.out.printf(
+                            "consume2 is running on %s%n", Thread.currentThread().getName());
+                    try {
+                        while (!stopConsumer2.get()) {
+                            for (ConsumerRecord<String, String> msg :
+                                    consumer2.getConsumer().poll(Duration.ofMillis(100))) {
+                                Integer kk = Integer.valueOf(msg.key());
+                                consumedBy2.compute(
+                                        kk,
+                                        (k, v) -> {
+                                            if (v == null) {
+                                                return 1;
+                                            }
+                                            System.out.println(kk);
+                                            return v + 1;
+                                        });
                             }
-                            System.out.println(kk);
-                            return v + 1;
-                        });
+                            consumer2.getConsumer().commitSync();
+                        }
+                    } finally {
+                        consumer2.getConsumer().close();
                     }
-                    consumer2.getConsumer().commitSync();
-                }
-            } finally {
-                consumer2.getConsumer().close();
-            }
-        });
+                });
 
         try {
             while (true) {
@@ -120,8 +130,7 @@ public class KafkaDupMsgCase {
         } finally {
             stopConsumer2.set(true);
             executorService.shutdown();
-            while (!executorService.awaitTermination(1, TimeUnit.SECONDS)) {
-            }
+            while (!executorService.awaitTermination(1, TimeUnit.SECONDS)) {}
 
             adminClient.deleteTopics(Collections.singleton(KafkaConstants.TOPIC));
         }

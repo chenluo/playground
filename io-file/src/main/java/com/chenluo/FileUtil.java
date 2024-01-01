@@ -27,8 +27,8 @@ public class FileUtil {
     // file stream
     public static void tryFileStream() throws IOException {
         Path tmpFile = Files.createTempFile("try-java-file", "txt");
-        try (BufferedWriter bufferedWriter = Files.newBufferedWriter(tmpFile,
-                StandardOpenOption.WRITE)) {
+        try (BufferedWriter bufferedWriter =
+                Files.newBufferedWriter(tmpFile, StandardOpenOption.WRITE)) {
             for (int i = 0; i < 1000; i++) {
                 bufferedWriter.write("file content: line #" + i);
                 bufferedWriter.newLine();
@@ -46,8 +46,8 @@ public class FileUtil {
     // try zero copy
     public static void tryZeroCopy() throws IOException {
         Path srcPath = Files.createTempFile("try-java-file", ".txt");
-        try (BufferedWriter bufferedWriter = Files.newBufferedWriter(srcPath,
-                StandardOpenOption.WRITE)) {
+        try (BufferedWriter bufferedWriter =
+                Files.newBufferedWriter(srcPath, StandardOpenOption.WRITE)) {
             for (int i = 0; i < 10; i++) {
                 bufferedWriter.write("file content: line #" + i);
                 bufferedWriter.newLine();

@@ -9,6 +9,7 @@
 package com.chenluo.server;
 
 import com.chenluo.server.inbound.MyInboundHandler;
+
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -16,6 +17,7 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.http.HttpServerCodec;
 import io.netty.handler.codec.http.HttpServerExpectContinueHandler;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,22 +35,27 @@ public class MyNettyServer {
                     .option(ChannelOption.SO_BACKLOG, 1024)
                     .childOption(ChannelOption.SO_KEEPALIVE, true)
                     .childOption(ChannelOption.TCP_NODELAY, true)
-                    .childHandler(new ChannelInitializer<NioSocketChannel>() {
-                        @Override
-                        protected void initChannel(NioSocketChannel ch) throws Exception {
-                            ChannelPipeline p = ch.pipeline();
-                            p.addLast(new HttpServerCodec());
-                            p.addLast(new HttpServerExpectContinueHandler());
-                            p.addLast(new MyInboundHandler());
-                        }
-                    });
-            Channel channel = server.bind(8880).addListener(future -> {
-                if (future.isSuccess()) {
-                    logger.info("successfully bind");
-                } else {
-                    logger.error("failed to bind");
-                }
-            }).channel();
+                    .childHandler(
+                            new ChannelInitializer<NioSocketChannel>() {
+                                @Override
+                                protected void initChannel(NioSocketChannel ch) throws Exception {
+                                    ChannelPipeline p = ch.pipeline();
+                                    p.addLast(new HttpServerCodec());
+                                    p.addLast(new HttpServerExpectContinueHandler());
+                                    p.addLast(new MyInboundHandler());
+                                }
+                            });
+            Channel channel =
+                    server.bind(8880)
+                            .addListener(
+                                    future -> {
+                                        if (future.isSuccess()) {
+                                            logger.info("successfully bind");
+                                        } else {
+                                            logger.error("failed to bind");
+                                        }
+                                    })
+                            .channel();
             channel.closeFuture().sync();
         } catch (InterruptedException e) {
             logger.error("error.", e);

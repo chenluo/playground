@@ -57,7 +57,8 @@ public class RedisTester {
         logger.info("firstMsgId: {}", firstMsgId);
         //        String consumerName = "consumerName";
         //        stream.createConsumer(groupName, consumerName);
-        logger.info("read first msg: {}",
+        logger.info(
+                "read first msg: {}",
                 stream.read(StreamReadArgs.greaterThan(new StreamMessageId(0)).count(1)));
     }
 
@@ -65,23 +66,27 @@ public class RedisTester {
         String key = "zset-key";
         RSortedSet<MyRedisObj> sortedSet = client.getSortedSet(key);
         sortedSet.delete();
-        boolean success = sortedSet.trySetComparator(new Comparator<MyRedisObj>() {
-            @Override
-            public int compare(MyRedisObj o1, MyRedisObj o2) {
-                return Integer.compare(o1.integer(), o2.integer());
-            }
-        });
+        boolean success =
+                sortedSet.trySetComparator(
+                        new Comparator<MyRedisObj>() {
+                            @Override
+                            public int compare(MyRedisObj o1, MyRedisObj o2) {
+                                return Integer.compare(o1.integer(), o2.integer());
+                            }
+                        });
         logger.info("set comparator: {}", success);
         for (int i = 0; i < 10; i++) {
             sortedSet.add(new MyRedisObj("key_" + i, i, 10 - i));
         }
         logger.info("{}: {}", key, sortedSet);
-        success = sortedSet.trySetComparator(new Comparator<MyRedisObj>() {
-            @Override
-            public int compare(MyRedisObj o1, MyRedisObj o2) {
-                return Integer.compare(o1.i(), o2.i());
-            }
-        });
+        success =
+                sortedSet.trySetComparator(
+                        new Comparator<MyRedisObj>() {
+                            @Override
+                            public int compare(MyRedisObj o1, MyRedisObj o2) {
+                                return Integer.compare(o1.i(), o2.i());
+                            }
+                        });
         logger.info("set comparator: {}", success);
         logger.info("{}: {}", key, sortedSet);
         sortedSet.remove(new MyRedisObj("key_0", 0, 10));

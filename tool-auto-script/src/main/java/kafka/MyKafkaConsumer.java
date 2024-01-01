@@ -39,10 +39,10 @@ public class MyKafkaConsumer {
         props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "true");
         props.put(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, "1000");
         props.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, "30000");
-        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,
-                IntegerDeserializer.class.getName());
-        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,
-                StringDeserializer.class.getName());
+        props.put(
+                ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, IntegerDeserializer.class.getName());
+        props.put(
+                ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
         //        if (readCommitted) {
         //            props.put(ConsumerConfig.ISOLATION_LEVEL_CONFIG, "read_committed");
         //        }
@@ -50,10 +50,14 @@ public class MyKafkaConsumer {
 
         consumer = new KafkaConsumer<>(props);
 
-        ThreadFactory factory = new BasicThreadFactory.Builder().namingPattern(
-                "kafka-consumer-" + groupId + ":" + consumerId + "-%d").daemon(false).build();
-        this.pool = new ThreadPoolExecutor(0, 1, 1, TimeUnit.SECONDS, new ArrayBlockingQueue<>(100),
-                factory);
+        ThreadFactory factory =
+                new BasicThreadFactory.Builder()
+                        .namingPattern("kafka-consumer-" + groupId + ":" + consumerId + "-%d")
+                        .daemon(false)
+                        .build();
+        this.pool =
+                new ThreadPoolExecutor(
+                        0, 1, 1, TimeUnit.SECONDS, new ArrayBlockingQueue<>(100), factory);
     }
 
     public static void main(String[] args) {
@@ -81,13 +85,15 @@ public class MyKafkaConsumer {
                 break;
             }
             AtomicInteger temp = new AtomicInteger();
-            records.iterator().forEachRemaining(record -> {
-                //                logger.info(CONSUME_LOG_FORMAT, this.groupId,
-                // this.consumerId, record.partition(),
-                //                        record.key(), record.value(),
-                // record.offset());
-                temp.getAndIncrement();
-            });
+            records.iterator()
+                    .forEachRemaining(
+                            record -> {
+                                //                logger.info(CONSUME_LOG_FORMAT, this.groupId,
+                                // this.consumerId, record.partition(),
+                                //                        record.key(), record.value(),
+                                // record.offset());
+                                temp.getAndIncrement();
+                            });
             consumed += temp.get();
         }
         logger.info(Thread.currentThread().getName() + " consumed " + consumed + " messages.");

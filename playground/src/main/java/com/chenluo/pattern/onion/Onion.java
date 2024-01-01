@@ -11,43 +11,50 @@ public class Onion<T> {
 
     @SafeVarargs
     public static <U> Middleware<U> compose(Middleware<U>... middlewares) {
-        return Arrays.stream(middlewares).reduce((ctx, nxt) -> nxt.next(),
-                (before, after) -> (ctx, nxt) -> before.via(ctx, () -> after.via(ctx, nxt)));
+        return Arrays.stream(middlewares)
+                .reduce(
+                        (ctx, nxt) -> nxt.next(),
+                        (before, after) ->
+                                (ctx, nxt) -> before.via(ctx, () -> after.via(ctx, nxt)));
     }
 
     public static void main(String[] args) {
-        Middleware middleware1 = new Middleware() {
-            @Override
-            public void via(Object context, Next next) throws Exception {
-                System.out.println("middleware 1: enter");
-                next.next();
-                System.out.println("middleware 1: enter");
-            }
-        };
-        Middleware middleware2 = new Middleware() {
-            @Override
-            public void via(Object context, Next next) throws Exception {
-                System.out.println("middleware 2: enter");
-                next.next();
-                System.out.println("middleware 2: enter");
-            }
-        };
-        Middleware middleware3 = new Middleware() {
-            @Override
-            public void via(Object context, Next next) throws Exception {
-                System.out.println("middleware 3: enter");
-                next.next();
-                System.out.println("middleware 3: enter");
-            }
-        };
-        Middleware middleware4 = new Middleware() {
-            @Override
-            public void via(Object context, Next next) throws Exception {
-                System.out.println("middleware 4: enter");
-                next.next();
-                System.out.println("middleware 4: enter");
-            }
-        };
+        Middleware middleware1 =
+                new Middleware() {
+                    @Override
+                    public void via(Object context, Next next) throws Exception {
+                        System.out.println("middleware 1: enter");
+                        next.next();
+                        System.out.println("middleware 1: enter");
+                    }
+                };
+        Middleware middleware2 =
+                new Middleware() {
+                    @Override
+                    public void via(Object context, Next next) throws Exception {
+                        System.out.println("middleware 2: enter");
+                        next.next();
+                        System.out.println("middleware 2: enter");
+                    }
+                };
+        Middleware middleware3 =
+                new Middleware() {
+                    @Override
+                    public void via(Object context, Next next) throws Exception {
+                        System.out.println("middleware 3: enter");
+                        next.next();
+                        System.out.println("middleware 3: enter");
+                    }
+                };
+        Middleware middleware4 =
+                new Middleware() {
+                    @Override
+                    public void via(Object context, Next next) throws Exception {
+                        System.out.println("middleware 4: enter");
+                        next.next();
+                        System.out.println("middleware 4: enter");
+                    }
+                };
         List<Middleware> middlewareList = new ArrayList<>();
         middlewareList.add(middleware1);
         middlewareList.add(middleware2);
@@ -64,8 +71,7 @@ public class Onion<T> {
 
     public void handle(T context) throws Exception {
 
-        this.core.via(context, () -> {
-        });
+        this.core.via(context, () -> {});
     }
 
     public interface Middleware<T> {

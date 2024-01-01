@@ -9,6 +9,7 @@
 package com.chenluo.extension.spring;
 
 import com.chenluo.proxy.MyMethodInterceptor;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.aop.framework.ProxyFactory;
@@ -24,8 +25,8 @@ public class MyBeanPostProcessor implements BeanPostProcessor {
     public Object postProcessBeforeInitialization(Object bean, String beanName)
             throws BeansException {
         if (beanName.equals("myService")) {
-            logger.warn("postProcessBeforeInitialization called for {} with name: {}", bean,
-                    beanName);
+            logger.warn(
+                    "postProcessBeforeInitialization called for {} with name: {}", bean, beanName);
         }
         return BeanPostProcessor.super.postProcessBeforeInitialization(bean, beanName);
     }
@@ -34,8 +35,8 @@ public class MyBeanPostProcessor implements BeanPostProcessor {
     public Object postProcessAfterInitialization(Object bean, String beanName)
             throws BeansException {
         if (beanName.equals("myService")) {
-            logger.warn("postProcessAfterInitialization called for {} with name: {}", bean,
-                    beanName);
+            logger.warn(
+                    "postProcessAfterInitialization called for {} with name: {}", bean, beanName);
             ProxyFactory factory = new ProxyFactory(bean);
             factory.addAdvice(new MyMethodInterceptor());
             Object proxy = factory.getProxy();

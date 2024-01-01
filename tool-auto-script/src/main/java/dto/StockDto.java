@@ -14,8 +14,19 @@ public class StockDto {
 
     @Override
     public String toString() {
-        return "StockDto{" + "sku=" + sku + ", location='" + location + '\'' + ", stock=" + stock +
-                ", updateTimestamp=" + updateTimestamp + ", updateDatetime=" + updateDatetime + '}';
+        return "StockDto{"
+                + "sku="
+                + sku
+                + ", location='"
+                + location
+                + '\''
+                + ", stock="
+                + stock
+                + ", updateTimestamp="
+                + updateTimestamp
+                + ", updateDatetime="
+                + updateDatetime
+                + '}';
     }
 
     @Override

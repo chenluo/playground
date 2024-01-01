@@ -16,8 +16,10 @@ public class FirstGrpcClient {
     }
 
     public void callApi1() {
-        ManagedChannel channel = Grpc.newChannelBuilderForAddress("localhost", 18081,
-                InsecureChannelCredentials.create()).build();
+        ManagedChannel channel =
+                Grpc.newChannelBuilderForAddress(
+                                "localhost", 18081, InsecureChannelCredentials.create())
+                        .build();
         FirstGrpcServiceGrpc.FirstGrpcServiceBlockingStub blockingStub =
                 FirstGrpcServiceGrpc.newBlockingStub(channel);
         Res res = blockingStub.api1(Req.newBuilder().setId(1).setReq("req1").build());
@@ -25,38 +27,45 @@ public class FirstGrpcClient {
     }
 
     public void callApi2() {
-        ManagedChannel channel = Grpc.newChannelBuilderForAddress("localhost", 18081,
-                InsecureChannelCredentials.create()).build();
+        ManagedChannel channel =
+                Grpc.newChannelBuilderForAddress(
+                                "localhost", 18081, InsecureChannelCredentials.create())
+                        .build();
         FirstGrpcServiceGrpc.FirstGrpcServiceBlockingStub blockingStub =
                 FirstGrpcServiceGrpc.newBlockingStub(channel);
-        blockingStub.api2(Req.newBuilder().setId(2).setReq("req").build())
+        blockingStub
+                .api2(Req.newBuilder().setId(2).setReq("req").build())
                 .forEachRemaining(System.out::println);
     }
 
     public void callApi4() {
-        ManagedChannel channel = Grpc.newChannelBuilderForAddress("localhost", 18081,
-                InsecureChannelCredentials.create()).build();
+        ManagedChannel channel =
+                Grpc.newChannelBuilderForAddress(
+                                "localhost", 18081, InsecureChannelCredentials.create())
+                        .build();
         FirstGrpcServiceGrpc.FirstGrpcServiceStub stub = FirstGrpcServiceGrpc.newStub(channel);
         final int count = 100;
         CountDownLatch latch = new CountDownLatch(1);
-        StreamObserver<Req> requestStream = stub.api4(new StreamObserver<Res>() {
-            @Override
-            public void onNext(Res value) {
-                System.out.println(value);
-            }
+        StreamObserver<Req> requestStream =
+                stub.api4(
+                        new StreamObserver<Res>() {
+                            @Override
+                            public void onNext(Res value) {
+                                System.out.println(value);
+                            }
 
-            @Override
-            public void onError(Throwable t) {
-                System.out.println(t);
-                latch.countDown();
-            }
+                            @Override
+                            public void onError(Throwable t) {
+                                System.out.println(t);
+                                latch.countDown();
+                            }
 
-            @Override
-            public void onCompleted() {
-                System.out.println("client complete");
-                latch.countDown();
-            }
-        });
+                            @Override
+                            public void onCompleted() {
+                                System.out.println("client complete");
+                                latch.countDown();
+                            }
+                        });
         for (int i = 0; i < count; i++) {
             requestStream.onNext(Req.newBuilder().setId(i).setReq("req" + i).build());
         }

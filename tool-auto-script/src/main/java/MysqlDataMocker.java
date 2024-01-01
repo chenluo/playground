@@ -1,6 +1,8 @@
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+
 import mapper.StockMapper;
+
 import org.apache.ibatis.mapping.Environment;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -8,7 +10,6 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.ibatis.transaction.TransactionFactory;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 
-import javax.sql.DataSource;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
@@ -21,18 +22,22 @@ import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
+import javax.sql.DataSource;
+
 public class MysqlDataMocker {
     private static String TABLE_DDL_TEMPLATE =
-            "CREATE TABLE IF NOT EXISTS `stock_tbl_%s` (\n" + "  `sku` int NOT NULL,\n" +
-                    "  `location` varchar(64) NOT NULL DEFAULT 'UNDEFINED',\n" +
-                    "  `stock` int DEFAULT NULL,\n" +
-                    "  `update_timestamp` timestamp NULL DEFAULT NULL,\n" +
-                    "  `update_datetime` datetime DEFAULT NULL,\n" +
-                    "  PRIMARY KEY (`sku`,`location`),\n" +
-                    "  UNIQUE KEY `search_by_sku_location` (`sku`,`location`),\n" +
-                    "  KEY `search_by_location` (`location`),\n" +
-                    "  KEY `search_by_sku` (`sku`)\n" +
-                    ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci\n" + "\n";
+            "CREATE TABLE IF NOT EXISTS `stock_tbl_%s` (\n"
+                    + "  `sku` int NOT NULL,\n"
+                    + "  `location` varchar(64) NOT NULL DEFAULT 'UNDEFINED',\n"
+                    + "  `stock` int DEFAULT NULL,\n"
+                    + "  `update_timestamp` timestamp NULL DEFAULT NULL,\n"
+                    + "  `update_datetime` datetime DEFAULT NULL,\n"
+                    + "  PRIMARY KEY (`sku`,`location`),\n"
+                    + "  UNIQUE KEY `search_by_sku_location` (`sku`,`location`),\n"
+                    + "  KEY `search_by_location` (`location`),\n"
+                    + "  KEY `search_by_sku` (`sku`)\n"
+                    + ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci\n"
+                    + "\n";
     private static String TABLE_TRUNCATE_TEMPLATE = " truncate table test_db.stock_tbl_%s;";
     private static SqlSessionFactory factory;
 
@@ -134,42 +139,61 @@ public class MysqlDataMocker {
         List<CompletableFuture<?>> insertFutures = new ArrayList<>();
         for (int i = 0; i < rowCount / batchSize; i++) {
 
-            CompletableFuture<Void> insertFuture = CompletableFuture.runAsync(() -> {
-                try (Connection connection = HikariWrapDataSource.getConnection()) {
-                    connection.setAutoCommit(false);
-                    connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
-                    PreparedStatement selectPs = connection.prepareStatement(
-                            "select 1 from stock_tbl_" + rowCount + " where sku=?" +
-                                    " and localtion=?;");
-                    PreparedStatement insertPs = connection.prepareStatement(
-                            "insert into stock_tbl_" + rowCount + " values (?, ?, ?, ?, ?);");
-                    PreparedStatement updatePs = connection.prepareStatement(
-                            "update stock_tbl_" + rowCount + " set stock = stock+1," +
-                                    " update_timestamp=?," + " update_datetime=? where sku=?  and" +
-                                    " location=?;");
-                    executeUpdateOrInsert(rowCount, batchSize, connection, insertPs, updatePs);
-                    connection.commit();
-                    connection.setAutoCommit(true);
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            });
+            CompletableFuture<Void> insertFuture =
+                    CompletableFuture.runAsync(
+                            () -> {
+                                try (Connection connection = HikariWrapDataSource.getConnection()) {
+                                    connection.setAutoCommit(false);
+                                    connection.setTransactionIsolation(
+                                            Connection.TRANSACTION_READ_COMMITTED);
+                                    PreparedStatement selectPs =
+                                            connection.prepareStatement(
+                                                    "select 1 from stock_tbl_"
+                                                            + rowCount
+                                                            + " where sku=?"
+                                                            + " and localtion=?;");
+                                    PreparedStatement insertPs =
+                                            connection.prepareStatement(
+                                                    "insert into stock_tbl_"
+                                                            + rowCount
+                                                            + " values (?, ?, ?, ?, ?);");
+                                    PreparedStatement updatePs =
+                                            connection.prepareStatement(
+                                                    "update stock_tbl_"
+                                                            + rowCount
+                                                            + " set stock = stock+1,"
+                                                            + " update_timestamp=?,"
+                                                            + " update_datetime=? where sku=?  and"
+                                                            + " location=?;");
+                                    executeUpdateOrInsert(
+                                            rowCount, batchSize, connection, insertPs, updatePs);
+                                    connection.commit();
+                                    connection.setAutoCommit(true);
+                                } catch (SQLException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            });
             insertFutures.add(insertFuture);
         }
-        insertFutures.forEach(cf -> {
-            try {
-                cf.get();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            } catch (ExecutionException e) {
-                throw new RuntimeException(e);
-            }
-        });
+        insertFutures.forEach(
+                cf -> {
+                    try {
+                        cf.get();
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    } catch (ExecutionException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
         return true;
     }
 
-    private void executeUpdateOrInsert(int rowCount, int batchSize, Connection connection,
-                                       PreparedStatement insertPs, PreparedStatement updatePs)
+    private void executeUpdateOrInsert(
+            int rowCount,
+            int batchSize,
+            Connection connection,
+            PreparedStatement insertPs,
+            PreparedStatement updatePs)
             throws SQLException {
         for (int j = 0; j < batchSize; j++) {
             try {
@@ -237,8 +261,7 @@ public class MysqlDataMocker {
             ds = new HikariDataSource(config);
         }
 
-        private HikariWrapDataSource() {
-        }
+        private HikariWrapDataSource() {}
 
         public static Connection getConnection() throws SQLException {
             return ds.getConnection();

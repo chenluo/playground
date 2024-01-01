@@ -20,9 +20,11 @@ public class MessageConsumer {
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
         props.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, 30_000);
         props.put(ConsumerConfig.HEARTBEAT_INTERVAL_MS_CONFIG, 5_000);
-        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,
+        props.put(
+                ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,
                 "org.apache.kafka.common.serialization.StringDeserializer");
-        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,
+        props.put(
+                ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,
                 "org.apache.kafka.common.serialization.StringDeserializer");
         consumer = new KafkaConsumer<String, String>(props);
         consumer.subscribe(Collections.singleton("test-topic"), new MyConsumerRebalanceListener());

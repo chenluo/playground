@@ -8,8 +8,12 @@ public class FirstGrpcServiceImpl extends FirstGrpcServiceGrpc.FirstGrpcServiceI
     public void api1(Req request, StreamObserver<Res> responseObserver) {
         System.out.println("response");
         System.out.println(request);
-        Res res = Res.newBuilder().setId(request.getId()).setReq(request.getReq())
-                .setRes("res:" + request.getReq()).build();
+        Res res =
+                Res.newBuilder()
+                        .setId(request.getId())
+                        .setReq(request.getReq())
+                        .setRes("res:" + request.getReq())
+                        .build();
         responseObserver.onNext(res);
         responseObserver.onCompleted();
     }
@@ -17,8 +21,12 @@ public class FirstGrpcServiceImpl extends FirstGrpcServiceGrpc.FirstGrpcServiceI
     @Override
     public void api2(Req request, StreamObserver<Res> responseObserver) {
         for (int i = 0; i < 10; i++) {
-            responseObserver.onNext(Res.newBuilder().setId(request.getId()).setReq(request.getReq())
-                    .setRes(i + ":" + request.getReq()).build());
+            responseObserver.onNext(
+                    Res.newBuilder()
+                            .setId(request.getId())
+                            .setReq(request.getReq())
+                            .setRes(i + ":" + request.getReq())
+                            .build());
         }
     }
 
@@ -28,8 +36,11 @@ public class FirstGrpcServiceImpl extends FirstGrpcServiceGrpc.FirstGrpcServiceI
             @Override
             public void onNext(Req value) {
                 responseObserver.onNext(
-                        Res.newBuilder().setReq(value.getReq()).setRes(value.getReq() + " res")
-                                .setId(value.getId()).build());
+                        Res.newBuilder()
+                                .setReq(value.getReq())
+                                .setRes(value.getReq() + " res")
+                                .setId(value.getId())
+                                .build());
             }
 
             @Override

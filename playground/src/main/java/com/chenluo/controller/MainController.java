@@ -5,6 +5,7 @@ import com.chenluo.service.DbService;
 import com.chenluo.service.ZKConfiguration;
 import com.chenluo.service.ZKManager;
 import com.chenluo.service.ZKManagerImpl;
+
 import org.apache.zookeeper.KeeperException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -109,8 +110,7 @@ public class MainController {
 
     @MyAnnotation
     @GetMapping("testMyAspect")
-    public void testMyAspect() {
-    }
+    public void testMyAspect() {}
 
     @GetMapping("testDB")
     public boolean testDB(@RequestParam(required = true) int loopCount) {

@@ -2,6 +2,7 @@ package com.chenluo.servicefeighclient.controller;
 
 import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.EurekaClient;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +17,9 @@ import java.util.Random;
 @RestController
 public class FeignClientController {
     Random random = new Random();
-    @Autowired
-    private EurekaClient eurekaClient;
-    @Autowired
-    private FeignClient feignClient;
-    @Autowired
-    private RestTemplate restTemplate;
+    @Autowired private EurekaClient eurekaClient;
+    @Autowired private FeignClient feignClient;
+    @Autowired private RestTemplate restTemplate;
     private Logger logger = LoggerFactory.getLogger(FeignClientController.class);
 
     @GetMapping("greetingNonFeign")

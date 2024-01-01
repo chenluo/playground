@@ -10,15 +10,17 @@ package com.chenluo;
 
 import com.chenluo.client.MyNettyClient;
 import com.chenluo.server.MyNettyServer;
+
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.net.ssl.SSLException;
 import java.net.URISyntaxException;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.LongAdder;
+
+import javax.net.ssl.SSLException;
 
 public class NettyMainTest {
 
@@ -27,7 +29,12 @@ public class NettyMainTest {
     @Test
     public void testNettyMain() {
         ThreadPoolExecutor executor =
-                new ThreadPoolExecutor(10, 10, 10, TimeUnit.SECONDS, new ArrayBlockingQueue<>(500),
+                new ThreadPoolExecutor(
+                        10,
+                        10,
+                        10,
+                        TimeUnit.SECONDS,
+                        new ArrayBlockingQueue<>(500),
                         new ThreadFactory() {
                             private AtomicInteger threadNo = new AtomicInteger();
 
@@ -35,28 +42,31 @@ public class NettyMainTest {
                             public Thread newThread(Runnable r) {
                                 return new Thread(r, "thread-" + threadNo.incrementAndGet());
                             }
-                        }, new ThreadPoolExecutor.CallerRunsPolicy());
+                        },
+                        new ThreadPoolExecutor.CallerRunsPolicy());
 
-        executor.submit(() -> {
-            new MyNettyServer().main(new String[0]);
-        });
+        executor.submit(
+                () -> {
+                    new MyNettyServer().main(new String[0]);
+                });
 
         LongAdder longAdder = new LongAdder();
         for (int i = 0; i < 100000; i++) {
             try {
-                executor.submit(() -> {
-                    while (!Thread.currentThread().isInterrupted()) {
-                        try {
-                            new MyNettyClient().fastTest();
-                        } catch (URISyntaxException e) {
-                            e.printStackTrace();
-                        } catch (SSLException e) {
-                            e.printStackTrace();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
+                executor.submit(
+                        () -> {
+                            while (!Thread.currentThread().isInterrupted()) {
+                                try {
+                                    new MyNettyClient().fastTest();
+                                } catch (URISyntaxException e) {
+                                    e.printStackTrace();
+                                } catch (SSLException e) {
+                                    e.printStackTrace();
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
             } catch (RejectedExecutionException e) {
                 logger.error("task rejected", e);
                 longAdder.increment();

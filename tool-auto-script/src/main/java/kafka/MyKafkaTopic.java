@@ -17,8 +17,8 @@ public class MyKafkaTopic {
 
     public MyKafkaTopic() {
         Properties properties = new Properties();
-        properties.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG,
-                MyKafkaConfig.BOOTSTRAP_SERVER_URL);
+        properties.put(
+                AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, MyKafkaConfig.BOOTSTRAP_SERVER_URL);
 
         admin = Admin.create(properties);
     }

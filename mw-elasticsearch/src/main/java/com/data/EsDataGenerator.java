@@ -1,4 +1,3 @@
 package com.data;
 
-public class EsDataGenerator {
-}
+public class EsDataGenerator {}

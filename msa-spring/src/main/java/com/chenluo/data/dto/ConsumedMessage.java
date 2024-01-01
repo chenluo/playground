@@ -5,8 +5,7 @@ import org.springframework.data.relational.core.mapping.Table;
 
 @Table("consumed_message")
 public class ConsumedMessage {
-    @Id
-    public int id;
+    @Id public int id;
     public String uuid;
 
     public int count;

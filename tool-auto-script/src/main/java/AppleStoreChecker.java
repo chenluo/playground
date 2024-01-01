@@ -1,6 +1,5 @@
 import com.google.gson.Gson;
 
-import javax.mail.Session;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -10,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
+import javax.mail.Session;
 
 public class AppleStoreChecker {
     volatile Session session;
@@ -24,9 +25,9 @@ public class AppleStoreChecker {
         int failCount = 0;
 
         String[] productCodes = {
-                //                "MLT63CH/A", // 银色
-                "MLT53CH/A", // 石墨色
-                //                "MLT83CH/A" // 蓝色
+            //                "MLT63CH/A", // 银色
+            "MLT53CH/A", // 石墨色
+            //                "MLT83CH/A" // 蓝色
         };
         for (int i = 0; i < 1000; i++) {
             try {
@@ -56,8 +57,10 @@ public class AppleStoreChecker {
         //        curl -X POST -H 'Content-type: application/json' --data '{"text":"Hello, World!"}'
         // https://hooks.slack
         //        .com/services/T0D189UMD/B02JQAG7BSL/DDggdBoSSUZZAFfnCc7JXOWs
-        URL url = new URL("https://hooks.slack.com/services/T0D189UMD/B02JQAG7BSL" +
-                "/DDggdBoSSUZZAFfnCc7JXOWs");
+        URL url =
+                new URL(
+                        "https://hooks.slack.com/services/T0D189UMD/B02JQAG7BSL"
+                                + "/DDggdBoSSUZZAFfnCc7JXOWs");
         HttpURLConnection hc = ((HttpURLConnection) url.openConnection());
         hc.setRequestMethod("POST");
         hc.setDoOutput(true);
@@ -77,39 +80,48 @@ public class AppleStoreChecker {
         } else {
             System.out.println("[Slack] push failed: " + responseCode);
         }
-        try (InputStream inputStream = hc.getInputStream()) {
-        }
+        try (InputStream inputStream = hc.getInputStream()) {}
     }
 
     private void check(String productCode) throws IOException {
         System.out.println("[Check Main Product] start:" + productCode);
-        String url = String.format(
-                "https://www.apple.com.cn/shop/fulfillment-messages?pl=true&mt=compact&parts" +
-                        ".0=%s&searchNearby=true&store=R401", productCode);
+        String url =
+                String.format(
+                        "https://www.apple.com.cn/shop/fulfillment-messages?pl=true&mt=compact&parts"
+                            + ".0=%s&searchNearby=true&store=R401",
+                        productCode);
         String content = readContent(url);
         Gson gson = new Gson();
         Map<String, Object> body = ((Map) gson.fromJson(content, HashMap.class).get("body"));
         List<Map<String, Object>> storeList =
-                (List) ((Map) ((Map<Object, Object>) body.get("content")).get("pickupMessage")).get(
-                        "stores");
+                (List)
+                        ((Map) ((Map<Object, Object>) body.get("content")).get("pickupMessage"))
+                                .get("stores");
         List<String> availableStore = new ArrayList<>();
 
         ZonedDateTime now = ZonedDateTime.now();
 
         for (Map<String, Object> store : storeList) {
             String storeName = ((String) store.get("storeName"));
-            String availability = ((String) ((Map<Object, Object>) ((Map<Object, Object>) store.get(
-                    "partsAvailability")).get(productCode)).get("pickupDisplay"));
+            String availability =
+                    ((String)
+                            ((Map<Object, Object>)
+                                            ((Map<Object, Object>) store.get("partsAvailability"))
+                                                    .get(productCode))
+                                    .get("pickupDisplay"));
             if (!availability.equals("unavailable")) {
                 System.out.println(availability);
                 System.out.println(storeName);
-                stockToAvailableTime.compute(storeName, (s, lastSeenTime) -> {
-                    if (null == lastSeenTime || lastSeenTime.isBefore(now.minusSeconds(60))) {
-                        availableStore.add(storeName);
-                        return now;
-                    }
-                    return lastSeenTime;
-                });
+                stockToAvailableTime.compute(
+                        storeName,
+                        (s, lastSeenTime) -> {
+                            if (null == lastSeenTime
+                                    || lastSeenTime.isBefore(now.minusSeconds(60))) {
+                                availableStore.add(storeName);
+                                return now;
+                            }
+                            return lastSeenTime;
+                        });
             }
         }
         if (availableStore.isEmpty()) {
@@ -118,26 +130,32 @@ public class AppleStoreChecker {
             System.out.println(availableStore);
 
             sendSlackMessage(
-                    availableStore.stream().reduce((s1, s2) -> s1 + ", " + s2).get() + ", url: " +
-                            String.format(productUrlTemplate, productCode));
+                    availableStore.stream().reduce((s1, s2) -> s1 + ", " + s2).get()
+                            + ", url: "
+                            + String.format(productUrlTemplate, productCode));
         }
         System.out.println("[Check Main Product] end:" + productCode);
     }
 
     private void checkRecommend(String productCode) throws IOException {
         System.out.println("[Check Recommend Product] start:" + productCode);
-        String url = String.format(
-                "https://www.apple.com.cn/shop/pickup-message-recommendations?mt=compact" +
-                        "&searchNearby=true&store=R401&product=%s", productCode);
+        String url =
+                String.format(
+                        "https://www.apple.com.cn/shop/pickup-message-recommendations?mt=compact"
+                                + "&searchNearby=true&store=R401&product=%s",
+                        productCode);
         String content = readContent(url);
         Gson gson = new Gson();
         Map<String, Object> body = ((Map) gson.fromJson(content, HashMap.class).get("body"));
         List recommendList = (List) ((Map) body.get("PickupMessage")).get("recommendedProducts");
         if (!recommendList.isEmpty()) {
             System.out.println(recommendList);
-            sendSlackMessage(recommendList.stream()
-                    .map(s -> "url: " + String.format(productUrlTemplate, s.toString()))
-                    .reduce((s1, s2) -> s1.toString() + ", " + s2.toString()).get().toString());
+            sendSlackMessage(
+                    recommendList.stream()
+                            .map(s -> "url: " + String.format(productUrlTemplate, s.toString()))
+                            .reduce((s1, s2) -> s1.toString() + ", " + s2.toString())
+                            .get()
+                            .toString());
         } else {
             System.out.println("no available recommend products.");
         }

@@ -26,16 +26,23 @@ public class MyKafkaProducer {
         Properties properties = new Properties();
         properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, MyKafkaConfig.BOOTSTRAP_SERVER_URL);
         properties.put(ProducerConfig.CLIENT_ID_CONFIG, "DemoProducer");
-        properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,
-                IntegerSerializer.class.getName());
-        properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
-                StringSerializer.class.getName());
+        properties.put(
+                ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, IntegerSerializer.class.getName());
+        properties.put(
+                ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         properties.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, true);
         properties.put(ProducerConfig.ACKS_CONFIG, "all");
         producer = new KafkaProducer<>(properties);
-        threadPool = new ThreadPoolExecutor(0, threadCount, 10, TimeUnit.SECONDS,
-                new ArrayBlockingQueue<>(10),
-                new BasicThreadFactory.Builder().namingPattern("kafka-producer-%d").build());
+        threadPool =
+                new ThreadPoolExecutor(
+                        0,
+                        threadCount,
+                        10,
+                        TimeUnit.SECONDS,
+                        new ArrayBlockingQueue<>(10),
+                        new BasicThreadFactory.Builder()
+                                .namingPattern("kafka-producer-%d")
+                                .build());
         this.messageCount = messageCount;
         this.threadCount = threadCount;
     }

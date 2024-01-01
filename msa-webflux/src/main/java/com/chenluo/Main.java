@@ -1,6 +1,7 @@
 package com.chenluo;
 
 import com.chenluo.client.DeclarativeClient;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -20,7 +21,8 @@ public class Main {
     @Bean
     DeclarativeClient declarativeClient() {
         WebClientAdapter webClientAdapter = WebClientAdapter.forClient(WebClient.create());
-        return HttpServiceProxyFactory.builder(webClientAdapter).build()
+        return HttpServiceProxyFactory.builder(webClientAdapter)
+                .build()
                 .createClient(DeclarativeClient.class);
     }
 }

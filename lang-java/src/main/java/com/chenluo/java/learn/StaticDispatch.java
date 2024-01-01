@@ -19,12 +19,9 @@ public class StaticDispatch {
         System.out.println("hello woman");
     }
 
-    abstract static class Human {
-    }
+    abstract static class Human {}
 
-    static class Man extends Human {
-    }
+    static class Man extends Human {}
 
-    static class Woman extends Human {
-    }
+    static class Woman extends Human {}
 }

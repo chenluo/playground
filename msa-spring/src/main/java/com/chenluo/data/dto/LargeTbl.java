@@ -5,10 +5,8 @@ import org.springframework.data.relational.core.mapping.Table;
 
 @Table("large_tbl")
 public class LargeTbl {
-    @Id
-    private Long id;
+    @Id private Long id;
     private int isTarget;
 
-    public LargeTbl() {
-    }
+    public LargeTbl() {}
 }

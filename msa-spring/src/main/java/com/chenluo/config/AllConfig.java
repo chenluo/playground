@@ -20,11 +20,13 @@ public class AllConfig {
     public DefaultErrorHandler errorHandler(KafkaTemplate<String, String> template) {
         BackOff fixedBackOff = new FixedBackOff(100, 2);
         DefaultErrorHandler errorHandler =
-                new DefaultErrorHandler(new DeadLetterPublishingRecoverer(template)
+                new DefaultErrorHandler(
+                        new DeadLetterPublishingRecoverer(template)
                         //                (consumerRecord, e) -> {
                         //            // logic to execute when all the retry attemps are exhausted
                         //        }
-                        , fixedBackOff);
+                        ,
+                        fixedBackOff);
         //        errorHandler.addRetryableExceptions(SocketTimeoutException.class);
         //        errorHandler.addNotRetryableExceptions(NullPointerException.class);
         return errorHandler;

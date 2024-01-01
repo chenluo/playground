@@ -4,6 +4,7 @@ import com.datastax.driver.core.*;
 import com.datastax.driver.core.querybuilder.Insert;
 import com.datastax.driver.core.querybuilder.QueryBuilder;
 import com.datastax.driver.core.querybuilder.Select;
+
 import org.openjdk.jmh.annotations.*;
 
 import java.util.Random;
@@ -45,10 +46,13 @@ public class ReadBench {
         poolingOptions.setMaxRequestsPerConnection(HostDistance.REMOTE, 32000);
         poolingOptions.setMaxRequestsPerConnection(HostDistance.LOCAL, 32000);
 
-        cluster = Cluster.builder().withPoolingOptions(poolingOptions)
-                //                .addContactPoint("192.168.50.42") // pc
-                //                .addContactPoint("192.168.50.90") // mac
-                .addContactPoint("localhost").build();
+        cluster =
+                Cluster.builder()
+                        .withPoolingOptions(poolingOptions)
+                        //                .addContactPoint("192.168.50.42") // pc
+                        //                .addContactPoint("192.168.50.90") // mac
+                        .addContactPoint("localhost")
+                        .build();
         session = cluster.newSession();
     }
 
@@ -57,12 +61,15 @@ public class ReadBench {
         createTable();
 
         for (int i = 0; i < 100; i++) {
-            Insert insert = QueryBuilder.insertInto("sampledb", "sampletable")
-                    .value(FIELD_PK1, UUID.randomUUID().toString())
-                    .value(FIELD_PK2, UUID.randomUUID().toString())
-                    .value(FIELD_CK1, random.nextInt()).value(FIELD_CK2, random.nextInt())
-                    .value(FIELD_VAL1, nextRandomLocCode()).value(FIELD_VAL2, nextRandomLocCode())
-                    .value(FIELD_VAL3, nextRandomLocCode());
+            Insert insert =
+                    QueryBuilder.insertInto("sampledb", "sampletable")
+                            .value(FIELD_PK1, UUID.randomUUID().toString())
+                            .value(FIELD_PK2, UUID.randomUUID().toString())
+                            .value(FIELD_CK1, random.nextInt())
+                            .value(FIELD_CK2, random.nextInt())
+                            .value(FIELD_VAL1, nextRandomLocCode())
+                            .value(FIELD_VAL2, nextRandomLocCode())
+                            .value(FIELD_VAL3, nextRandomLocCode());
 
             ResultSet execute = session.execute(insert);
             System.out.println(execute);
@@ -71,24 +78,28 @@ public class ReadBench {
 
     private ResultSet createTable() {
         return session.execute(
-                "create table if not exists sampledb.sampletable ( pk1   text, pk2   text, ck1   " +
-                        "int, ck2   int, val1 text, val2 text, val3 text, primary key ((pk1, pk2)" +
-                        ", ck1, ck2) );");
+                "create table if not exists sampledb.sampletable ( pk1   text, pk2   text, ck1   "
+                        + "int, ck2   int, val1 text, val2 text, val3 text, primary key ((pk1, pk2)"
+                        + ", ck1, ck2) );");
     }
 
     private ResultSet createKeyspace() {
         return session.execute(
-                "create keyspace if not exists sampledb with replication = {'class': 'org.apache" +
-                        ".cassandra.locator.SimpleStrategy', 'replication_factor': '1'};");
+                "create keyspace if not exists sampledb with replication = {'class': 'org.apache"
+                        + ".cassandra.locator.SimpleStrategy', 'replication_factor': '1'};");
     }
 
     @Benchmark
     public void write() {
-        Insert insert = QueryBuilder.insertInto("sampledb", "sampletable")
-                .value(FIELD_PK1, nextRandomLocCode()).value(FIELD_PK2, nextRandomLocCode())
-                .value(FIELD_CK1, random.nextInt()).value(FIELD_CK2, random.nextInt())
-                .value(FIELD_VAL1, nextRandomLocCode()).value(FIELD_VAL2, nextRandomLocCode())
-                .value(FIELD_VAL3, nextRandomLocCode());
+        Insert insert =
+                QueryBuilder.insertInto("sampledb", "sampletable")
+                        .value(FIELD_PK1, nextRandomLocCode())
+                        .value(FIELD_PK2, nextRandomLocCode())
+                        .value(FIELD_CK1, random.nextInt())
+                        .value(FIELD_CK2, random.nextInt())
+                        .value(FIELD_VAL1, nextRandomLocCode())
+                        .value(FIELD_VAL2, nextRandomLocCode())
+                        .value(FIELD_VAL3, nextRandomLocCode());
         ResultSet execute = session.execute(insert);
     }
 
@@ -101,8 +112,15 @@ public class ReadBench {
     @Benchmark
     public void read() {
         Select.Where query =
-                QueryBuilder.select(FIELD_PK1, FIELD_PK2, FIELD_CK1, FIELD_CK2, FIELD_VAL1,
-                                FIELD_VAL2, FIELD_VAL3).from("sampledb", "sampletable")
+                QueryBuilder.select(
+                                FIELD_PK1,
+                                FIELD_PK2,
+                                FIELD_CK1,
+                                FIELD_CK2,
+                                FIELD_VAL1,
+                                FIELD_VAL2,
+                                FIELD_VAL3)
+                        .from("sampledb", "sampletable")
                         .where(QueryBuilder.eq(FIELD_PK1, nextRandomLocCode()))
                         .and(QueryBuilder.eq(FIELD_PK2, nextRandomLocCode()));
         ResultSet execute = session.execute(query);

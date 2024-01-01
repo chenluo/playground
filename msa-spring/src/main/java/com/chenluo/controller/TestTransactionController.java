@@ -2,6 +2,7 @@ package com.chenluo.controller;
 
 import com.chenluo.model.dto.SimpleEntity;
 import com.chenluo.model.mapper.SimpleMapper;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;

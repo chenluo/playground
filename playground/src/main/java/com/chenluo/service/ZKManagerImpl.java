@@ -1,6 +1,7 @@
 package com.chenluo.service;
 
 import com.chenluo.zk.connection.ZKConnection;
+
 import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.ZooDefs;
@@ -78,8 +79,12 @@ public class ZKManagerImpl implements ZKManager {
         }
         String lockPath = null;
         try {
-            lockPath = zkeeper.create(path + "/lock_", "".getBytes(StandardCharsets.UTF_8),
-                    ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
+            lockPath =
+                    zkeeper.create(
+                            path + "/lock_",
+                            "".getBytes(StandardCharsets.UTF_8),
+                            ZooDefs.Ids.OPEN_ACL_UNSAFE,
+                            CreateMode.EPHEMERAL_SEQUENTIAL);
         } catch (KeeperException e) {
             logger.error("", e);
             return null;

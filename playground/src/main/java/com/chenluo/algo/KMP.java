@@ -56,14 +56,16 @@ public class KMP {
         for (int i = 1; i < pattern.length(); i++) {
             result[i] = findLongestMatchPrefixAndSuffix(pattern, result, result[i - 1], i);
         }
-        System.out.println(Arrays.stream(result).mapToObj(i -> String.valueOf(i))
-                .collect(Collectors.toList()));
+        System.out.println(
+                Arrays.stream(result)
+                        .mapToObj(i -> String.valueOf(i))
+                        .collect(Collectors.toList()));
 
         return result;
     }
 
-    private int findLongestMatchPrefixAndSuffix(String pattern, int[] lps, int lastLength,
-                                                int curIdx) {
+    private int findLongestMatchPrefixAndSuffix(
+            String pattern, int[] lps, int lastLength, int curIdx) {
         if (pattern.charAt(lastLength) == pattern.charAt(curIdx)) {
             return lastLength + 1;
         } else {

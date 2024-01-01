@@ -49,7 +49,8 @@ public class MyNettyClient {
         final SslContext sslCtx;
         if (ssl) {
             sslCtx =
-                    SslContextBuilder.forClient().trustManager(InsecureTrustManagerFactory.INSTANCE)
+                    SslContextBuilder.forClient()
+                            .trustManager(InsecureTrustManagerFactory.INSTANCE)
                             .build();
         } else {
             sslCtx = null;
@@ -65,17 +66,24 @@ public class MyNettyClient {
             Channel ch = b.connect(host, port).sync().channel();
 
             // Prepare the HTTP request.
-            HttpRequest request = new DefaultFullHttpRequest(HttpVersion.HTTP_1_1, HttpMethod.GET,
-                    uri.getRawPath(), Unpooled.EMPTY_BUFFER);
+            HttpRequest request =
+                    new DefaultFullHttpRequest(
+                            HttpVersion.HTTP_1_1,
+                            HttpMethod.GET,
+                            uri.getRawPath(),
+                            Unpooled.EMPTY_BUFFER);
             request.headers().set(HttpHeaderNames.HOST, host);
             request.headers().set(HttpHeaderNames.CONNECTION, HttpHeaderValues.CLOSE);
             request.headers().set(HttpHeaderNames.ACCEPT_ENCODING, HttpHeaderValues.GZIP);
 
             // Set some example cookies.
-            request.headers().set(HttpHeaderNames.COOKIE,
-                    io.netty.handler.codec.http.cookie.ClientCookieEncoder.STRICT.encode(
-                            new io.netty.handler.codec.http.cookie.DefaultCookie("my-cookie",
-                                    "foo"), new DefaultCookie("another-cookie", "bar")));
+            request.headers()
+                    .set(
+                            HttpHeaderNames.COOKIE,
+                            io.netty.handler.codec.http.cookie.ClientCookieEncoder.STRICT.encode(
+                                    new io.netty.handler.codec.http.cookie.DefaultCookie(
+                                            "my-cookie", "foo"),
+                                    new DefaultCookie("another-cookie", "bar")));
 
             // Send the HTTP request.
             ch.writeAndFlush(request);

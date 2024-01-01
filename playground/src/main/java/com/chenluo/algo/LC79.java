@@ -22,8 +22,8 @@ public class LC79 {
             return false;
         }
 
-        private boolean find(char[][] board, int i, int j, String word, int cur,
-                             boolean[][] visited) {
+        private boolean find(
+                char[][] board, int i, int j, String word, int cur, boolean[][] visited) {
             if (cur >= word.length()) {
                 return true;
             }
@@ -32,12 +32,15 @@ public class LC79 {
             } else if (cur == word.length() - 1) {
                 return true;
             }
-            int[][] direction = new int[][]{{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+            int[][] direction = new int[][] {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
             for (int ii = 0; ii < direction.length; ii++) {
                 int newI = i + direction[ii][0];
                 int newJ = j + direction[ii][1];
-                if (newI >= 0 && newI < board.length && newJ >= 0 && newJ < board[0].length &&
-                        visited[newI][newJ] == false) {
+                if (newI >= 0
+                        && newI < board.length
+                        && newJ >= 0
+                        && newJ < board[0].length
+                        && visited[newI][newJ] == false) {
                     visited[newI][newJ] = true;
                     boolean find = find(board, newI, newJ, word, cur + 1, visited);
                     visited[newI][newJ] = false;

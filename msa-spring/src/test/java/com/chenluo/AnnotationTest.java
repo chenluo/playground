@@ -46,7 +46,6 @@ public class AnnotationTest {
     class Child implements Parent {
 
         @Override
-        public void foo() {
-        }
+        public void foo() {}
     }
 }

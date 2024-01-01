@@ -5,6 +5,7 @@ import com.amazonaws.services.sqs.AmazonSQSClientBuilder;
 import com.amazonaws.services.sqs.model.AmazonSQSException;
 import com.amazonaws.services.sqs.model.CreateQueueResult;
 import com.amazonaws.services.sqs.model.SendMessageRequest;
+
 import org.springframework.context.SmartLifecycle;
 
 import java.time.LocalDateTime;
@@ -45,21 +46,28 @@ public class Producer implements SmartLifecycle {
 
         String queueUrl = sqs.getQueueUrl(QUEUE_NAME).getQueueUrl();
 
-        executorService.execute(() -> {
-            while (true) {
-                SendMessageRequest send_msg_request =
-                        new SendMessageRequest().withQueueUrl(queueUrl).withMessageBody(
-                                        "hello world @%s".formatted(LocalDateTime.now()
-                                                .format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)))
-                                .withDelaySeconds(5);
-                sqs.sendMessage(send_msg_request);
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        });
+        executorService.execute(
+                () -> {
+                    while (true) {
+                        SendMessageRequest send_msg_request =
+                                new SendMessageRequest()
+                                        .withQueueUrl(queueUrl)
+                                        .withMessageBody(
+                                                "hello world @%s"
+                                                        .formatted(
+                                                                LocalDateTime.now()
+                                                                        .format(
+                                                                                DateTimeFormatter
+                                                                                        .ISO_LOCAL_DATE_TIME)))
+                                        .withDelaySeconds(5);
+                        sqs.sendMessage(send_msg_request);
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                });
         isRunning.set(true);
     }
 

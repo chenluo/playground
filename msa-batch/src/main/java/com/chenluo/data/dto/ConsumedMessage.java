@@ -21,6 +21,5 @@ public class ConsumedMessage {
         this.success = success;
     }
 
-    public ConsumedMessage() {
-    }
+    public ConsumedMessage() {}
 }

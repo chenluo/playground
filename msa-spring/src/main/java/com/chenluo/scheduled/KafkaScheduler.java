@@ -4,6 +4,7 @@ import com.chenluo.data.dto.ConsumedMessage;
 import com.chenluo.data.repo.ConsumedMessageRepository;
 import com.chenluo.kafka.MessageConsumer;
 import com.chenluo.kafka.MessageProducer;
+
 import org.apache.kafka.clients.admin.*;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.producer.ProducerRecord;
@@ -29,8 +30,10 @@ public class KafkaScheduler implements InitializingBean {
     private final ExecutorService executorService = Executors.newFixedThreadPool(1);
     private final Random random = new Random(1);
 
-    public KafkaScheduler(MessageProducer messageProducer, MessageConsumer messageConsumer,
-                          ConsumedMessageRepository consumedMessageRepository) {
+    public KafkaScheduler(
+            MessageProducer messageProducer,
+            MessageConsumer messageConsumer,
+            ConsumedMessageRepository consumedMessageRepository) {
         this.messageProducer = messageProducer;
         this.messageConsumer = messageConsumer;
         this.consumedMessageRepository = consumedMessageRepository;
@@ -40,19 +43,24 @@ public class KafkaScheduler implements InitializingBean {
     public void produceMessage() {
         logger.info("producing");
         for (int i = 0; i < 100; i++) {
-            sendMessage(UUID.randomUUID().toString(),
+            sendMessage(
+                    UUID.randomUUID().toString(),
                     String.valueOf(ZonedDateTime.now().toInstant().toEpochMilli()));
         }
         logger.info("produce done");
     }
 
     private void sendMessage(String key, String value) {
-        Future<RecordMetadata> send = messageProducer.getProducer()
-                .send(new ProducerRecord<>("test-topic", key, value), (metadata, exception) -> {
-                    if (exception != null) {
-                        logger.error("failed to send message.", exception);
-                    }
-                });
+        Future<RecordMetadata> send =
+                messageProducer
+                        .getProducer()
+                        .send(
+                                new ProducerRecord<>("test-topic", key, value),
+                                (metadata, exception) -> {
+                                    if (exception != null) {
+                                        logger.error("failed to send message.", exception);
+                                    }
+                                });
     }
 
     @Scheduled(fixedRate = 1000)
@@ -68,15 +76,16 @@ public class KafkaScheduler implements InitializingBean {
         boolean exception = false;
 
         try {
-            for (ConsumerRecord<String, String> message : messageConsumer.getConsumer()
-                    .poll(Duration.ofMillis(500))) {
+            for (ConsumerRecord<String, String> message :
+                    messageConsumer.getConsumer().poll(Duration.ofMillis(500))) {
                 ConsumedMessage targetMessage;
                 ConsumedMessage consumedMessage =
                         consumedMessageRepository.findByUuid(message.key());
                 logger.info("consuming record: {}", message.key());
                 if (consumedMessage != null && consumedMessage.success == 1) {
-                    logger.error("re-consumed message id: %s, offset: %s".formatted(message.key(),
-                            message.offset()));
+                    logger.error(
+                            "re-consumed message id: %s, offset: %s"
+                                    .formatted(message.key(), message.offset()));
                 }
                 targetMessage = consumedMessage;
                 if (targetMessage == null) {
@@ -125,14 +134,19 @@ public class KafkaScheduler implements InitializingBean {
             //            });
             consumedMessageRepository.saveAll(insertMessage);
             updateMessages.forEach(consumedMessageRepository::save);
-            resendMessages.forEach((k, v) -> {
-                executorService.submit(() -> {
-                    logger.warn("resend message: {}", k);
-                    sendMessage(k, v);
-                });
-            });
-            logger.info("consume done: {} messages consumed. {} delayed. {} resent.",
-                    insertMessage.size(), delayed, resent);
+            resendMessages.forEach(
+                    (k, v) -> {
+                        executorService.submit(
+                                () -> {
+                                    logger.warn("resend message: {}", k);
+                                    sendMessage(k, v);
+                                });
+                    });
+            logger.info(
+                    "consume done: {} messages consumed. {} delayed. {} resent.",
+                    insertMessage.size(),
+                    delayed,
+                    resent);
         }
     }
 

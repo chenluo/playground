@@ -2,6 +2,7 @@ package com.chenluo.config;
 
 import com.chenluo.data.dto.ConsumedMessage;
 import com.chenluo.data.repo.ConsumedMessageRepository;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.Job;
@@ -29,34 +30,31 @@ import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.concurrent.ConcurrentTaskExecutor;
 import org.springframework.transaction.PlatformTransactionManager;
 
-import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Executors;
 
+import javax.sql.DataSource;
+
 @Configuration
 public class BatchConfig {
     Logger logger = LoggerFactory.getLogger(BatchConfig.class);
-    @Autowired
-    private JobRepository jobRepository;
-    @Autowired
-    private PlatformTransactionManager transactionManager;
-    @Autowired
-    private DataSource dataSource;
-    @Autowired
-    private ConsumedMessageRepository repository;
-    @Autowired
-    private Environment environment;
+    @Autowired private JobRepository jobRepository;
+    @Autowired private PlatformTransactionManager transactionManager;
+    @Autowired private DataSource dataSource;
+    @Autowired private ConsumedMessageRepository repository;
+    @Autowired private Environment environment;
 
     @Bean
     @StepScope
-    public ItemReader reader(@Value("#{jobParameters}") Map<String, String> jobParameters,
-                             @Value("#{stepExecutionContext['mod']}") String mod,
-                             @Value("#{stepExecutionContext['idx']}") String idx) {
+    public ItemReader reader(
+            @Value("#{jobParameters}") Map<String, String> jobParameters,
+            @Value("#{stepExecutionContext['mod']}") String mod,
+            @Value("#{stepExecutionContext['idx']}") String idx) {
         logger.info("job parameters: {}", jobParameters);
         Iterable<ConsumedMessage> all =
-                repository.findConsumedMessagesByIdModN(Integer.parseInt(mod),
-                        Integer.parseInt(idx));
+                repository.findConsumedMessagesByIdModN(
+                        Integer.parseInt(mod), Integer.parseInt(idx));
         IteratorItemReader<ConsumedMessage> consumedMessageIteratorItemReader =
                 new IteratorItemReader<ConsumedMessage>(all);
         logger.info("start");
@@ -85,40 +83,50 @@ public class BatchConfig {
     @Bean
     //    public Step step1(@Value("#{jobParameters['chunkSize']}") String chunkSize) {
     public Step step1() throws Exception {
-        return new StepBuilder("test_step_1", jobRepository).chunk(1, transactionManager)
-                .allowStartIfComplete(true).reader(reader(null, null, null)).processor(processor())
-                .writer(writer()).build();
+        return new StepBuilder("test_step_1", jobRepository)
+                .chunk(1, transactionManager)
+                .allowStartIfComplete(true)
+                .reader(reader(null, null, null))
+                .processor(processor())
+                .writer(writer())
+                .build();
     }
 
     @Bean
     public Step partitionStep() throws Exception {
-        return new StepBuilder("partitionStep", jobRepository).partitioner("partition_step",
-                partitioner()).step(step1()).taskExecutor(taskExecutor(null)).build();
+        return new StepBuilder("partitionStep", jobRepository)
+                .partitioner("partition_step", partitioner())
+                .step(step1())
+                .taskExecutor(taskExecutor(null))
+                .build();
     }
 
     @Bean
     public Partitioner partitioner() {
-        Partitioner partitioner = new Partitioner() {
-            @Override
-            public Map<String, ExecutionContext> partition(int gridSize) {
-                logger.info("gridSize = {}", gridSize);
-                Map<String, ExecutionContext> contextMap = new HashMap<>();
-                for (int i = 0; i < gridSize; i++) {
-                    ExecutionContext executionContext = new ExecutionContext();
-                    executionContext.put("mod", gridSize);
-                    executionContext.put("idx", i);
-                    contextMap.put(String.valueOf(i), executionContext);
-                }
-                return contextMap;
-            }
-        };
+        Partitioner partitioner =
+                new Partitioner() {
+                    @Override
+                    public Map<String, ExecutionContext> partition(int gridSize) {
+                        logger.info("gridSize = {}", gridSize);
+                        Map<String, ExecutionContext> contextMap = new HashMap<>();
+                        for (int i = 0; i < gridSize; i++) {
+                            ExecutionContext executionContext = new ExecutionContext();
+                            executionContext.put("mod", gridSize);
+                            executionContext.put("idx", i);
+                            contextMap.put(String.valueOf(i), executionContext);
+                        }
+                        return contextMap;
+                    }
+                };
         return partitioner;
     }
 
     @Bean("jobA")
     public Job jobA() throws Exception {
-        return new JobBuilder("job", jobRepository).incrementer(new RunIdIncrementer())
-                .start(partitionStep()).build();
+        return new JobBuilder("job", jobRepository)
+                .incrementer(new RunIdIncrementer())
+                .start(partitionStep())
+                .build();
     }
 
     @Bean
@@ -127,8 +135,9 @@ public class BatchConfig {
         SimpleAsyncTaskExecutor taskExecutor = new SimpleAsyncTaskExecutor("spring_batch");
         String concurrency1 = environment.getProperty("concurrency");
         System.out.println(concurrency1);
-        ConcurrentTaskExecutor concurrentTaskExecutor = new ConcurrentTaskExecutor(
-                Executors.newFixedThreadPool(Integer.parseInt(concurrency)));
+        ConcurrentTaskExecutor concurrentTaskExecutor =
+                new ConcurrentTaskExecutor(
+                        Executors.newFixedThreadPool(Integer.parseInt(concurrency)));
         return concurrentTaskExecutor;
     }
 }

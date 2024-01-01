@@ -2,20 +2,22 @@ package com.chenluo;
 
 import org.junit.jupiter.api.Test;
 
+import java.io.*;
+
 import javax.net.ssl.SSLParameters;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
-import java.io.*;
 
 public class TLSTest {
 
     @Test
     public void testBlockingTlsClient() throws IOException {
         byte[] bytes;
-        try (SSLSocket socket = (SSLSocket) SSLSocketFactory.getDefault()
-                .createSocket("www.google.com", 443)) {
-            socket.setSSLParameters(new SSLParameters(new String[]{"TLS_AES_256_GCM_SHA384"},
-                    new String[]{"TLSv1.3"}));
+        try (SSLSocket socket =
+                (SSLSocket) SSLSocketFactory.getDefault().createSocket("www.google.com", 443)) {
+            socket.setSSLParameters(
+                    new SSLParameters(
+                            new String[] {"TLS_AES_256_GCM_SHA384"}, new String[] {"TLSv1.3"}));
             socket.startHandshake();
             OutputStream outputStream = socket.getOutputStream();
             BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(outputStream);
