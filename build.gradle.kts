@@ -43,6 +43,7 @@ subprojects {
             setEncoding("utf-8")
         }
         java {
+            targetExclude("build/")
 //            eclipse() // I like eclipse formatting over google
             googleJavaFormat().aosp().reflowLongStrings().formatJavadoc(false)
                 .reorderImports(true)
