@@ -1,7 +1,9 @@
 package com.chenluo.controller
 
 import com.chenluo.repo.DemoRepo
-import jakarta.persistence.*
+import jakarta.persistence.Entity
+import jakarta.persistence.GeneratedValue
+import jakarta.persistence.Id
 import jakarta.persistence.criteria.CriteriaBuilder
 import jakarta.persistence.criteria.CriteriaQuery
 import jakarta.persistence.criteria.Predicate
@@ -17,12 +19,12 @@ class DemoController(private val demoRepo: DemoRepo) {
     }
 
     @GetMapping("/find")
-    fun find(@RequestParam id:Long): DemoEntity {
+    fun find(@RequestParam id: Long): DemoEntity {
         return demoRepo.findById(id).orElseThrow()
     }
 
     @PostMapping("/update")
-    fun update(@RequestParam id:Long): DemoEntity {
+    fun update(@RequestParam id: Long): DemoEntity {
         val demoEntity = demoRepo.findById(id).orElseThrow()
         demoEntity.field1 += "1"
         return demoRepo.save(demoEntity)

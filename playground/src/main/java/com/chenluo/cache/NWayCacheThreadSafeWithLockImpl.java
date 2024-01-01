@@ -17,6 +17,20 @@ public class NWayCacheThreadSafeWithLockImpl<K, V> implements NWayCache<K, V> {
     private ReplacePolicy replacePolicy;
     private int term = 0; // handle over-flow.
 
+    public NWayCacheThreadSafeWithLockImpl(int S, int N) {
+        this.S = S;
+        this.N = N;
+        this.entries = new CacheEntry[S];
+        for (int i = 0; i < S; i++) {
+            // init head
+            this.entries[i] = new CacheEntry<K, V>(null, null);
+        }
+        locks = new ReentrantReadWriteLock[S];
+        for (int i = 0; i < S; i++) {
+            locks[i] = new ReentrantReadWriteLock();
+        }
+    }
+
     public static void main(String[] args) {
         NWayCache<String, String> nWayCacheImpl =
                 new NWayCacheThreadSafeWithLockImpl<String, String>(5, 2);
@@ -37,20 +51,6 @@ public class NWayCacheThreadSafeWithLockImpl<K, V> implements NWayCache<K, V> {
         }
 
 
-    }
-
-    public NWayCacheThreadSafeWithLockImpl(int S, int N) {
-        this.S = S;
-        this.N = N;
-        this.entries = new CacheEntry[S];
-        for (int i = 0; i < S; i++) {
-            // init head
-            this.entries[i] = new CacheEntry<K, V>(null, null);
-        }
-        locks = new ReentrantReadWriteLock[S];
-        for (int i = 0; i < S; i++) {
-            locks[i] = new ReentrantReadWriteLock();
-        }
     }
 
     /**

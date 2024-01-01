@@ -7,7 +7,10 @@ plugins {
 
 repositories {
     mavenCentral()
-    maven { url = uri("https://artifactory-oss.prod.netflix.net/artifactory/maven-oss-candidates") }
+    maven {
+        url =
+            uri("https://artifactory-oss.prod.netflix.net/artifactory/maven-oss-candidates")
+    }
 }
 
 extra["springCloudVersion"] = "2023.0.0"
@@ -20,7 +23,13 @@ dependencies {
 
 dependencyManagement {
     imports {
-        mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
+        mavenBom(
+            "org.springframework.cloud:spring-cloud-dependencies:${
+                property(
+                    "springCloudVersion"
+                )
+            }"
+        )
     }
 }
 

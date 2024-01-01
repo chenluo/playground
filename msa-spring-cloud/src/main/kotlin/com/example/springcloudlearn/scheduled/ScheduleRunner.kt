@@ -9,6 +9,7 @@ import org.springframework.util.StopWatch
 @Component
 class ScheduleRunner {
     val logger: Logger = LoggerFactory.getLogger(ScheduleRunner::class.java)
+
     @Scheduled(cron = "*/1 * * * * *")
     fun logTest() {
         val stopWatch = StopWatch()

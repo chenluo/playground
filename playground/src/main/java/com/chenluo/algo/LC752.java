@@ -1,6 +1,7 @@
 package com.chenluo.algo;
 
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.Queue;
 
 public class LC752 {
     public static void main(String[] args) {

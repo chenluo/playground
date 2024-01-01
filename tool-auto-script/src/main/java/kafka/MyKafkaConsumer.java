@@ -18,23 +18,15 @@ import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class MyKafkaConsumer {
-    private final String consumerId;
-    private KafkaConsumer<Integer, String> consumer;
-    private final String groupId;
-    private ExecutorService pool;
-    private final Logger logger = LoggerFactory.getLogger(MyKafkaConsumer.class);
     //    private static final String CONSUME_LOG_FORMAT = "{consumerGroupId}:{consumerId}" +
 //            " receive message from partition {partitionId}: " +
 //            "({key}:{value}) at offset: {offset}";
     private static final String CONSUME_LOG_FORMAT = "{}:{} receive message from partition {}: ({}:{}) at offset: {}";
-
-    public static void main(String[] args) {
-//        myKafkaConsumer.consumeAndEcho();
-        for (int i = 0; i < 10; i++) {
-            MyKafkaConsumer myKafkaConsumer = new MyKafkaConsumer("group-" + i, String.valueOf(i));
-            myKafkaConsumer.run();
-        }
-    }
+    private final String consumerId;
+    private final String groupId;
+    private final Logger logger = LoggerFactory.getLogger(MyKafkaConsumer.class);
+    private KafkaConsumer<Integer, String> consumer;
+    private ExecutorService pool;
 
     public MyKafkaConsumer(String groupId, String consumerId) {
         this.groupId = groupId;
@@ -59,6 +51,14 @@ public class MyKafkaConsumer {
                 .namingPattern("kafka-consumer-" + groupId + ":" + consumerId + "-%d")
                 .daemon(false).build();
         this.pool = new ThreadPoolExecutor(0, 1, 1, TimeUnit.SECONDS, new ArrayBlockingQueue<>(100), factory);
+    }
+
+    public static void main(String[] args) {
+//        myKafkaConsumer.consumeAndEcho();
+        for (int i = 0; i < 10; i++) {
+            MyKafkaConsumer myKafkaConsumer = new MyKafkaConsumer("group-" + i, String.valueOf(i));
+            myKafkaConsumer.run();
+        }
     }
 
     public void run() {

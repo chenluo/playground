@@ -10,27 +10,6 @@ public class Onion<T> {
 
     private Middleware<T> core = (ctx, nxt) -> nxt.next();
 
-    public final void use(Middleware<T> middleware) {
-        Objects.requireNonNull(middleware, "Middleware must be not null");
-        this.core = compose(this.core, middleware);
-    }
-
-    public void handle(T context) throws Exception {
-
-        this.core.via(context, () -> {
-        });
-    }
-
-    public interface Middleware<T> {
-
-        void via(T context,  Next next) throws Exception;
-    }
-
-    public interface Next {
-
-        void next() throws Exception;
-    }
-
     @SafeVarargs
     public static <U> Middleware<U> compose(Middleware<U>... middlewares) {
         return Arrays.stream(middlewares).reduce((ctx, nxt) -> nxt.next(), (before, after) -> (ctx, nxt) -> before.via(ctx, () -> after.via(ctx, nxt)));
@@ -78,5 +57,26 @@ public class Onion<T> {
         compose(middleware1, middleware2, middleware3, middleware4);
 
 
+    }
+
+    public final void use(Middleware<T> middleware) {
+        Objects.requireNonNull(middleware, "Middleware must be not null");
+        this.core = compose(this.core, middleware);
+    }
+
+    public void handle(T context) throws Exception {
+
+        this.core.via(context, () -> {
+        });
+    }
+
+    public interface Middleware<T> {
+
+        void via(T context, Next next) throws Exception;
+    }
+
+    public interface Next {
+
+        void next() throws Exception;
     }
 }

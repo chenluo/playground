@@ -16,7 +16,8 @@ public class CacheEntry<K, V> {
 
         CacheEntry<?, ?> that = (CacheEntry<?, ?>) o;
 
-        if (key != null ? !key.equals(that.key) : that.key != null) return false;
+        if (key != null ? !key.equals(that.key) : that.key != null)
+            return false;
         return value != null ? value.equals(that.value) : that.value == null;
     }
 

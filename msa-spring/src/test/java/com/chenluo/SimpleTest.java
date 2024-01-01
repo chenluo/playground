@@ -322,6 +322,46 @@ public class SimpleTest {
 
     }
 
+    @Test
+    public void Q25() {
+        ListNode n1 = new ListNode(1);
+        ListNode n2 = new ListNode(2);
+        ListNode n3 = new ListNode(3);
+        ListNode n4 = new ListNode(4);
+        ListNode n5 = new ListNode(5);
+        ListNode n6 = new ListNode(6);
+        ListNode n7 = new ListNode(7);
+        ListNode n8 = new ListNode(8);
+        n1.next = n2;
+        n2.next = n3;
+        n3.next = n4;
+        n4.next = n5;
+        n5.next = n6;
+        n6.next = n7;
+        n7.next = n8;
+        new Q25Solution().reverseKGroup(n1, 1);
+        //        new Q25Solution().reverseKGroup(n1, 2);
+        //        new Q25Solution().reverseKGroup(n1, 3);
+    }
+
+    @Test
+    public void Q707() {
+        MyLinkedList l = new MyLinkedList();
+        l.addAtHead(7);
+        l.addAtHead(2);
+        l.addAtHead(1);
+        l.addAtIndex(3, 0);
+        l.deleteAtIndex(2);
+        l.addAtHead(6);
+        l.addAtTail(4);
+        l.get(4);
+        l.addAtHead(4);
+        l.addAtIndex(5, 0);
+        l.addAtHead(6);
+
+
+    }
+
     /**
      * Definition for singly-linked list.
      * public class ListNode {
@@ -1166,28 +1206,6 @@ public class SimpleTest {
         }
     }
 
-    @Test
-    public void Q25() {
-        ListNode n1 = new ListNode(1);
-        ListNode n2 = new ListNode(2);
-        ListNode n3 = new ListNode(3);
-        ListNode n4 = new ListNode(4);
-        ListNode n5 = new ListNode(5);
-        ListNode n6 = new ListNode(6);
-        ListNode n7 = new ListNode(7);
-        ListNode n8 = new ListNode(8);
-        n1.next = n2;
-        n2.next = n3;
-        n3.next = n4;
-        n4.next = n5;
-        n5.next = n6;
-        n6.next = n7;
-        n7.next = n8;
-        new Q25Solution().reverseKGroup(n1, 1);
-        //        new Q25Solution().reverseKGroup(n1, 2);
-        //        new Q25Solution().reverseKGroup(n1, 3);
-    }
-
     class Q25Solution {
         public ListNode reverseKGroup(ListNode head, int k) {
             return reverse(head, k);
@@ -1219,24 +1237,6 @@ public class SimpleTest {
             start.next = reverse(nextStart, k);
             return kth;
         }
-    }
-
-    @Test
-    public void Q707() {
-        MyLinkedList l = new MyLinkedList();
-        l.addAtHead(7);
-        l.addAtHead(2);
-        l.addAtHead(1);
-        l.addAtIndex(3, 0);
-        l.deleteAtIndex(2);
-        l.addAtHead(6);
-        l.addAtTail(4);
-        l.get(4);
-        l.addAtHead(4);
-        l.addAtIndex(5, 0);
-        l.addAtHead(6);
-
-
     }
 
     class MyLinkedList {

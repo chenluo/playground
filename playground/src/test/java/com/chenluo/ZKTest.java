@@ -16,16 +16,13 @@ import java.util.concurrent.*;
 
 //@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ZKTest {
+    private final ExecutorService executor = new ThreadPoolExecutor(10, 100, 10, TimeUnit.SECONDS, new LinkedBlockingDeque<>(10000), new ThreadPoolExecutor.CallerRunsPolicy());
+    private final Logger logger = LoggerFactory.getLogger(ZKTest.class);
     @LocalServerPort
     private int port;
-
     private URL base;
-
-    private final ExecutorService executor = new ThreadPoolExecutor(10, 100, 10, TimeUnit.SECONDS, new LinkedBlockingDeque<>(10000), new ThreadPoolExecutor.CallerRunsPolicy());
-
     @Autowired
     private TestRestTemplate template;
-    private final Logger logger = LoggerFactory.getLogger(ZKTest.class);
 
     @BeforeEach
     public void setUp() throws MalformedURLException {

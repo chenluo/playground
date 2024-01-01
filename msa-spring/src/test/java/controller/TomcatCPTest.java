@@ -14,7 +14,7 @@ public class TomcatCPTest {
     @Autowired
     private DataSource dataSource;
 
-//    @Test
+    //    @Test
     public void givenTomcatConnectionPoolInstance_whenCheckedPoolClassName_thenCorrect() {
         assertThat(dataSource.getClass().getName()).isEqualTo(
                 "org.apache.tomcat.jdbc.pool.DataSource");

@@ -6,7 +6,8 @@ import org.springframework.retry.annotation.Retryable
 import org.springframework.stereotype.Service
 
 @Service
-open class MyServiceImpl(private val mySharedService: MySharedService) : MyService {
+open class MyServiceImpl(private val mySharedService: MySharedService) :
+    MyService {
     private val result = mySharedService.serve()
 
     @Retryable(maxAttempts = 3)

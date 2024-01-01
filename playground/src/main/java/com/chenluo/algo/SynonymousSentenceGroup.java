@@ -32,7 +32,7 @@ public class SynonymousSentenceGroup {
                 }
             }
             for (String s : synonymousWord) {
-               synonymousMarker.put(s, marker);
+                synonymousMarker.put(s, marker);
             }
             nextMarker++;
         }

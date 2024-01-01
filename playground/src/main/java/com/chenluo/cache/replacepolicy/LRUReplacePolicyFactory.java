@@ -1,6 +1,6 @@
 package com.chenluo.cache.replacepolicy;
 
-public class LRUReplacePolicyFactory<K> implements ReplacePolicyFactory{
+public class LRUReplacePolicyFactory<K> implements ReplacePolicyFactory {
     int capacity;
 
     public LRUReplacePolicyFactory(int n) {

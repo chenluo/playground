@@ -1,4 +1,3 @@
-
 plugins {
     alias(versions.plugins.springboot)
     alias(versions.plugins.springboot.dependency.management)

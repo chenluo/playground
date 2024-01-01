@@ -12,7 +12,7 @@ public class Security {
 
     public static void main(String[] args)
             throws NoSuchAlgorithmException, SignatureException, InvalidKeyException,
-                   NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
+            NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
         Security security = new Security();
         security.msgDigest();
         security.msgSig();
@@ -33,7 +33,7 @@ public class Security {
 
     private void msgSig()
             throws NoSuchAlgorithmException, InvalidKeyException, SignatureException,
-                   NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
+            NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
         KeyPairGenerator rsa = KeyPairGenerator.getInstance("RSA");
         rsa.initialize(2048);
         KeyPair rsaKeyPair = rsa.generateKeyPair();
@@ -76,7 +76,7 @@ public class Security {
 
     private void encryptAndDecryptRSA()
             throws InvalidKeyException, IllegalBlockSizeException, BadPaddingException,
-                   NoSuchPaddingException, NoSuchAlgorithmException {
+            NoSuchPaddingException, NoSuchAlgorithmException {
         String msgToEncrypt = "";
         for (int i = 0; i < 1000; i++) {
             msgToEncrypt += UUID.randomUUID().toString();

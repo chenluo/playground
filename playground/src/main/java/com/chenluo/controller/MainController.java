@@ -20,10 +20,9 @@ public class MainController {
 
     private final Logger logger = LoggerFactory.getLogger(MainController.class);
     private final AtomicLong atomicLong = new AtomicLong(1);
+    private final DbService dbService;
     private ZKConfiguration zkConfiguration;
     private ZKManager zkManager;
-    private final DbService dbService;
-
     private volatile long volatileLong = 1;
 
     private Long longCounter = 1L;

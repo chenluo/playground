@@ -9,19 +9,15 @@ import java.util.Map;
 import java.util.Random;
 
 public abstract class User {
+    protected final String userName;
+    private final Random random = new Random();
     /**
      * Home
      * Visit
      * Post
      */
     protected String state;
-
     protected Map<String, List<Double>> transitionMatrix = Maps.newHashMap();
-
-    protected final String userName;
-
-    private final Random random = new Random();
-
     private Logger logger = LoggerFactory.getLogger(User.class);
 
     protected User(String userName) {

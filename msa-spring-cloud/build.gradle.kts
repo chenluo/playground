@@ -25,7 +25,13 @@ dependencies {
 
 dependencyManagement {
     imports {
-        mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
+        mavenBom(
+            "org.springframework.cloud:spring-cloud-dependencies:${
+                property(
+                    "springCloudVersion"
+                )
+            }"
+        )
     }
 }
 

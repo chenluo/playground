@@ -63,7 +63,8 @@ public class MyKafkaProducer {
         this.threadPool.shutdown();
         while (true) {
             try {
-                if (this.threadPool.awaitTermination(100, TimeUnit.MILLISECONDS)) break;
+                if (this.threadPool.awaitTermination(100, TimeUnit.MILLISECONDS))
+                    break;
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

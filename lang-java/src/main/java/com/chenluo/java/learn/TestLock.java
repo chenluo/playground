@@ -27,14 +27,14 @@ public class TestLock {
         }
     }
 
-    private static void lockBySync(){
+    private static void lockBySync() {
         synchronized (lock) {
             a++;
         }
     }
 
-    private static void lockByLock(){
-         if (reentrantLock.tryLock()) {
+    private static void lockByLock() {
+        if (reentrantLock.tryLock()) {
             a++;
         }
     }

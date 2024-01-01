@@ -1,17 +1,12 @@
 package com.chenluo.java.learn;
 
 public class StaticDispatch {
-    static abstract class Human {
-
+    public static void main(String[] args) {
+        StaticDispatch staticDispatch = new StaticDispatch();
+        staticDispatch.sayHello((Human) new Man());
+        staticDispatch.sayHello((Human) new Woman());
     }
 
-    static class Man extends Human {
-
-    }
-
-    static class Woman extends Human {
-
-    }
     public void sayHello(Human human) {
         System.out.println("hello human");
     }
@@ -24,9 +19,15 @@ public class StaticDispatch {
         System.out.println("hello woman");
     }
 
-    public static void main(String[] args) {
-        StaticDispatch staticDispatch = new StaticDispatch();
-        staticDispatch.sayHello((Human) new Man());
-        staticDispatch.sayHello((Human) new Woman());
+    static abstract class Human {
+
+    }
+
+    static class Man extends Human {
+
+    }
+
+    static class Woman extends Human {
+
     }
 }

@@ -24,15 +24,14 @@ import java.util.List;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Testcontainers
 public class ReminderTest {
-    @Autowired
-    private ReminderRepository reminderRepository;
-
     @Container
     static MySQLContainer mySQLContainer =
             new MySQLContainer<>(DockerImageName.parse("mysql:8.0-debian"));
     @Container
     static KafkaContainer kafkaContainer =
             new KafkaContainer(DockerImageName.parse("confluentinc/cp-kafka:latest"));
+    @Autowired
+    private ReminderRepository reminderRepository;
 
     @DynamicPropertySource
     static void kafkaProperties(DynamicPropertyRegistry registry) {

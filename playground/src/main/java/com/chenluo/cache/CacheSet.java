@@ -3,7 +3,7 @@ package com.chenluo.cache;
 import com.chenluo.cache.replacepolicy.ReplacePolicy;
 
 public class CacheSet<K, V> {
-    CacheEntry<K,V>[] cacheEntries;
+    CacheEntry<K, V>[] cacheEntries;
     ReplacePolicy<K> replacePolicy;
 
     public CacheSet(int N, ReplacePolicy<K> replacePolicy) {

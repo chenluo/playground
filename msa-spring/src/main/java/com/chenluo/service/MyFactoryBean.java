@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class MyFactoryBean implements FactoryBean<MyComplexServiceImpl> {
     private final Logger logger = LoggerFactory.getLogger(MyFactoryBean.class);
+
     @Override
     public MyComplexServiceImpl getObject() throws Exception {
         logger.warn("factoryBean getObject called.");

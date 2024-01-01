@@ -40,9 +40,13 @@ val fatJar = task("fatJar", type = Jar::class) {
     // manifest Main-Class attribute is optional.
     // (Used only to provide default main class for executable jar)
     manifest {
-        attributes["Main-Class"] = "com.chenluo.BatchApp" // fully qualified class name of default main class
+        attributes["Main-Class"] =
+            "com.chenluo.BatchApp" // fully qualified class name of default main class
     }
-    from(configurations.runtimeClasspath.get().map({ if (it.isDirectory) it else zipTree(it) }))
+    from(
+        configurations.runtimeClasspath.get()
+            .map({ if (it.isDirectory) it else zipTree(it) })
+    )
     with(tasks["jar"] as CopySpec)
 }
 

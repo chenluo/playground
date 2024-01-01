@@ -55,7 +55,7 @@ public class FirstGrpcClient {
 
         });
         for (int i = 0; i < count; i++) {
-            requestStream.onNext(Req.newBuilder().setId(i).setReq("req"+i).build());
+            requestStream.onNext(Req.newBuilder().setId(i).setReq("req" + i).build());
         }
         requestStream.onCompleted();
         try {

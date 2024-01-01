@@ -34,7 +34,7 @@ public class KMP {
                     // and lps is 1, so we can say, at least we can restart from a,
                     // because the text and pattern agree on aabba and also match a
                     // potentially, the start position of match is updated with diff posInPattern - lps[posInPattern-1]
-                    posInPattern = lps[posInPattern-1];
+                    posInPattern = lps[posInPattern - 1];
                 } else {
                     // no matched char in pattern
                     // so no above shortcut
@@ -43,7 +43,7 @@ public class KMP {
                 }
             }
             if (posInPattern == pattern.length()) {
-                return posInText-pattern.length();
+                return posInText - pattern.length();
             }
         }
 
@@ -54,7 +54,7 @@ public class KMP {
         int[] result = new int[pattern.length()];
         result[0] = 0;
         for (int i = 1; i < pattern.length(); i++) {
-            result[i] = findLongestMatchPrefixAndSuffix(pattern, result, result[i-1], i);
+            result[i] = findLongestMatchPrefixAndSuffix(pattern, result, result[i - 1], i);
 
         }
         System.out.println(Arrays.stream(result).mapToObj(i -> String.valueOf(i)).collect(Collectors.toList()));
@@ -62,14 +62,15 @@ public class KMP {
         return result;
 
     }
-    private int findLongestMatchPrefixAndSuffix(String pattern, int[] lps, int lastLength,  int curIdx) {
+
+    private int findLongestMatchPrefixAndSuffix(String pattern, int[] lps, int lastLength, int curIdx) {
         if (pattern.charAt(lastLength) == pattern.charAt(curIdx)) {
-            return lastLength+1;
+            return lastLength + 1;
         } else {
-            if (lastLength-1 < 0) {
+            if (lastLength - 1 < 0) {
                 return 0;
             }
-            return findLongestMatchPrefixAndSuffix(pattern, lps, lps[lastLength-1], curIdx);
+            return findLongestMatchPrefixAndSuffix(pattern, lps, lps[lastLength - 1], curIdx);
         }
 
     }

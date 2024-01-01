@@ -13,7 +13,7 @@ public class TestReordering {
     private void run() throws InterruptedException {
         final int[] ordinaryInt = {0};
         Thread readT = new Thread(() -> {
-            while(!Thread.currentThread().isInterrupted()) {
+            while (!Thread.currentThread().isInterrupted()) {
                 int prev = ordinaryInt[0];
                 int next = ordinaryInt[0];
                 if (prev > next) {
@@ -26,7 +26,7 @@ public class TestReordering {
         Thread writeT = new Thread(new Runnable() {
             @Override
             public void run() {
-                while(!Thread.currentThread().isInterrupted()) {
+                while (!Thread.currentThread().isInterrupted()) {
                     ordinaryInt[0]++;
                 }
             }
@@ -116,10 +116,10 @@ public class TestReordering {
         // store r1     store r2
 
         private synchronized void anyMethodAsBarrier() {
-            a+=0;
-            b+=0;
-            r1+=0;
-            r2+=0;
+            a += 0;
+            b += 0;
+            r1 += 0;
+            r2 += 0;
         }
     }
 }

@@ -45,7 +45,7 @@ public class MyKafkaTopic {
         CreateTopicsResult result = admin.createTopics(topicList);
         int tryCount = 10;
         boolean success = false;
-        while (tryCount > 0 && !success ) {
+        while (tryCount > 0 && !success) {
             tryCount--;
             try {
                 result.all().get(1000, TimeUnit.MILLISECONDS);

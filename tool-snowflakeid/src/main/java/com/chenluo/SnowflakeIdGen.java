@@ -10,8 +10,8 @@ import java.time.Instant;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class SnowflakeIdGen {
-    private Long machineId;
     private final AtomicInteger seq = new AtomicInteger();
+    private Long machineId;
     private long timestamp = 0L;
     private int maxSeq = 0;
     private int seqBits = 14;

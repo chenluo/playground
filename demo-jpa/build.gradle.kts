@@ -8,11 +8,6 @@ plugins {
     kotlin("plugin.jpa")
 }
 
-
-repositories {
-    mavenCentral()
-}
-
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-web")

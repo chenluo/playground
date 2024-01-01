@@ -14,7 +14,7 @@ public class MyRouter {
     @Bean
     public RouterFunction<ServerResponse> routeMyHandlerHello(MyHandler myHandler) {
         return RouterFunctions.route(RequestPredicates.GET("/hello")
-                        .and(RequestPredicates.accept(MediaType.APPLICATION_JSON)),
+                                .and(RequestPredicates.accept(MediaType.APPLICATION_JSON)),
                         myHandler::hello)
                 .andRoute(RequestPredicates.GET("/mysql/get/{id}")
                                 .and(RequestPredicates.accept(MediaType.APPLICATION_JSON)),

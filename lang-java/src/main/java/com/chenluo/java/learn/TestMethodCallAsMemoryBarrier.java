@@ -14,9 +14,9 @@ public class TestMethodCallAsMemoryBarrier {
 
     private void doRun() {
         int longVariableName = 0x1111;
-        longVariableName =0x1112;
+        longVariableName = 0x1112;
         anyMethod(longVariableName);
-        longVariableName = longVariableName+1;
+        longVariableName = longVariableName + 1;
     }
 
     private void anyMethod(int num) {

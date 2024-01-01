@@ -22,8 +22,7 @@ public class TestVolatile {
     private static int dummy;
 
     public static void main(String[] args) {
-        for (int i = 0; i < 10000; i++)
-        {
+        for (int i = 0; i < 10000; i++) {
             storeBarrierAfterStoreOfVolatileVariable();
             loadBarrierBeforeLoadOfVolatileVariable();
             storeBarrierAfterStoreOfVolatileVariable_compare();
@@ -103,8 +102,8 @@ public class TestVolatile {
     }
 
     private static void storeBarrierAfterInitOfFinalVariable(int i) {
-        final int final_int = i+1;
-        dummy = final_int>100?final_int:0;
+        final int final_int = i + 1;
+        dummy = final_int > 100 ? final_int : 0;
     }
 }
 

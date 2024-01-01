@@ -4,6 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CanvasDisplay {
+    public static void main(String[] args) {
+        RectAngleShape shape1 = new RectAngleShape(0, 0, 1, 2, '1');
+        Canvas canvas = new Canvas(4, 5);
+        canvas.bindShape(shape1);
+        canvas.draw();
+
+        shape1.mov(1, 1);
+    }
+
     static class Canvas {
         int m;
         int n;
@@ -28,6 +37,7 @@ public class CanvasDisplay {
             }
             show();
         }
+
         public void show() {
             for (int i = 0; i < realCanvas.length; i++) {
                 System.out.println(realCanvas[i]);
@@ -76,14 +86,5 @@ public class CanvasDisplay {
                 }
             }
         }
-    }
-
-    public static void main(String[] args) {
-        RectAngleShape shape1 = new RectAngleShape(0, 0, 1, 2, '1');
-        Canvas canvas = new Canvas(4, 5);
-        canvas.bindShape(shape1);
-        canvas.draw();
-
-        shape1.mov(1, 1);
     }
 }

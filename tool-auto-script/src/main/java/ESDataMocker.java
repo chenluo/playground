@@ -26,8 +26,8 @@ public class ESDataMocker {
             executorService.submit(() -> {
                 int failCount = 0;
                 for (int j = 0; j < totalDocCount; j++) {
-                    if ((j+1) % 1000 == 0) {
-                        System.out.println(Thread.currentThread().getName()+": progress "+j+"/"+totalDocCount);
+                    if ((j + 1) % 1000 == 0) {
+                        System.out.println(Thread.currentThread().getName() + ": progress " + j + "/" + totalDocCount);
                     }
                     try {
                         postData();
@@ -71,8 +71,7 @@ public class ESDataMocker {
         String authHeader = Base64.getEncoder().encodeToString("elastic:elastic".getBytes(StandardCharsets.UTF_8));
 
         httpURLConnection.setRequestProperty("Content-type", "application/json;utf-8");
-        httpURLConnection.setRequestProperty("Authorization", "Basic "+authHeader);
-
+        httpURLConnection.setRequestProperty("Authorization", "Basic " + authHeader);
 
 
         String docTemplate = "{\"text-field\":\"%s\", \"keyword-field\":\"%s\"}";
@@ -96,7 +95,7 @@ public class ESDataMocker {
         if (respCode >= 200 && respCode < 300) {
 //            System.out.println("[Post data] success");
         } else {
-            System.out.println("[Post data] failed: code "+ httpURLConnection.getResponseCode());
+            System.out.println("[Post data] failed: code " + httpURLConnection.getResponseCode());
         }
         try (InputStream inputStream = httpURLConnection.getInputStream()) {
         } catch (IOException e) {
@@ -111,7 +110,7 @@ public class ESDataMocker {
         int rightLimit = 122; // letter 'z'
 
         String generatedString = ThreadLocalRandom.current().ints(leftLimit, rightLimit + 1)
-                .map(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97)? i: 32)
+                .map(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97) ? i : 32)
                 .limit(length)
                 .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
                 .toString();
