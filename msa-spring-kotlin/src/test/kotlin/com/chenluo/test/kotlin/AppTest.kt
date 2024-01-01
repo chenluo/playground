@@ -7,11 +7,10 @@ import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
 internal class AppTest() {
-    @Autowired
-    private lateinit var myService: MyService
+  @Autowired private lateinit var myService: MyService
 
-    @Test
-    fun init() {
-        myService.serve1()
-    }
+  @Test
+  fun init() {
+    myService.serve1()
+  }
 }

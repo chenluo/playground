@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller
 
 @Controller
 class MyController(private val myService: MyService) {
-    fun serveByMyService(): Boolean {
-        return myService.serve1();
-    }
+  fun serveByMyService(): Boolean {
+    return myService.serve1()
+  }
 }

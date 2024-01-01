@@ -11,18 +11,15 @@ import org.junit.jupiter.api.extension.ExtendWith
 @ExtendWith(MockKExtension::class)
 class MyControllerTest {
 
-    @MockK
-    private lateinit var mySharedService: MySharedService
+  @MockK private lateinit var mySharedService: MySharedService
 
-    @MockK
-    private lateinit var myService: MyService
+  @MockK private lateinit var myService: MyService
 
-    @InjectMockKs
-    private lateinit var myController: MyController
+  @InjectMockKs private lateinit var myController: MyController
 
-    @Test
-    fun `test serve 1`() {
-        every { myController.serveByMyService() } returns true
-        assert(myController.serveByMyService())
-    }
+  @Test
+  fun `test serve 1`() {
+    every { myController.serveByMyService() } returns true
+    assert(myController.serveByMyService())
+  }
 }

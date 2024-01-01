@@ -11,19 +11,17 @@ import org.junit.jupiter.api.extension.ExtendWith
 
 @ExtendWith(MockKExtension::class)
 class MyServiceImplTest {
-    private val mySharedService: MySharedService = mockk()
+  private val mySharedService: MySharedService = mockk()
 
-    @InjectMockKs
-    private lateinit var myServiceImpl: MyServiceImpl
+  @InjectMockKs private lateinit var myServiceImpl: MyServiceImpl
 
+  init {
+    every { mySharedService.serve() }.returns(true)
+  }
 
-    init {
-        every { mySharedService.serve() }.returns(true)
-    }
-
-    @Test
-    fun serve1() {
-        println()
-        assertThrows(IllegalAccessException::class.java) { myServiceImpl.serve1() }
-    }
+  @Test
+  fun serve1() {
+    println()
+    assertThrows(IllegalAccessException::class.java) { myServiceImpl.serve1() }
+  }
 }

@@ -48,5 +48,12 @@ subprojects {
             googleJavaFormat().aosp().reflowLongStrings().formatJavadoc(false)
                 .reorderImports(true)
         }
+        kotlin {
+            ktfmt()
+        }
     }
+}
+
+tasks.jar {
+    enabled = false
 }

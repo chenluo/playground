@@ -6,7 +6,4 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor
 import org.springframework.stereotype.Repository
 
 @Repository
-interface DemoRepo : JpaRepository<DemoEntity, Long>,
-    JpaSpecificationExecutor<DemoEntity> {
-
-}
+interface DemoRepo : JpaRepository<DemoEntity, Long>, JpaSpecificationExecutor<DemoEntity> {}
