@@ -1,6 +1,9 @@
 package com.chenluo;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.testcontainers.containers.GenericContainer;
 
 import java.time.Instant;
 import java.util.Map;
@@ -11,7 +14,18 @@ import java.util.concurrent.TimeUnit;
 
 
 class SnowflakeIdGenTest {
+    static GenericContainer<?> zookeeper = new GenericContainer<>("zookeeper:3.8.0").withExposedPorts(2181);
     Map<Long, Integer> generated = new ConcurrentHashMap<>();
+
+    @BeforeAll
+    public static void setup() {
+        zookeeper.start();
+    }
+
+    @AfterAll
+    public static void tearDown() {
+        zookeeper.close();
+    }
 
     @Test
     public void testNextId() throws InterruptedException {
@@ -20,9 +34,10 @@ class SnowflakeIdGenTest {
         int thread = 10;
         int cnt = 1000_000;
         ExecutorService executor = Executors.newFixedThreadPool(16);
+        String connectionString = zookeeper.getHost() + ":" + zookeeper.getMappedPort(2181);
 
         for (int i = 0; i < instance; i++) {
-            SnowflakeIdGen gen = new SnowflakeIdGen();
+            SnowflakeIdGen gen = new SnowflakeIdGen(connectionString);
             for (int j = 0; j < thread; j++) {
                 executor.submit(() -> {
                     for (int k = 0; k < cnt; k++) {
@@ -32,9 +47,7 @@ class SnowflakeIdGenTest {
             }
         }
         executor.shutdown();
-        while (!executor.awaitTermination(1, TimeUnit.SECONDS)) {
-
-        }
+        executor.awaitTermination(10, TimeUnit.SECONDS);
         Long end = Instant.now().toEpochMilli();
         int total = instance * thread * cnt;
         System.out.println("%d ids generated in %d ms".formatted(total, end - start));

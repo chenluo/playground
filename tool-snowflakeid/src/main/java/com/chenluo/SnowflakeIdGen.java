@@ -19,11 +19,11 @@ public class SnowflakeIdGen {
     private int timestampBits = 64 - machineIdBits - seqBits;
 
 
-    public SnowflakeIdGen() {
+    public SnowflakeIdGen(String connectStr) {
         int sleepMsBetweenRetries = 100;
         int maxRetries = 3;
         RetryPolicy retryPolicy = new RetryNTimes(maxRetries, sleepMsBetweenRetries);
-        CuratorFramework curator = CuratorFrameworkFactory.newClient("localhost:2181", retryPolicy);
+        CuratorFramework curator = CuratorFrameworkFactory.newClient(connectStr, retryPolicy);
         curator.start();
         try {
             String prefix = "/snowflake/machineId-";
