@@ -1,17 +1,14 @@
-package controller;
+package com.chenluo.controller;
 
-import com.chenluo.Application;
+import com.chenluo.TestBase;
 import com.chenluo.service.StatefulService;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 
-@SpringBootTest(classes = Application.class)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
-@Disabled
-public class App2Test {
+@SpringBootTest
+public class App2Test extends TestBase {
 
     private final StatefulService service;
 

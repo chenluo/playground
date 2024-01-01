@@ -5,11 +5,6 @@ plugins {
     id("application")
 }
 
-
-repositories {
-    mavenCentral()
-}
-
 application {
     mainClass.set("com.chenluo.BatchApp")
 }
@@ -45,7 +40,7 @@ val fatJar = task("fatJar", type = Jar::class) {
     }
     from(
         configurations.runtimeClasspath.get()
-            .map({ if (it.isDirectory) it else zipTree(it) })
+            .map { if (it.isDirectory) it else zipTree(it) }
     )
     with(tasks["jar"] as CopySpec)
 }

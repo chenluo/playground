@@ -83,7 +83,7 @@ public class ReminderTest {
 
     @AfterAll
     public void teardown() {
-        //        reminderRepository.deleteAll();
+        reminderRepository.deleteAll();
     }
 
     @Test
@@ -111,7 +111,5 @@ public class ReminderTest {
         List<Reminder> results = reminderRepository.findType3("corp");
         assert results.size() == 1;
         assert results.get(0).getOutboxMsgId() == 3;
-
-
     }
 }

@@ -2,14 +2,11 @@ plugins {
     id("application")
     alias(versions.plugins.springboot)
     alias(versions.plugins.springboot.dependency.management)
+    kotlin("jvm")
 }
 
 application {
     mainClass.set("com.chenluo.test.kotlin.App")
-}
-
-repositories {
-    mavenCentral()
 }
 
 dependencies {

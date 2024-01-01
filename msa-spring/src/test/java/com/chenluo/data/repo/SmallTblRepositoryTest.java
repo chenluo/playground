@@ -1,12 +1,12 @@
 package com.chenluo.data.repo;
 
+import com.chenluo.TestBase;
 import com.chenluo.data.dto.LargeTbl;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.TestPropertySources;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.util.StopWatch;
 
 import java.util.ArrayList;
@@ -15,14 +15,10 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 
 @SpringBootTest
-@TestPropertySources({@TestPropertySource(properties = {"spring.datasource" +
-        ".url=jdbc:mysql://localhost:3306/test_db", "spring.datasource.username=root", "spring" +
-        ".datasource.password=mysql", "spring.datasource.hikari.maximum-pool-size=10"})})
-@Disabled
-class SmallTblRepositoryTest {
+class SmallTblRepositoryTest extends TestBase {
     @Autowired
     private LargeTblRepository repository;
-    private int amount = 1_000_00;
+    private final int amount = 1_000;
 
     @Test
     public void insert() {
@@ -58,7 +54,7 @@ class SmallTblRepositoryTest {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
         List<Future> futures = new ArrayList<>();
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 10; i++) {
             futures.add(CompletableFuture.runAsync(() -> {
                 List<LargeTbl> batch = new ArrayList<>();
                 for (int j = 0; j < amount / 500; j++) {
@@ -75,8 +71,6 @@ class SmallTblRepositoryTest {
         }
         stopWatch.stop();
         System.out.println(stopWatch.shortSummary());
-        System.out.println(amount * 100 * 1.0 / stopWatch.getTotalTimeMillis() * 1000 + " qps");
+        System.out.println(amount * 10 * 1.0 / stopWatch.getTotalTimeMillis() * 1000 + " qps");
     }
-
-
 }

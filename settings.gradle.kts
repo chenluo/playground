@@ -4,7 +4,7 @@ include("playground")
 include("io-netty")
 include("msa-webflux")
 include("lang-java")
-include("lang-kotlin")
+include("msa-spring-kotlin")
 include("msa-service")
 include("msa-service-discover")
 include("msa-service-feign-client")
@@ -25,6 +25,7 @@ include("msa-base")
 include("aws-lambda-app")
 include("msa-simple-springboot")
 include("demo-jpa")
+include("io-file")
 
 dependencyResolutionManagement {
     versionCatalogs {
@@ -38,4 +39,3 @@ dependencyResolutionManagement {
         }
     }
 }
-include("io-file")

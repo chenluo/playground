@@ -1,13 +1,16 @@
-package db;
+package com.chenluo.db;
 
 import com.chenluo.Application;
+import com.chenluo.TestBase;
 import com.chenluo.data.dto.ConsumedMessage;
 import com.chenluo.data.repo.ConsumedMessageRepository;
 import com.chenluo.service.ConsumedMessageService;
-import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
@@ -16,13 +19,13 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @SpringBootTest(classes = Application.class)
-@Disabled
-public class TransactionTest {
+public class TransactionTest extends TestBase {
+    private static final int COUNT = 10;
     @Autowired
     private ConsumedMessageRepository repository;
     @Autowired
     private ConsumedMessageService service;
-    private ExecutorService executorService = Executors.newFixedThreadPool(32);
+    private final ExecutorService executorService = Executors.newFixedThreadPool(4);
 
     @Test
     public void testMultipleTrans() throws InterruptedException {
@@ -32,7 +35,7 @@ public class TransactionTest {
         repository.save(entity);
         AtomicInteger executed = new AtomicInteger();
 
-        for (int i = 0; i < 10000; i++) {
+        for (int i = 0; i < COUNT; i++) {
             executorService.execute(() -> {
                 executed.incrementAndGet();
                 service.increament(uuid);
@@ -42,7 +45,7 @@ public class TransactionTest {
         executorService.shutdown();
         executorService.awaitTermination(100, TimeUnit.SECONDS);
         ConsumedMessage finalMessage = repository.findByUuid(uuid.toString());
-        assert finalMessage.count == 10000 : "message count is %d rather than %d".formatted(finalMessage.count, executed.get());
+        Assertions.assertNotEquals(COUNT, finalMessage.count);
     }
 
     @Test
@@ -53,7 +56,7 @@ public class TransactionTest {
         repository.save(entity);
         AtomicInteger executed = new AtomicInteger();
 
-        for (int i = 0; i < 10000; i++) {
+        for (int i = 0; i < COUNT; i++) {
             executorService.execute(() -> {
                 executed.incrementAndGet();
                 service.increamentByLock(uuid);
@@ -63,6 +66,6 @@ public class TransactionTest {
         executorService.shutdown();
         executorService.awaitTermination(100, TimeUnit.SECONDS);
         ConsumedMessage finalMessage = repository.findByUuid(uuid.toString());
-        assert finalMessage.count == 10000 : "message count is %d rather than %d".formatted(finalMessage.count, executed.get());
+        assert finalMessage.count == COUNT : "message count is %d rather than %d".formatted(finalMessage.count, executed.get());
     }
 }

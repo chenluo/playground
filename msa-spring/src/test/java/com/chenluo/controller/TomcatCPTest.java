@@ -1,6 +1,6 @@
-package controller;
+package com.chenluo.controller;
 
-import com.chenluo.Application;
+import com.chenluo.TestBase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -8,8 +8,8 @@ import javax.sql.DataSource;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-@SpringBootTest(classes = Application.class)
-public class TomcatCPTest {
+@SpringBootTest()
+public class TomcatCPTest extends TestBase {
 
     @Autowired
     private DataSource dataSource;
