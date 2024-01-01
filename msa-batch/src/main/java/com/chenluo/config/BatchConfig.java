@@ -34,7 +34,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Executors;
 
-
 @Configuration
 public class BatchConfig {
     Logger logger = LoggerFactory.getLogger(BatchConfig.class);

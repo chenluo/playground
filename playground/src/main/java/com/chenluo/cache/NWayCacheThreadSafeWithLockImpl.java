@@ -1,6 +1,5 @@
 package com.chenluo.cache;
 
-
 import com.chenluo.cache.replacepolicy.ReplacePolicy;
 
 import java.util.Random;
@@ -49,8 +48,6 @@ public class NWayCacheThreadSafeWithLockImpl<K, V> implements NWayCache<K, V> {
                 nWayCacheImpl.print();
             }
         }
-
-
     }
 
     /**
@@ -103,7 +100,6 @@ public class NWayCacheThreadSafeWithLockImpl<K, V> implements NWayCache<K, V> {
         System.out.println("------------------");
     }
 
-
     private int hash(K key) {
         if (key != null) {
             int result = key.hashCode() % S;
@@ -111,5 +107,4 @@ public class NWayCacheThreadSafeWithLockImpl<K, V> implements NWayCache<K, V> {
         }
         return 0;
     }
-
 }

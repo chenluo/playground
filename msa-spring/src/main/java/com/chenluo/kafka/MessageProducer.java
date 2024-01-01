@@ -5,7 +5,7 @@ import org.apache.kafka.clients.producer.ProducerConfig;
 
 import java.util.Properties;
 
-//@Component
+// @Component
 public class MessageProducer {
     private final KafkaProducer<String, String> producer;
 

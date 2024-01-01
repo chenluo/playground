@@ -17,7 +17,8 @@ public class MyKafkaTopic {
 
     public MyKafkaTopic() {
         Properties properties = new Properties();
-        properties.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, MyKafkaConfig.BOOTSTRAP_SERVER_URL);
+        properties.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG,
+                MyKafkaConfig.BOOTSTRAP_SERVER_URL);
 
         admin = Admin.create(properties);
     }
@@ -37,7 +38,8 @@ public class MyKafkaTopic {
         }
     }
 
-    public void createTopic(String topicName, short partition) throws ExecutionException, InterruptedException {
+    public void createTopic(String topicName, short partition)
+            throws ExecutionException, InterruptedException {
         List<NewTopic> topicList = new ArrayList<>();
         topicList.add(new NewTopic(topicName, partition, partition));
 

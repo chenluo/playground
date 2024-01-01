@@ -26,16 +26,16 @@ public class NettyMainTest {
 
     @Test
     public void testNettyMain() {
-        ThreadPoolExecutor executor = new ThreadPoolExecutor(10, 10, 10, TimeUnit.SECONDS,
-                new ArrayBlockingQueue<>(500), new ThreadFactory() {
-            private AtomicInteger threadNo = new AtomicInteger();
+        ThreadPoolExecutor executor =
+                new ThreadPoolExecutor(10, 10, 10, TimeUnit.SECONDS, new ArrayBlockingQueue<>(500),
+                        new ThreadFactory() {
+                            private AtomicInteger threadNo = new AtomicInteger();
 
-            @Override
-            public Thread newThread(Runnable r) {
-                return new Thread(r, "thread-" + threadNo.incrementAndGet());
-            }
-        },
-                new ThreadPoolExecutor.CallerRunsPolicy());
+                            @Override
+                            public Thread newThread(Runnable r) {
+                                return new Thread(r, "thread-" + threadNo.incrementAndGet());
+                            }
+                        }, new ThreadPoolExecutor.CallerRunsPolicy());
 
         executor.submit(() -> {
             new MyNettyServer().main(new String[0]);
@@ -71,7 +71,5 @@ public class NettyMainTest {
                 Thread.currentThread().interrupt();
             }
         }
-
     }
-
 }

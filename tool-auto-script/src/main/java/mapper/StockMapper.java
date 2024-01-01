@@ -11,12 +11,9 @@ import java.util.List;
 @Mapper
 public interface StockMapper {
 
-    @Select("select sku, location, stock," +
-            " update_timestamp, update_datetime" +
+    @Select("select sku, location, stock," + " update_timestamp, update_datetime" +
             " from stock_tbl")
-    @Results({
-            @Result(column = "update_timestamp", property = "updateTimestamp"),
-            @Result(column = "update_datetime", property = "updateDatetime")
+    @Results({@Result(column = "update_timestamp", property = "updateTimestamp"), @Result(column = "update_datetime", property = "updateDatetime")
     })
     List<StockDto> selectAll();
 }

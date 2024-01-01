@@ -20,7 +20,8 @@ public class MyBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
     private final Logger logger = LoggerFactory.getLogger(MyBeanFactoryPostProcessor.class);
 
     @Override
-    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory)
+            throws BeansException {
         logger.warn("postProcessBeanFactory invoked for {}", beanFactory);
     }
 }

@@ -18,7 +18,7 @@ public interface ReminderRepository extends CrudRepository<Reminder, Long> {
                                and type = 1
                              order by sort_col, outbox_msg_id
                              limit 20)
-                        
+
             select * from all_row
             """)
     List<Reminder> findType1(String supplierCorpId);
@@ -39,7 +39,7 @@ public interface ReminderRepository extends CrudRepository<Reminder, Long> {
                              limit 20)
             select *
             from all_row
-            where rn = 1; 
+            where rn = 1;
             """)
     List<Reminder> findType2(String supplierCorpId);
 

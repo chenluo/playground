@@ -16,12 +16,14 @@ public class MyAspect {
     public void myAnnotationMethod(MyAnnotation myAnnotation) {
     }
 
-    @AfterReturning(value = "myAnnotationMethod(myAnnotation)", returning = "result", argNames = "myAnnotation,result")
+    @AfterReturning(value = "myAnnotationMethod(myAnnotation)", returning = "result", argNames =
+            "myAnnotation,result")
     public void afterReturning(MyAnnotation myAnnotation, Object result) {
         logger.info("afterReturning");
     }
 
-    @AfterThrowing(value = "myAnnotationMethod(myAnnotation)", throwing = "e", argNames = "myAnnotation,e")
+    @AfterThrowing(value = "myAnnotationMethod(myAnnotation)", throwing = "e", argNames =
+            "myAnnotation,e")
     public void afterThrowing(MyAnnotation myAnnotation, Throwable e) {
         logger.info("afterThrowing");
     }
@@ -37,7 +39,8 @@ public class MyAspect {
     }
 
     @Around(value = "myAnnotationMethod(myAnnotation)", argNames = "joinPoint,myAnnotation")
-    public Object around(ProceedingJoinPoint joinPoint, MyAnnotation myAnnotation) throws Throwable {
+    public Object around(ProceedingJoinPoint joinPoint, MyAnnotation myAnnotation)
+            throws Throwable {
         Object o = joinPoint.proceed();
         return o;
     }

@@ -3,7 +3,7 @@ package com.chenluo.kafka.springkafka;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 
-//@Component
+// @Component
 public class SpringKafkaManualCreateConsumers implements InitializingBean {
     private final KafkaProperties kafkaProperties;
 
@@ -13,6 +13,5 @@ public class SpringKafkaManualCreateConsumers implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-
     }
 }

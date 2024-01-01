@@ -24,13 +24,12 @@ public class FirstGrpcServer {
 
     public void start() throws IOException {
         server = Grpc.newServerBuilderForPort(18081, InsecureServerCredentials.create())
-                .addService(new FirstGrpcServiceImpl())
-                .build()
-                .start();
+                .addService(new FirstGrpcServiceImpl()).build().start();
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
             public void run() {
-                // Use stderr here since the logger may have been reset by its JVM shutdown hook.
+                // Use stderr here since the logger may have been reset by its JVM
+                // shutdown hook.
                 System.err.println("*** shutting down gRPC server since JVM is shutting down");
                 try {
                     FirstGrpcServer.this.stop();

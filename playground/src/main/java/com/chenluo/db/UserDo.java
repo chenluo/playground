@@ -8,8 +8,10 @@ import org.springframework.data.relational.core.mapping.Table;
 public class UserDo {
     @Id
     public int uid;
+
     @Column("user_id")
     public String userId;
+
     @Column("password")
     public String password;
 }

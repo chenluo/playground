@@ -22,7 +22,6 @@ public class CompletableFutureTest {
                 break;
             }
         }
-
     }
 
     public CompletableFuture<Void> tryCompletableFuture() {

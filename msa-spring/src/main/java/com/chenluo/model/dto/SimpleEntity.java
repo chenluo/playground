@@ -15,5 +15,4 @@ public class SimpleEntity {
         this.uuid = uuid;
         this.val = val;
     }
-
 }

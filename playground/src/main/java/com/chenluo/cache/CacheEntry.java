@@ -16,8 +16,9 @@ public class CacheEntry<K, V> {
 
         CacheEntry<?, ?> that = (CacheEntry<?, ?>) o;
 
-        if (key != null ? !key.equals(that.key) : that.key != null)
+        if (key != null ? !key.equals(that.key) : that.key != null) {
             return false;
+        }
         return value != null ? value.equals(that.value) : that.value == null;
     }
 
@@ -30,9 +31,6 @@ public class CacheEntry<K, V> {
 
     @Override
     public String toString() {
-        return "CacheEntry{" +
-                "key=" + key +
-                ", value=" + value +
-                '}';
+        return "CacheEntry{" + "key=" + key + ", value=" + value + '}';
     }
 }

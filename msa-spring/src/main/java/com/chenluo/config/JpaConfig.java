@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 
 import javax.sql.DataSource;
 
-//@Configuration
+// @Configuration
 public class JpaConfig {
     //    @Bean
     //    @ConfigurationProperties(prefix = "spring.datasource")

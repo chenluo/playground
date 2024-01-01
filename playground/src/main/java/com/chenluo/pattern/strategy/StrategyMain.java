@@ -18,9 +18,10 @@ public class StrategyMain {
     }
 
     public static void main(String[] args) {
-        AnnotationConfigApplicationContext annotationConfigApplicationContext = new AnnotationConfigApplicationContext();
+        AnnotationConfigApplicationContext annotationConfigApplicationContext =
+                new AnnotationConfigApplicationContext();
         annotationConfigApplicationContext.scan("com.chenluo.pattern");
-//        annotationConfigApplicationContext.register(PatterConfig.class);
+        //        annotationConfigApplicationContext.register(PatterConfig.class);
         annotationConfigApplicationContext.refresh();
         Object strategy = annotationConfigApplicationContext.getBean("normalStrategy");
         Map<String, Strategy> map = Maps.newHashMap();

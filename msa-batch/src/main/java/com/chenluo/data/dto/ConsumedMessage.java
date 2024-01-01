@@ -8,6 +8,7 @@ public class ConsumedMessage {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Integer id;
+
     public String uuid;
 
     public int count;
@@ -21,6 +22,5 @@ public class ConsumedMessage {
     }
 
     public ConsumedMessage() {
-
     }
 }

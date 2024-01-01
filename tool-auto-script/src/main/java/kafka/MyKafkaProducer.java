@@ -26,12 +26,15 @@ public class MyKafkaProducer {
         Properties properties = new Properties();
         properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, MyKafkaConfig.BOOTSTRAP_SERVER_URL);
         properties.put(ProducerConfig.CLIENT_ID_CONFIG, "DemoProducer");
-        properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, IntegerSerializer.class.getName());
-        properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+        properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,
+                IntegerSerializer.class.getName());
+        properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
+                StringSerializer.class.getName());
         properties.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, true);
         properties.put(ProducerConfig.ACKS_CONFIG, "all");
         producer = new KafkaProducer<>(properties);
-        threadPool = new ThreadPoolExecutor(0, threadCount, 10, TimeUnit.SECONDS, new ArrayBlockingQueue<>(10),
+        threadPool = new ThreadPoolExecutor(0, threadCount, 10, TimeUnit.SECONDS,
+                new ArrayBlockingQueue<>(10),
                 new BasicThreadFactory.Builder().namingPattern("kafka-producer-%d").build());
         this.messageCount = messageCount;
         this.threadCount = threadCount;
@@ -63,15 +66,16 @@ public class MyKafkaProducer {
         this.threadPool.shutdown();
         while (true) {
             try {
-                if (this.threadPool.awaitTermination(100, TimeUnit.MILLISECONDS))
+                if (this.threadPool.awaitTermination(100, TimeUnit.MILLISECONDS)) {
                     break;
+                }
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
         logger.info("finish produce message and close producer");
         stopWatch.stop();
-//        logger.info(stopWatch.getMessage());
+        //        logger.info(stopWatch.getMessage());
     }
 
     private void produceAllMessage() {
@@ -85,5 +89,4 @@ public class MyKafkaProducer {
     private void produceMessage(int mesKey, String mes) {
         producer.send(new ProducerRecord<>(MyKafkaConfig.TOPIC_NAME, mesKey, mes));
     }
-
 }

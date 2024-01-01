@@ -50,5 +50,4 @@ public class HttpClientHandler extends SimpleChannelInboundHandler<HttpObject> {
             }
         }
     }
-
 }

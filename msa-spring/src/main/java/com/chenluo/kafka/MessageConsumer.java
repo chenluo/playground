@@ -6,7 +6,7 @@ import org.apache.kafka.clients.consumer.KafkaConsumer;
 import java.util.Collections;
 import java.util.Properties;
 
-//@Component
+// @Component
 public class MessageConsumer {
     private final KafkaConsumer<String, String> consumer;
 

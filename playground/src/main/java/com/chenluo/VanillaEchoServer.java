@@ -1,6 +1,5 @@
 package com.chenluo;
 
-
 import joptsimple.internal.Strings;
 
 import java.io.IOException;
@@ -44,8 +43,9 @@ public class VanillaEchoServer {
                     }
                     if (key.isReadable()) {
                         readReadyCount++;
-                        System.out.println(Strings.repeat('-', 10) + "no. " + readReadyCount
-                                + " ready read" + Strings.repeat('-', 10));
+                        System.out.println(
+                                Strings.repeat('-', 10) + "no. " + readReadyCount + " ready read" +
+                                        Strings.repeat('-', 10));
                         SocketChannel client = null;
                         try {
                             client = (SocketChannel) key.channel();
@@ -57,7 +57,9 @@ public class VanillaEchoServer {
                                 client.write(byteBuffer);
                                 byteBuffer.clear();
                             }
-//                            client.write(ByteBuffer.allocate(100).get("Hello".getBytes(StandardCharsets.UTF_8)));
+                            //
+                            // client.write(ByteBuffer.allocate(100).get("Hello".getBytes
+                            // (StandardCharsets.UTF_8)));
                             client.close();
 
                         } catch (Exception e) {
@@ -66,7 +68,6 @@ public class VanillaEchoServer {
                             if (client != null) {
                                 client.close();
                             }
-
                         }
                     }
                     iterator.remove();

@@ -18,5 +18,4 @@ public class ConsumedMessage {
         this.count = count;
         this.success = success;
     }
-
 }

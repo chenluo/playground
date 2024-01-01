@@ -14,9 +14,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.*;
 
-//@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+// @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ZKTest {
-    private final ExecutorService executor = new ThreadPoolExecutor(10, 100, 10, TimeUnit.SECONDS, new LinkedBlockingDeque<>(10000), new ThreadPoolExecutor.CallerRunsPolicy());
+    private final ExecutorService executor =
+            new ThreadPoolExecutor(10, 100, 10, TimeUnit.SECONDS, new LinkedBlockingDeque<>(10000),
+                    new ThreadPoolExecutor.CallerRunsPolicy());
     private final Logger logger = LoggerFactory.getLogger(ZKTest.class);
     @LocalServerPort
     private int port;
@@ -35,8 +37,8 @@ public class ZKTest {
         for (int i = 0; i < count; i++) {
             try {
                 executor.submit(() -> {
-                    ResponseEntity<String> response = template.getForEntity(base.toString() + url,
-                            String.class);
+                    ResponseEntity<String> response =
+                            template.getForEntity(base.toString() + url, String.class);
                     if (!response.getStatusCode().equals(HttpStatus.OK)) {
                         logger.error("failed", response.getStatusCode());
                     }
@@ -45,7 +47,6 @@ public class ZKTest {
             } catch (RejectedExecutionException e) {
                 logger.info("failed to execute: {}", i);
             }
-
         }
         logger.info("latch count: {}", latch.getCount());
         try {
@@ -59,15 +60,16 @@ public class ZKTest {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        ResponseEntity<String> response = template.getForEntity(base.toString() + "main/getZK?path=/newNode",
-                String.class);
+        ResponseEntity<String> response =
+                template.getForEntity(base.toString() + "main/getZK?path=/newNode", String.class);
         Assertions.assertThat(response.getBody()).isEqualTo(String.valueOf(count));
     }
-//
-//    @Test
-//    public void testCreateUnsafe() {
-//        testCreate("main/testZKUnsafe");
-//    }
+
+    //
+    //    @Test
+    //    public void testCreateUnsafe() {
+    //        testCreate("main/testZKUnsafe");
+    //    }
 
     //    @Test
     public void testCreate() {

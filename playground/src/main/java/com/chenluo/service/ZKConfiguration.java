@@ -3,7 +3,7 @@ package com.chenluo.service;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
-//@Configuration
+// @Configuration
 @EnableConfigurationProperties
 @ConfigurationProperties(prefix = "zookeeper")
 public class ZKConfiguration {

@@ -30,10 +30,8 @@ public class AnnotationTest {
                         System.out.println("found in grand interface");
                     }
                 }
-
             }
         }
-
     }
 
     interface GrandParent {
@@ -49,7 +47,6 @@ public class AnnotationTest {
 
         @Override
         public void foo() {
-
         }
     }
 }

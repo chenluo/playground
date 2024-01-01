@@ -10,7 +10,7 @@ import org.springframework.web.client.RestTemplate;
 @SpringBootApplication
 @EnableFeignClients
 @EnableScheduling
-//@EnableDiscoveryClient
+// @EnableDiscoveryClient
 public class ServiceFeignClientApplication {
 
     public static void main(String[] args) {
@@ -33,5 +33,4 @@ public class ServiceFeignClientApplication {
     public RestTemplate restTemplate() {
         return new RestTemplate();
     }
-
 }

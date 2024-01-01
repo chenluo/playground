@@ -17,14 +17,16 @@ public class ConsumedMessageService {
     @Transactional(isolation = Isolation.REPEATABLE_READ)
     public void increament(UUID uuid) {
         ConsumedMessage message = repository.findByUuid(uuid.toString());
-        ConsumedMessage updatedMessage = new ConsumedMessage(message.id, message.uuid, message.count + 1, message.success);
+        ConsumedMessage updatedMessage =
+                new ConsumedMessage(message.id, message.uuid, message.count + 1, message.success);
         repository.save(updatedMessage);
     }
 
     @Transactional(isolation = Isolation.REPEATABLE_READ)
     public void increamentByLock(UUID uuid) {
         ConsumedMessage message = repository.selectForUpdate(uuid.toString());
-        ConsumedMessage updatedMessage = new ConsumedMessage(message.id, message.uuid, message.count + 1, message.success);
+        ConsumedMessage updatedMessage =
+                new ConsumedMessage(message.id, message.uuid, message.count + 1, message.success);
         repository.save(updatedMessage);
     }
 }

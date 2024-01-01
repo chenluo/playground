@@ -15,7 +15,8 @@ import org.testcontainers.utility.DockerImageName;
 public class TestBase {
 
     @Container
-    static final MySQLContainer mySQLContainer = new MySQLContainer<>(DockerImageName.parse("mysql:8.0-debian"));
+    static final MySQLContainer mySQLContainer =
+            new MySQLContainer<>(DockerImageName.parse("mysql:8.0-debian"));
 
     @BeforeAll
     static void setup() {
@@ -36,5 +37,4 @@ public class TestBase {
         registry.add("spring.datasource.flyway.enabled", () -> "true");
         registry.add("spring.datasource.flyway.locations", () -> "classpath:/migration");
     }
-
 }

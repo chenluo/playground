@@ -50,6 +50,7 @@ public class SynonymousSentenceGroup {
             markerToSentenceMap.putIfAbsent(convertedSentence, new ArrayList<>());
             markerToSentenceMap.get(convertedSentence).add(sentence);
         }
-        System.out.println(markerToSentenceMap.values().stream().filter(l -> l.size() > 1).collect(Collectors.toList()));
+        System.out.println(markerToSentenceMap.values().stream().filter(l -> l.size() > 1)
+                .collect(Collectors.toList()));
     }
 }

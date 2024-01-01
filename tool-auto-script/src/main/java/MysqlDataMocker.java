@@ -95,7 +95,6 @@ public class MysqlDataMocker {
             e.printStackTrace();
         }
         return null;
-
     }
 
     public static String camelToSnake(String str) {
@@ -145,9 +144,9 @@ public class MysqlDataMocker {
                     PreparedStatement insertPs = connection.prepareStatement(
                             "insert into stock_tbl_" + rowCount + " values (?, ?, ?, ?, ?);");
                     PreparedStatement updatePs = connection.prepareStatement(
-                            "update stock_tbl_" + rowCount +
-                                    " set stock = stock+1, update_timestamp=?, " +
-                                    "update_datetime=? where " + "sku=? " + " and location=?;");
+                            "update stock_tbl_" + rowCount + " set stock = stock+1," +
+                                    " update_timestamp=?," + " update_datetime=? where sku=?  and" +
+                                    " location=?;");
                     executeUpdateOrInsert(rowCount, batchSize, connection, insertPs, updatePs);
                     connection.commit();
                     connection.setAutoCommit(true);
@@ -248,7 +247,5 @@ public class MysqlDataMocker {
         public static DataSource getDataSouece() {
             return ds;
         }
-
     }
 }
-

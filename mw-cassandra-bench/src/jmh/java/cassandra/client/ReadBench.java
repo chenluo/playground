@@ -46,10 +46,9 @@ public class ReadBench {
         poolingOptions.setMaxRequestsPerConnection(HostDistance.LOCAL, 32000);
 
         cluster = Cluster.builder().withPoolingOptions(poolingOptions)
-//                .addContactPoint("192.168.50.42") // pc
-//                .addContactPoint("192.168.50.90") // mac
-                .addContactPoint("localhost")
-                .build();
+                //                .addContactPoint("192.168.50.42") // pc
+                //                .addContactPoint("192.168.50.90") // mac
+                .addContactPoint("localhost").build();
         session = cluster.newSession();
     }
 
@@ -91,7 +90,6 @@ public class ReadBench {
                 .value(FIELD_VAL1, nextRandomLocCode()).value(FIELD_VAL2, nextRandomLocCode())
                 .value(FIELD_VAL3, nextRandomLocCode());
         ResultSet execute = session.execute(insert);
-
     }
 
     @TearDown
@@ -99,7 +97,6 @@ public class ReadBench {
         session.close();
         cluster.close();
     }
-
 
     @Benchmark
     public void read() {

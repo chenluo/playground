@@ -71,6 +71,5 @@ public class FileUtil {
         }
         Files.delete(targetPath);
         Files.delete(srcPath);
-
     }
 }

@@ -1,6 +1,5 @@
 package com.chenluo.cache;
 
-
 import com.chenluo.cache.replacepolicy.LRUReplacePolicyFactory;
 import com.chenluo.cache.replacepolicy.ReplacePolicyFactory;
 
@@ -24,8 +23,8 @@ public class NWayCacheNaiveImpl<K, V> implements NWayCache<K, V> {
     }
 
     public static void main(String[] args) {
-        NWayCache<String, String> nWayCacheImpl = new NWayCacheNaiveImpl<>(5, 20,
-                new LRUReplacePolicyFactory<String>(20));
+        NWayCache<String, String> nWayCacheImpl =
+                new NWayCacheNaiveImpl<>(5, 20, new LRUReplacePolicyFactory<String>(20));
         //        nWayCacheImpl.put("A", "A");
         //        nWayCacheImpl.put("AA", "AA");
         //        System.out.println(nWayCacheImpl.get("A"));
@@ -41,11 +40,11 @@ public class NWayCacheNaiveImpl<K, V> implements NWayCache<K, V> {
             threadPoolExecutor.execute(() -> {
                 nWayCacheImpl.put(String.valueOf(finalI), String.valueOf(finalI));
                 //                nWayCacheImpl.print();
-//                if (finalI % 5 == 0) {
-//                    //                    System.out.println("get 0");
-//                    nWayCacheImpl.get(String.valueOf(0));
-//                    //                    nWayCacheImpl.print();
-//                }
+                //                if (finalI % 5 == 0) {
+                //                    //                    System.out.println("get 0");
+                //                    nWayCacheImpl.get(String.valueOf(0));
+                //                    //                    nWayCacheImpl.print();
+                //                }
             });
         }
         threadPoolExecutor.shutdown();
@@ -80,7 +79,6 @@ public class NWayCacheNaiveImpl<K, V> implements NWayCache<K, V> {
         return success;
     }
 
-
     @Override
     public V get(K key) {
         int hash = hash(key);
@@ -101,5 +99,4 @@ public class NWayCacheNaiveImpl<K, V> implements NWayCache<K, V> {
         }
         return 0;
     }
-
 }

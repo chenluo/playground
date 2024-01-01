@@ -10,7 +10,6 @@ public class Singleton {
     private final int[] heap = new int[1_000_000_000];
 
     private Singleton() {
-
     }
 
     public static Singleton getInstance() {
@@ -37,8 +36,8 @@ public class Singleton {
         }
         executorService.shutdown();
         while (!executorService.awaitTermination(100, TimeUnit.SECONDS)) {
-
         }
+
         System.out.println("exit");
     }
 
@@ -46,5 +45,4 @@ public class Singleton {
         heap[100] = 1;
         return true;
     }
-
 }

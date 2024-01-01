@@ -121,10 +121,9 @@ public class KafkaDupMsgCase {
             stopConsumer2.set(true);
             executorService.shutdown();
             while (!executorService.awaitTermination(1, TimeUnit.SECONDS)) {
-
             }
+
             adminClient.deleteTopics(Collections.singleton(KafkaConstants.TOPIC));
         }
-
     }
 }

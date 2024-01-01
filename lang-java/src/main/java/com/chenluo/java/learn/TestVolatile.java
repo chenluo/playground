@@ -8,7 +8,8 @@
 
 package com.chenluo.java.learn;
 
-// ref: https://stackoverflow.com/questions/43668251/java-memory-model-volatile-and-x86#comment74385421_43669258
+// ref:
+// https://stackoverflow.com/questions/43668251/java-memory-model-volatile-and-x86#comment74385421_43669258
 //      https://dzone.com/articles/memory-barriersfences
 public class TestVolatile {
 
@@ -35,15 +36,18 @@ public class TestVolatile {
         int1 = 1;
         int2 = 2;
         int3_volatile = 3;
-        // lock addl here. lock is an instruction prefix. It means a memory-subsystem lock. Effectively a full memory barrier
+        // lock addl here. lock is an instruction prefix. It means a memory-subsystem lock.
+        // Effectively a full memory barrier
         // aka mfence (composition of l(oad)fense and s(tore)fence)
         // mfence prevent runtime/processor (effectively) *memory* reordering.
         // TODO: IMU, compiler reordering is more determine than processor reordering.
         // it actually change the order of some instructions.
-        // processor reordering (at least for load/store) is introduced by store/load buffer between register and cpu cache
+        // processor reordering (at least for load/store) is introduced by store/load buffer between
+        // register and cpu cache
         // such buffers plays a role of async-fy the load and store instruction to cache.
         // So some memory instruction on 1 cpu won't visible for other cpus instantly.
-        // after the buffered store instruction actually drained (cache receive the change), cache coherence protocol then
+        // after the buffered store instruction actually drained (cache receive the change), cache
+        // coherence protocol then
         // ensure the change will visible to other cpus.
         // TODO: is buffer level the root cause of the effective order of instruction?
         // 3 kinds of reordering:
@@ -52,16 +56,21 @@ public class TestVolatile {
         // 3. store buffer caused "reordering" -> memory reordering
         // So, no for this question because of the existence of 2nd reordering.
         // TODO: does cpu memory barrier exist before buffer level introduced?
-        // as 3 kinds of reordering, I guess before store buffer, mfence simply means no instruction reordering.
+        // as 3 kinds of reordering, I guess before store buffer, mfence simply means no instruction
+        // reordering.
         // After introducing store buffer, drain buffer effectively means no instruction reordering
         // and instruction need visible to other cpus.
         //
         // mfence: full barrier, wait for drain all load and store buffer when meet it.
-        // Seems, the load and store instruction are executed orderly as it presents in the assembly code.
+        // Seems, the load and store instruction are executed orderly as it presents in the assembly
+        // code.
         // But the instruction in the buffer is not visible to cache and may disorder.
-        // mfence requires the load/store before it visible to cache which means the the instruction before it must happen
-        // before the instructions after it. Thus prevent "reordering" or random visible order of the instruction on the 2 sides.
-        // the instructions after mfence always become visible to other cpus/cache later than the ones before the mfence.
+        // mfence requires the load/store before it visible to cache which means the the instruction
+        // before it must happen
+        // before the instructions after it. Thus prevent "reordering" or random visible order of
+        // the instruction on the 2 sides.
+        // the instructions after mfence always become visible to other cpus/cache later than the
+        // ones before the mfence.
         int4 = 4;
         int5 = 5;
     }
@@ -70,9 +79,11 @@ public class TestVolatile {
         int int1Copy = int1;
         int int2Copy = int2;
         // on x86 seems nothing special to a non-volatile variable.
-        // note: x86 is strong and has TSO. only storeLoad barrier is missing by TSO. So LoadLoad/LoadStore are not
+        // note: x86 is strong and has TSO. only storeLoad barrier is missing by TSO. So
+        // LoadLoad/LoadStore are not
         // necessary here. Thus no difference from the non-volatile case.
-        // see: https://stackoverflow.com/questions/43668251/java-memory-model-volatile-and-x86#comment74385421_43669258
+        // see:
+        // https://stackoverflow.com/questions/43668251/java-memory-model-volatile-and-x86#comment74385421_43669258
         // TSO: total store order
         // x86 load has acquire semantics: loadStore, loadLoad
         // x86 store has release semantics: loadStore, storeStore
@@ -111,9 +122,11 @@ public class TestVolatile {
 // ./jdk/hotspot/src/share/vm/c1/c1_LIRGenerator.cpp -> generate LIR_Op0
 // ./jdk/hotspot/src/share/vm/c1/c1_LIRAssembler.cpp -> emit LIR_OP to assemble
 //                                                   -> void LIR_Assembler::emit_op0(LIR_Op0* op)
-// ./jdk/hotspot/src/cpu/x86/vm/c1_LIRAssembler_x86.cpp -> actual emission behavior from LIR_OP to assemble in x86 arch
+// ./jdk/hotspot/src/cpu/x86/vm/c1_LIRAssembler_x86.cpp -> actual emission behavior from LIR_OP to
+// assemble in x86 arch
 //                                                      -> void LIR_Assembler::membar() {
-//                                                      ->     __ membar( Assembler::Membar_mask_bits(Assembler::StoreLoad));
+//                                                      ->     __ membar(
+// Assembler::Membar_mask_bits(Assembler::StoreLoad));
 //                                                      -> }
 // ./jdk/hotspot/src/cpu/x86/vm/assembler_x86.hpp -> membar(...) defined here
 //                                                -> x86 assemble code is write here.

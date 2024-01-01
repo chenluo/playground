@@ -54,18 +54,20 @@ public class MainController {
         long currentCounter = atomicLong.get();
         try {
             logger.info("processing");
-//            boolean zNodeData = zkManager.isExist("/newNode");
-//            if (!zNodeData) {
-//                zkManager.create("/newNode", String.valueOf(currentCounter).getBytes(StandardCharsets.UTF_8));
-//            } else {
-//                zkManager.updateCAS("/newNode", String.valueOf(currentCounter).getBytes(StandardCharsets.UTF_8));
-//            }
+            //            boolean zNodeData = zkManager.isExist("/newNode");
+            //            if (!zNodeData) {
+            //                zkManager.create("/newNode",
+            // String.valueOf(currentCounter).getBytes(StandardCharsets.UTF_8));
+            //            } else {
+            //                zkManager.updateCAS("/newNode",
+            // String.valueOf(currentCounter).getBytes(StandardCharsets.UTF_8));
+            //            }
             atomicLong.incrementAndGet();
             return String.valueOf(atomicLong.get());
-//        } catch (KeeperException | InterruptedException e) {
-//            logger.error("exception: {}", currentCounter, e);
-//            return "";
-//        }
+            //        } catch (KeeperException | InterruptedException e) {
+            //            logger.error("exception: {}", currentCounter, e);
+            //            return "";
+            //        }
         } finally {
             logger.info("unlocking: {}", lock);
             zkManager.unlock(lock);
@@ -108,7 +110,6 @@ public class MainController {
     @MyAnnotation
     @GetMapping("testMyAspect")
     public void testMyAspect() {
-
     }
 
     @GetMapping("testDB")

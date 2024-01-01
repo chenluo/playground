@@ -24,8 +24,8 @@ public class GenericTest {
         clazz1 = clazz2;
 
         List<?> list = new ArrayList<>();
-//        list.add(list.get(0)); // compile error
-//        list.add(new Object()); // compile error
+        //        list.add(list.get(0)); // compile error
+        //        list.add(new Object()); // compile error
         List list2 = new ArrayList();
         list2.add(new Object());
         list2.add("");

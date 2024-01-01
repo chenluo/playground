@@ -53,7 +53,8 @@ public class AppleStoreChecker {
     }
 
     private void sendSlackMessage(String message) throws IOException {
-        //        curl -X POST -H 'Content-type: application/json' --data '{"text":"Hello, World!"}' https://hooks.slack
+        //        curl -X POST -H 'Content-type: application/json' --data '{"text":"Hello, World!"}'
+        // https://hooks.slack
         //        .com/services/T0D189UMD/B02JQAG7BSL/DDggdBoSSUZZAFfnCc7JXOWs
         URL url = new URL("https://hooks.slack.com/services/T0D189UMD/B02JQAG7BSL" +
                 "/DDggdBoSSUZZAFfnCc7JXOWs");
@@ -77,7 +78,6 @@ public class AppleStoreChecker {
             System.out.println("[Slack] push failed: " + responseCode);
         }
         try (InputStream inputStream = hc.getInputStream()) {
-
         }
     }
 
@@ -223,7 +223,8 @@ public class AppleStoreChecker {
     //                // Get the Session object.// and pass username and password
     //                session = Session.getInstance(properties, new javax.mail.Authenticator() {
     //                    protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
-    //                        return new javax.mail.PasswordAuthentication("chenluo.cn@gmail.com", "l0u8o1c3h5enGoogle");
+    //                        return new javax.mail.PasswordAuthentication("chenluo.cn@gmail.com",
+    // "l0u8o1c3h5enGoogle");
     //
     //                    }
     //                });

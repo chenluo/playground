@@ -35,9 +35,9 @@ public class Main {
         new Main().testLambda(s);
         s = "ss";
         System.out.println(s);
-//        Map<String, String> map = new HashMap<>();
-//        Map<Object, Object> map2 = new HashMap<>();
-//        map2 = (Map<Object, Object>) map;
+        //        Map<String, String> map = new HashMap<>();
+        //        Map<Object, Object> map2 = new HashMap<>();
+        //        map2 = (Map<Object, Object>) map;
     }
 
     public void testLambda(String s) {
@@ -67,7 +67,6 @@ public class Main {
      *
      * @return
      */
-
     List<Integer> perm(int n, int idx) {
         List<Integer> result = new ArrayList<>();
 
@@ -95,7 +94,6 @@ public class Main {
         return result;
     }
 
-
     public char intToChar() {
         int a = 1;
         System.out.println((char) ('a' + 1));
@@ -116,9 +114,11 @@ public class Main {
         for (int i = 1; i < word1.length() + 1; i++) {
             for (int j = 1; j < word2.length() + 1; j++) {
                 if (word1.charAt(i - 1) == word2.charAt(j - 1)) {
-                    dp[i][j] = Math.min(dp[i - 1][j - 1], Math.min(dp[i - 1][j] + 1, dp[i][j - 1] + 1));
+                    dp[i][j] = Math.min(dp[i - 1][j - 1],
+                            Math.min(dp[i - 1][j] + 1, dp[i][j - 1] + 1));
                 } else {
-                    dp[i][j] = Math.min(dp[i - 1][j - 1] + 2, Math.min(dp[i - 1][j] + 1, dp[i][j - 1] + 1));
+                    dp[i][j] = Math.min(dp[i - 1][j - 1] + 2,
+                            Math.min(dp[i - 1][j] + 1, dp[i][j - 1] + 1));
                 }
             }
         }
@@ -136,8 +136,9 @@ public class Main {
             System.out.println(ClassLayout.parseInstance(lock).toPrintable());
         }
 
-        ExecutorService executor = new ThreadPoolExecutor(10, 20, 10, TimeUnit.SECONDS,
-                new ArrayBlockingQueue<>(10), new ThreadPoolExecutor.AbortPolicy());
+        ExecutorService executor =
+                new ThreadPoolExecutor(10, 20, 10, TimeUnit.SECONDS, new ArrayBlockingQueue<>(10),
+                        new ThreadPoolExecutor.AbortPolicy());
         Runnable t1 = () -> {
             int count = 1;
             while (count-- != 0) {
@@ -174,7 +175,6 @@ public class Main {
                     }
                 }
             }
-
         };
 
         executor.execute(t1);
@@ -187,9 +187,7 @@ public class Main {
             } catch (InterruptedException e) {
                 Thread.interrupted();
             }
-
         }
-
     }
 
     private void testJol() {
@@ -296,7 +294,6 @@ public class Main {
                 return ans1;
             }
             return ans2;
-
         }
 
         private List<Character> findChar(String t) {
@@ -323,22 +320,26 @@ public class Main {
     }
 
     class BestBuyAndSellStock3 {
-        // dp[i][j]: the max profit if we do i-th *sell* at j-th day (including buy and sell in the same day)
+        // dp[i][j]: the max profit if we do i-th *sell* at j-th day (including buy and sell in the
+        // same day)
         // some unhelpful notes:
-        // for case i > j, it's possible for this problem, because allow buy and sell in the same day;
-        // for case i < j, for i-th sell, we must have i-1 sell before and current problem only depends on the result of i-1-th sell, dp[i][...] -> dp[i-1][...]
+        // for case i > j, it's possible for this problem, because allow buy and sell in the same
+        // day;
+        // for case i < j, for i-th sell, we must have i-1 sell before and current problem only
+        // depends on the result of i-1-th sell, dp[i][...] -> dp[i-1][...]
         // dp[i][j] = max{
         //               dp[i-1][0] -> always 0.
-        //.              dp[i-1][1] + prices[j]-prices[1] -> because we can buy and sell in the same day, we doesn't care such cases like at day 1 we buy and sell mutiple times.
-        //.              dp[i-1][1] -> not buy and sell
-        //.              ......
+        // .              dp[i-1][1] + prices[j]-prices[1] -> because we can buy and sell in the
+        // same day, we doesn't care such cases like at day 1 we buy and sell mutiple times.
+        // .              dp[i-1][1] -> not buy and sell
+        // .              ......
         //               dp[i-1][j-1] + prices[j]-prices[j-1]
         //               dp[i-1][j-1] -> not buy and sell,
         //               dp[i][j-1] -> >= dp[i-1][j-k]. we may remove above `not buy and sell` case
         //               }
         // we can find the max profit by go through dp[i][j].
         public int maxProfit(int[] prices) {
-            // greedy 
+            // greedy
             // lowest and highest way
             int buyPrice = -1;
             int sellPrice = -1;
@@ -367,7 +368,8 @@ public class Main {
         // n^2 time
         // n space
         public int maxProfitN2ReducedSpace(int[] prices) {
-            // length+1 * length, an additional "day" for the initial state. just zero profit before the first sell actually occurrs.
+            // length+1 * length, an additional "day" for the initial state. just zero profit before
+            // the first sell actually occurrs.
             int[] dp = new int[prices.length];
             int result = 0;
             for (int i = 1; i < prices.length; i++) { // iter i sell ops
@@ -389,14 +391,16 @@ public class Main {
         // n^2 time
         // n^2 space
         public int maxProfitN2Version(int[] prices) {
-            // length+1 * length, an additional "day" for the initial state. just zero profit before the first sell actually occurrs.
+            // length+1 * length, an additional "day" for the initial state. just zero profit before
+            // the first sell actually occurrs.
             int[][] dp = new int[prices.length + 1][prices.length];
             int result = 0;
             for (int i = 1; i < prices.length; i++) { // iter i sell ops
                 int max = dp[i - 1][0] - prices[0];
                 for (int j = 0; j < prices.length; j++) { // iter j sell points/days
                     // for (int k = 0; k < j; k++) {
-                    //     dp[i][j] = Math.max(dp[i-1][k], Math.max(dp[i-1][k] + prices[j]-prices[k], dp[i][j]));
+                    //     dp[i][j] = Math.max(dp[i-1][k], Math.max(dp[i-1][k] +
+                    // prices[j]-prices[k], dp[i][j]));
                     // }
                     // max(dp[i-1][j])
                     // global case:  dp[i][j-1]
@@ -409,7 +413,8 @@ public class Main {
                     // 1st: dp[i-1][0]+p_3-p_0
                     // 2nd: dp[i-1][1]+p_3-p_1
                     // 3rd: dp[i-1][2]+p_3-p_2
-                    // there some how repeat compare... the key is found the smallest prices before j and then just compare it with not sell case.
+                    // there some how repeat compare... the key is found the smallest prices before
+                    // j and then just compare it with not sell case.
                     // exchange dp[i-1][k]+price[i]-price[k]
                     // -> price[i]+dp[i-1][k]-price[k]
                     // -> price[i]   +    dp[i-1][k]-price[k]
@@ -430,13 +435,15 @@ public class Main {
         // n^3 time
         // n^2 space
         public int maxProfitMostVanlliaVersion(int[] prices) {
-            // length+1 * length, an additional "day" for the initial state. just zero profit before the first sell actually occurrs.
+            // length+1 * length, an additional "day" for the initial state. just zero profit before
+            // the first sell actually occurrs.
             int[][] dp = new int[prices.length + 1][prices.length];
             int result = 0;
             for (int i = 1; i < prices.length; i++) { // iter i sell ops
                 for (int j = 0; j < prices.length; j++) { // iter j sell points/days
                     for (int k = 0; k < j; k++) {
-                        dp[i][j] = Math.max(dp[i - 1][k], Math.max(dp[i - 1][k] + prices[j] - prices[k], dp[i][j]));
+                        dp[i][j] = Math.max(dp[i - 1][k],
+                                Math.max(dp[i - 1][k] + prices[j] - prices[k], dp[i][j]));
                     }
 
                     if (dp[i][j] > result) {
@@ -447,26 +454,28 @@ public class Main {
             return result;
         }
     }
-
 }
 
 class Solution {
-    // dp[i][j]: the max profit if we do i-th *sell* at j-th day (including buy and sell in the same day)
+    // dp[i][j]: the max profit if we do i-th *sell* at j-th day (including buy and sell in the same
+    // day)
     // some unhelpful notes:
     // for case i > j, it's possible for this problem, because allow buy and sell in the same day;
-    // for case i < j, for i-th sell, we must have i-1 sell before and current problem only depends on the result of i-1-th sell, dp[i][...] -> dp[i-1][...]
+    // for case i < j, for i-th sell, we must have i-1 sell before and current problem only depends
+    // on the result of i-1-th sell, dp[i][...] -> dp[i-1][...]
     // dp[i][j] = max{
     //               dp[i-1][0] -> always 0.
-    //.              dp[i-1][1] + prices[j]-prices[1] -> because we can buy and sell in the same day, we doesn't care such cases like at day 1 we buy and sell mutiple times.
-    //.              dp[i-1][1] -> not buy and sell
-    //.              ......
+    // .              dp[i-1][1] + prices[j]-prices[1] -> because we can buy and sell in the same
+    // day, we doesn't care such cases like at day 1 we buy and sell mutiple times.
+    // .              dp[i-1][1] -> not buy and sell
+    // .              ......
     //               dp[i-1][j-1] + prices[j]-prices[j-1]
     //               dp[i-1][j-1] -> not buy and sell,
     //               dp[i][j-1] -> >= dp[i-1][j-k]. we may remove above `not buy and sell` case
     //               }
     // we can find the max profit by go through dp[i][j].
     public int maxProfit(int[] prices) {
-        // greedy 
+        // greedy
         // lowest and highest way
         int buyPrice = -1;
         int sellPrice = -1;
@@ -495,7 +504,8 @@ class Solution {
     // n^2 time
     // n space
     public int maxProfitN2ReducedSpace(int[] prices) {
-        // length+1 * length, an additional "day" for the initial state. just zero profit before the first sell actually occurrs.
+        // length+1 * length, an additional "day" for the initial state. just zero profit before the
+        // first sell actually occurrs.
         int[] dp = new int[prices.length];
         int result = 0;
         for (int i = 1; i < prices.length; i++) { // iter i sell ops
@@ -517,14 +527,16 @@ class Solution {
     // n^2 time
     // n^2 space
     public int maxProfitN2Version(int[] prices) {
-        // length+1 * length, an additional "day" for the initial state. just zero profit before the first sell actually occurrs.
+        // length+1 * length, an additional "day" for the initial state. just zero profit before the
+        // first sell actually occurrs.
         int[][] dp = new int[prices.length + 1][prices.length];
         int result = 0;
         for (int i = 1; i < prices.length; i++) { // iter i sell ops
             int max = dp[i - 1][0] - prices[0];
             for (int j = 0; j < prices.length; j++) { // iter j sell points/days
                 // for (int k = 0; k < j; k++) {
-                //     dp[i][j] = Math.max(dp[i-1][k], Math.max(dp[i-1][k] + prices[j]-prices[k], dp[i][j]));
+                //     dp[i][j] = Math.max(dp[i-1][k], Math.max(dp[i-1][k] + prices[j]-prices[k],
+                // dp[i][j]));
                 // }
                 // max(dp[i-1][j])
                 // global case:  dp[i][j-1]
@@ -537,7 +549,8 @@ class Solution {
                 // 1st: dp[i-1][0]+p_3-p_0
                 // 2nd: dp[i-1][1]+p_3-p_1
                 // 3rd: dp[i-1][2]+p_3-p_2
-                // there some how repeat compare... the key is found the smallest prices before j and then just compare it with not sell case.
+                // there some how repeat compare... the key is found the smallest prices before j
+                // and then just compare it with not sell case.
                 // exchange dp[i-1][k]+price[i]-price[k]
                 // -> price[i]+dp[i-1][k]-price[k]
                 // -> price[i]   +    dp[i-1][k]-price[k]
@@ -558,13 +571,15 @@ class Solution {
     // n^3 time
     // n^2 space
     public int maxProfitMostVanlliaVersion(int[] prices) {
-        // length+1 * length, an additional "day" for the initial state. just zero profit before the first sell actually occurrs.
+        // length+1 * length, an additional "day" for the initial state. just zero profit before the
+        // first sell actually occurrs.
         int[][] dp = new int[prices.length + 1][prices.length];
         int result = 0;
         for (int i = 1; i < prices.length; i++) { // iter i sell ops
             for (int j = 0; j < prices.length; j++) { // iter j sell points/days
                 for (int k = 0; k < j; k++) {
-                    dp[i][j] = Math.max(dp[i - 1][k], Math.max(dp[i - 1][k] + prices[j] - prices[k], dp[i][j]));
+                    dp[i][j] = Math.max(dp[i - 1][k],
+                            Math.max(dp[i - 1][k] + prices[j] - prices[k], dp[i][j]));
                 }
 
                 if (dp[i][j] > result) {

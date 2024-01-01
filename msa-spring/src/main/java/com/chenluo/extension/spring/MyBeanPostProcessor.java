@@ -21,16 +21,21 @@ public class MyBeanPostProcessor implements BeanPostProcessor {
     final Logger logger = LoggerFactory.getLogger(MyBeanPostProcessor.class);
 
     @Override
-    public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-        if (beanName.equals("myService"))
-            logger.warn("postProcessBeforeInitialization called for {} with name: {}", bean, beanName);
+    public Object postProcessBeforeInitialization(Object bean, String beanName)
+            throws BeansException {
+        if (beanName.equals("myService")) {
+            logger.warn("postProcessBeforeInitialization called for {} with name: {}", bean,
+                    beanName);
+        }
         return BeanPostProcessor.super.postProcessBeforeInitialization(bean, beanName);
     }
 
     @Override
-    public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
+    public Object postProcessAfterInitialization(Object bean, String beanName)
+            throws BeansException {
         if (beanName.equals("myService")) {
-            logger.warn("postProcessAfterInitialization called for {} with name: {}", bean, beanName);
+            logger.warn("postProcessAfterInitialization called for {} with name: {}", bean,
+                    beanName);
             ProxyFactory factory = new ProxyFactory(bean);
             factory.addAdvice(new MyMethodInterceptor());
             Object proxy = factory.getProxy();

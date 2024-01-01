@@ -27,7 +27,6 @@ public class Application {
         return threadPoolTaskScheduler;
     }
 
-
     //    @Bean
     //    public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
     //        return args -> {

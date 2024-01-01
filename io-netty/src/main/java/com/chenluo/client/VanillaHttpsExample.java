@@ -23,10 +23,10 @@ public class VanillaHttpsExample {
             url = new URL(https_url);
             HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
 
-            //dumpl all cert info
+            // dumpl all cert info
             print_https_cert(con);
 
-            //dump all the content
+            // dump all the content
             print_content(con);
 
         } catch (MalformedURLException e) {
@@ -58,9 +58,7 @@ public class VanillaHttpsExample {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
         }
-
     }
 
     private void print_content(HttpsURLConnection con) {
@@ -77,8 +75,6 @@ public class VanillaHttpsExample {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
         }
-
     }
 }

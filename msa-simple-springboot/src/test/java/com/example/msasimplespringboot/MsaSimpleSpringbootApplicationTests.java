@@ -9,5 +9,4 @@ class MsaSimpleSpringbootApplicationTests {
     @Test
     void contextLoads() {
     }
-
 }

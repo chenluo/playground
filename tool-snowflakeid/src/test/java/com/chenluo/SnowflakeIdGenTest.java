@@ -12,9 +12,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-
 class SnowflakeIdGenTest {
-    static GenericContainer<?> zookeeper = new GenericContainer<>("zookeeper:3.8.0").withExposedPorts(2181);
+    static GenericContainer<?> zookeeper =
+            new GenericContainer<>("zookeeper:3.8.0").withExposedPorts(2181);
     Map<Long, Integer> generated = new ConcurrentHashMap<>();
 
     @BeforeAll
@@ -55,5 +55,4 @@ class SnowflakeIdGenTest {
         System.out.println("actual %d ids generated".formatted(generated.size()));
         assert total == generated.size();
     }
-
 }

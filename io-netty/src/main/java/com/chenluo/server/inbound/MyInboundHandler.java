@@ -32,11 +32,11 @@ public class MyInboundHandler extends SimpleChannelInboundHandler<HttpObject> {
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, HttpObject msg) throws Exception {
-//        logger.warn("{}, {}", ctx, msg);
+        //        logger.warn("{}, {}", ctx, msg);
         if (msg instanceof HttpRequest) {
             HttpRequest req = (HttpRequest) msg;
 
-//            boolean keepAlive = HttpUtil.isKeepAlive(req);
+            //            boolean keepAlive = HttpUtil.isKeepAlive(req);
             boolean keepAlive = false;
             FullHttpResponse response = new DefaultFullHttpResponse(req.protocolVersion(), OK,
                     Unpooled.wrappedBuffer("Hello World!".getBytes(StandardCharsets.UTF_8)));

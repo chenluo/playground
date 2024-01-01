@@ -12,7 +12,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-//@Component
+// @Component
 public class Consumer implements SmartLifecycle {
 
     private static final String QUEUE_NAME = "test-queue";
@@ -54,7 +54,6 @@ public class Consumer implements SmartLifecycle {
     @Override
     public void stop() {
         sqs.shutdown();
-
     }
 
     @Override

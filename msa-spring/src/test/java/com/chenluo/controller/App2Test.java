@@ -5,7 +5,6 @@ import com.chenluo.service.StatefulService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
 
 @SpringBootTest
 public class App2Test extends TestBase {

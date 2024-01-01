@@ -43,7 +43,6 @@ public class RedisTester {
         redisHashMap();
         redisZSet();
         redisStream();
-
     }
 
     private void redisStream() {
@@ -53,13 +52,13 @@ public class RedisTester {
         String groupName = "group1";
         stream.createGroup(groupName);
         logger.info("groups :{}", stream.listGroups().size());
-        StreamMessageId firstMsgId = stream.add(StreamAddArgs.entry("key_0", new MyRedisObj("key_0", 0, 0)));
+        StreamMessageId firstMsgId =
+                stream.add(StreamAddArgs.entry("key_0", new MyRedisObj("key_0", 0, 0)));
         logger.info("firstMsgId: {}", firstMsgId);
-//        String consumerName = "consumerName";
-//        stream.createConsumer(groupName, consumerName);
+        //        String consumerName = "consumerName";
+        //        stream.createConsumer(groupName, consumerName);
         logger.info("read first msg: {}",
                 stream.read(StreamReadArgs.greaterThan(new StreamMessageId(0)).count(1)));
-
     }
 
     private void redisZSet() {
@@ -88,9 +87,9 @@ public class RedisTester {
         sortedSet.remove(new MyRedisObj("key_0", 0, 10));
         sortedSet.add(new MyRedisObj("key_0", -1, 10));
         logger.info("{}: {}", key, sortedSet);
-//        SortedSet<MyRedisObj> subset = sortedSet.subSet(new MyRedisObj("key_0", -1, 10),
-//                new MyRedisObj("key_2", 2, 8));
-//        logger.info("{}: {}", key, subset);
+        //        SortedSet<MyRedisObj> subset = sortedSet.subSet(new MyRedisObj("key_0", -1, 10),
+        //                new MyRedisObj("key_2", 2, 8));
+        //        logger.info("{}: {}", key, subset);
     }
 
     private void redisHashMap() {
@@ -144,6 +143,4 @@ public class RedisTester {
         Thread.sleep(Duration.ofSeconds(2));
         logger.info("{}, {}", key, bucket.get());
     }
-
-
 }

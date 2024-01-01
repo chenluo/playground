@@ -46,7 +46,6 @@ public class SimpleTest {
         System.out.println(new Solution76().minWindow("bdab", "ab"));
     }
 
-
     @Test
     public void Q227() {
         //        int calculate = new Solution().calculate("1+2/1");
@@ -57,7 +56,6 @@ public class SimpleTest {
         //        System.out.println(new Solution().calculate("31"));
         //        System.out.println(new Solution().calculate("0-2147483647"));
         System.out.println(new Solution().calculate("1-1+1"));
-
     }
 
     @Test
@@ -142,7 +140,6 @@ public class SimpleTest {
         System.out.println(maxHeap.poll());
 
         PriorityQueue<int[]> q = new PriorityQueue<>(Comparator.comparingInt(it -> it[0]));
-
     }
 
     @Test
@@ -319,7 +316,6 @@ public class SimpleTest {
         //        47, 63, 72, 81, 99, 88, 55, 21, 33, 32}));
         Assertions.assertEquals(6, new Q1671().minimumMountainRemovals(
                 new int[]{100, 92, 89, 77, 74, 66, 64, 66, 64}));
-
     }
 
     @Test
@@ -358,8 +354,6 @@ public class SimpleTest {
         l.addAtHead(4);
         l.addAtIndex(5, 0);
         l.addAtHead(6);
-
-
     }
 
     /**
@@ -441,7 +435,6 @@ public class SimpleTest {
             int tmpVal = tmp.val;
             tmp.val = pivotVal;
             pivotNode.val = tmpVal;
-
 
             return pivotIdx;
         }
@@ -936,7 +929,6 @@ public class SimpleTest {
             }
             String result = sb.toString();
             return result.equals("") ? "0" : result;
-
         }
     }
 
@@ -1000,7 +992,6 @@ public class SimpleTest {
         int count = 0;
 
         public CountIntervals() {
-
         }
 
         public void add(int left, int right) {
@@ -1244,7 +1235,6 @@ public class SimpleTest {
         Node head = null;
         Node tail = null;
 
-
         public MyLinkedList() {
             head = new Node();
             tail = head;
@@ -1310,7 +1300,6 @@ public class SimpleTest {
                 tmp.prev = node;
                 size++;
             }
-
         }
 
         public void deleteAtIndex(int index) {

@@ -15,9 +15,9 @@ import static com.example.msasimplespringboot.LogUtil.logStackTrace;
 
 @Component
 public class FullCallbackComponent implements BeanPostProcessor, //
-        BeanNameAware, //
-        InitializingBean, //
-        DisposableBean //
+                                              BeanNameAware, //
+                                              InitializingBean, //
+                                              DisposableBean //
 {
     private final Logger logger = LoggerFactory.getLogger(FullCallbackComponent.class);
 
@@ -36,7 +36,6 @@ public class FullCallbackComponent implements BeanPostProcessor, //
         logStackTrace();
     }
 
-
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName)
             throws BeansException {
@@ -50,7 +49,6 @@ public class FullCallbackComponent implements BeanPostProcessor, //
         logStackTrace();
         return BeanPostProcessor.super.postProcessAfterInitialization(bean, beanName);
     }
-
 
     @Override
     public void destroy() throws Exception {

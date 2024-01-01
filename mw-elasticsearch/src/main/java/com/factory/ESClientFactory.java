@@ -12,21 +12,26 @@ public class ESClientFactory {
         if (client == null) {
             synchronized (ESClientFactory.class) {
                 if (client == null) {
-//                    final CredentialsProvider credentialsProvider =
-//                            new BasicCredentialsProvider();
-//                    credentialsProvider.setCredentials(AuthScope.ANY,
-//                            new UsernamePasswordCredentials("elastic", "81Q=+aj*i3N36UqVMgq0"));
+                    //                    final CredentialsProvider credentialsProvider =
+                    //                            new BasicCredentialsProvider();
+                    //                    credentialsProvider.setCredentials(AuthScope.ANY,
+                    //                            new UsernamePasswordCredentials("elastic",
+                    // "81Q=+aj*i3N36UqVMgq0"));
 
-                    RestClientBuilder builder = RestClient.builder(
-                            new HttpHost("localhost", 9200, "http"));
-//                            .setHttpClientConfigCallback(new RestClientBuilder.HttpClientConfigCallback() {
-//                                @Override
-//                                public HttpAsyncClientBuilder customizeHttpClient(
-//                                        HttpAsyncClientBuilder httpClientBuilder) {
-//                                    return httpClientBuilder
-//                                            .setDefaultCredentialsProvider(credentialsProvider);
-//                                }
-//                            });
+                    RestClientBuilder builder =
+                            RestClient.builder(new HttpHost("localhost", 9200, "http"));
+                    //                            .setHttpClientConfigCallback(new
+                    // RestClientBuilder.HttpClientConfigCallback() {
+                    //                                @Override
+                    //                                public HttpAsyncClientBuilder
+                    // customizeHttpClient(
+                    //                                        HttpAsyncClientBuilder
+                    // httpClientBuilder) {
+                    //                                    return httpClientBuilder
+                    //
+                    // .setDefaultCredentialsProvider(credentialsProvider);
+                    //                                }
+                    //                            });
                     client = new RestHighLevelClient(builder);
                 }
             }

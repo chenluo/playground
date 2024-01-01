@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 public class MyServiceAImpl implements InitializingBean, ApplicationContextAware {
     private ApplicationContext applicationContext;
 
-
     public MyServiceAImpl() {
     }
 

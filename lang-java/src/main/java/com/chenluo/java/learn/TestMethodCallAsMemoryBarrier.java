@@ -20,6 +20,5 @@ public class TestMethodCallAsMemoryBarrier {
     }
 
     private void anyMethod(int num) {
-
     }
 }

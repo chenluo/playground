@@ -17,13 +17,15 @@ public class MyBeanPostProcessor implements BeanPostProcessor {
     final Logger logger = LoggerFactory.getLogger(MyBeanPostProcessor.class);
 
     @Override
-    public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
+    public Object postProcessBeforeInitialization(Object bean, String beanName)
+            throws BeansException {
         logger.info("postProcessBeforeInitialization called for {} with name: {}", bean, beanName);
         return BeanPostProcessor.super.postProcessBeforeInitialization(bean, beanName);
     }
 
     @Override
-    public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
+    public Object postProcessAfterInitialization(Object bean, String beanName)
+            throws BeansException {
         logger.info("postProcessAfterInitialization called for {} with name: {}", bean, beanName);
         return BeanPostProcessor.super.postProcessAfterInitialization(bean, beanName);
     }

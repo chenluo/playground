@@ -15,27 +15,31 @@ public class ZKConnection {
     CountDownLatch connectionLatch = new CountDownLatch(1);
     private ZooKeeper zoo;
 
-    public static void main(String[] args) throws IOException, InterruptedException, KeeperException {
+    public static void main(String[] args)
+            throws IOException, InterruptedException, KeeperException {
         ZKConnection zkConnection = new ZKConnection();
         zkConnection.connect("localhost");
-        String s1 = zkConnection.zoo.create("/test/test-", "seq".getBytes(), OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
+        String s1 = zkConnection.zoo.create("/test/test-", "seq".getBytes(), OPEN_ACL_UNSAFE,
+                CreateMode.EPHEMERAL_SEQUENTIAL);
         System.out.println(s1);
-        String s2 = zkConnection.zoo.create("/test/test-", "seq".getBytes(), OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
+        String s2 = zkConnection.zoo.create("/test/test-", "seq".getBytes(), OPEN_ACL_UNSAFE,
+                CreateMode.EPHEMERAL_SEQUENTIAL);
         System.out.println(s2);
-        String s3 = zkConnection.zoo.create("/test/test-", "seq".getBytes(), OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
+        String s3 = zkConnection.zoo.create("/test/test-", "seq".getBytes(), OPEN_ACL_UNSAFE,
+                CreateMode.EPHEMERAL_SEQUENTIAL);
         System.out.println(s3);
-        String s4 = zkConnection.zoo.create("/test/test-", "seq".getBytes(), OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
+        String s4 = zkConnection.zoo.create("/test/test-", "seq".getBytes(), OPEN_ACL_UNSAFE,
+                CreateMode.EPHEMERAL_SEQUENTIAL);
         System.out.println(s4);
 
         Stat stat = new Stat();
-        String s5 = zkConnection.zoo.create("/test/test-", "seq".getBytes(), OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL, stat);
+        String s5 = zkConnection.zoo.create("/test/test-", "seq".getBytes(), OPEN_ACL_UNSAFE,
+                CreateMode.EPHEMERAL_SEQUENTIAL, stat);
         System.out.println(s5);
         zkConnection.logger.info("{}", stat);
     }
 
-    public ZooKeeper connect(String host)
-            throws IOException,
-            InterruptedException {
+    public ZooKeeper connect(String host) throws IOException, InterruptedException {
         zoo = new ZooKeeper(host + ":2181", 20000, new Watcher() {
             public void process(WatchedEvent we) {
                 if (we.getState().equals(Event.KeeperState.SyncConnected)) {

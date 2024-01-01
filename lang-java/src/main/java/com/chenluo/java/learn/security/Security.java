@@ -8,11 +8,11 @@ import java.security.*;
 import java.util.*;
 
 public class Security {
-    private final static String originalMsg = "content to hash";
+    private static final String originalMsg = "content to hash";
 
     public static void main(String[] args)
             throws NoSuchAlgorithmException, SignatureException, InvalidKeyException,
-            NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
+                   NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
         Security security = new Security();
         security.msgDigest();
         security.msgSig();
@@ -33,7 +33,7 @@ public class Security {
 
     private void msgSig()
             throws NoSuchAlgorithmException, InvalidKeyException, SignatureException,
-            NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
+                   NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
         KeyPairGenerator rsa = KeyPairGenerator.getInstance("RSA");
         rsa.initialize(2048);
         KeyPair rsaKeyPair = rsa.generateKeyPair();
@@ -76,7 +76,7 @@ public class Security {
 
     private void encryptAndDecryptRSA()
             throws InvalidKeyException, IllegalBlockSizeException, BadPaddingException,
-            NoSuchPaddingException, NoSuchAlgorithmException {
+                   NoSuchPaddingException, NoSuchAlgorithmException {
         String msgToEncrypt = "";
         for (int i = 0; i < 1000; i++) {
             msgToEncrypt += UUID.randomUUID().toString();
@@ -90,7 +90,7 @@ public class Security {
         int offset = 0;
         List<Byte> encrypted = new ArrayList<>();
         int originalLength = msgToEncrypt.getBytes().length;
-        int chunkSizeWhenEncrypt = 245;// for rsa 2048
+        int chunkSizeWhenEncrypt = 245; // for rsa 2048
         while (offset < originalLength) {
             rsaCipher.update(msgToEncrypt.getBytes(), offset,
                     Math.min(chunkSizeWhenEncrypt, originalLength - offset));
@@ -125,6 +125,5 @@ public class Security {
         System.out.println(decryptedString);
         System.out.println("decrypted string and original string is equal? %s".formatted(
                 decryptedString.equals(msgToEncrypt)));
-
     }
 }

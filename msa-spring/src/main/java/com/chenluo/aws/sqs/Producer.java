@@ -13,14 +13,13 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-//@Component
+// @Component
 public class Producer implements SmartLifecycle {
     private static final String QUEUE_NAME = "test-queue";
     final AmazonSQS sqs = AmazonSQSClientBuilder.defaultClient();
     private final AtomicBoolean isRunning = new AtomicBoolean(false);
 
     public static void main(String[] args) {
-
 
         // Send multiple messages to the queue
         //        SendMessageBatchRequest send_batch_request =

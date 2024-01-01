@@ -9,5 +9,4 @@ class ServiceDiscoverApplicationTests {
     @Test
     void contextLoads() {
     }
-
 }

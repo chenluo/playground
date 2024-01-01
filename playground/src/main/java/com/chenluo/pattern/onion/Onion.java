@@ -1,6 +1,5 @@
 package com.chenluo.pattern.onion;
 
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -12,7 +11,8 @@ public class Onion<T> {
 
     @SafeVarargs
     public static <U> Middleware<U> compose(Middleware<U>... middlewares) {
-        return Arrays.stream(middlewares).reduce((ctx, nxt) -> nxt.next(), (before, after) -> (ctx, nxt) -> before.via(ctx, () -> after.via(ctx, nxt)));
+        return Arrays.stream(middlewares).reduce((ctx, nxt) -> nxt.next(),
+                (before, after) -> (ctx, nxt) -> before.via(ctx, () -> after.via(ctx, nxt)));
     }
 
     public static void main(String[] args) {
@@ -55,8 +55,6 @@ public class Onion<T> {
         middlewareList.add(middleware4);
         Onion<Object> objectOnion = new Onion<>();
         compose(middleware1, middleware2, middleware3, middleware4);
-
-
     }
 
     public final void use(Middleware<T> middleware) {

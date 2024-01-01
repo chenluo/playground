@@ -61,6 +61,5 @@ public class EsIndexGenerator {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
     }
 }

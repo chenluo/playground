@@ -9,5 +9,4 @@ class ServiceFooApplicationTests {
     @Test
     void contextLoads() {
     }
-
 }

@@ -13,14 +13,14 @@ public class MyBeanDefinitionRegistryPostProcessor implements BeanDefinitionRegi
     private final Logger logger = LoggerFactory.getLogger(MyBeanFactoryPostProcessor.class);
 
     @Override
-    public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
+    public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry)
+            throws BeansException {
         logger.warn("postProcessBeanDefinitionRegistry invoked for {}", registry);
-
     }
 
     @Override
-    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory)
+            throws BeansException {
         logger.warn("postProcessBeanDefinitionRegistry invoked for {}", beanFactory);
-
     }
 }

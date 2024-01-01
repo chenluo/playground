@@ -19,12 +19,11 @@ public class LC8 {
         NumberFormat numberFormat = new DecimalFormat("0.#");
         numberFormat.setRoundingMode(RoundingMode.CEILING);
         System.out.println(numberFormat.format(bigDecimal));
-
     }
 
     static class Solution {
         public int myAtoi(String s) {
-            int phase = 0;// 0 init, 1 after read sign, 2 after apply the sign
+            int phase = 0; // 0 init, 1 after read sign, 2 after apply the sign
             int curNumber = 0;
             int flag = 1;
             for (int i = 0; i < s.length(); i++) {

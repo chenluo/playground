@@ -1,6 +1,6 @@
 package com.chenluo.controller;
 
-//import com.chenluo.base.spec.BaseService;
+// import com.chenluo.base.spec.BaseService;
 
 import com.chenluo.data.dto.SmallTbl;
 import com.chenluo.data.repo.SmallTblRepository;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-//@RestController
+// @RestController
 @RequestMapping("/main/")
 public class MainController {
 
@@ -24,8 +24,8 @@ public class MainController {
     private final SmallTblRepository smallTblRepository;
     private final MessageProducer messageProducer;
 
-
-    public MainController(CacheableServiceImpl cacheableService, SmallTblRepository smallTblRepository, MessageProducer messageProducer) {
+    public MainController(CacheableServiceImpl cacheableService,
+                          SmallTblRepository smallTblRepository, MessageProducer messageProducer) {
         this.cacheableService = cacheableService;
         this.smallTblRepository = smallTblRepository;
         this.messageProducer = messageProducer;
@@ -42,8 +42,7 @@ public class MainController {
 
         smallTblRepository.save(new SmallTbl());
 
-        messageProducer.getProducer().send(
-                new ProducerRecord<>("topic", "msg"));
+        messageProducer.getProducer().send(new ProducerRecord<>("topic", "msg"));
         return true;
     }
 }

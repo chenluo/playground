@@ -21,7 +21,8 @@ public class ZKManagerImpl implements ZKManager {
     private ZooKeeper zkeeper;
     private ZKConnection zkConnection;
 
-    public ZKManagerImpl(ZKConfiguration zkConfiguration) throws IOException, InterruptedException, KeeperException {
+    public ZKManagerImpl(ZKConfiguration zkConfiguration)
+            throws IOException, InterruptedException, KeeperException {
         this.zkConfiguration = zkConfiguration;
         initialize();
     }
@@ -41,25 +42,18 @@ public class ZKManagerImpl implements ZKManager {
     }
 
     @Override
-    public void create(String path, byte[] data)
-            throws KeeperException,
-            InterruptedException {
-        zkeeper.create(
-                path,
-                data,
-                ZooDefs.Ids.OPEN_ACL_UNSAFE,
-                CreateMode.PERSISTENT);
+    public void create(String path, byte[] data) throws KeeperException, InterruptedException {
+        zkeeper.create(path, data, ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
     }
 
     @Override
-    public boolean isExist(String path)
-            throws KeeperException,
-            InterruptedException {
+    public boolean isExist(String path) throws KeeperException, InterruptedException {
         return Objects.nonNull(zkeeper.exists(path, false));
     }
 
     @Override
-    public Object getZNodeData(String path, boolean watchFlag) throws KeeperException, InterruptedException {
+    public Object getZNodeData(String path, boolean watchFlag)
+            throws KeeperException, InterruptedException {
         byte[] b = null;
         b = zkeeper.getData(path, null, null);
 
@@ -67,8 +61,7 @@ public class ZKManagerImpl implements ZKManager {
     }
 
     @Override
-    public void update(String path, byte[] data) throws KeeperException,
-            InterruptedException {
+    public void update(String path, byte[] data) throws KeeperException, InterruptedException {
         int version = zkeeper.exists(path, true).getVersion();
         zkeeper.setData(path, data, version);
     }
@@ -85,7 +78,8 @@ public class ZKManagerImpl implements ZKManager {
         }
         String lockPath = null;
         try {
-            lockPath = zkeeper.create(path + "/lock_", "".getBytes(StandardCharsets.UTF_8), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
+            lockPath = zkeeper.create(path + "/lock_", "".getBytes(StandardCharsets.UTF_8),
+                    ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
         } catch (KeeperException e) {
             logger.error("", e);
             return null;
@@ -111,16 +105,16 @@ public class ZKManagerImpl implements ZKManager {
                     last = child;
                 }
                 logger.warn("get lock: {} but last lock is: {}", lockPath, last);
-//                Stat stat = zkeeper.exists(path + "/" + last, event -> {
-//                    if (event.getType().equals(Watcher.Event.EventType.NodeDeleted)) {
-//                        logger.info("wake up: {}", currentThread);
-//                        LockSupport.unpark(currentThread);
-//                    }
-//                });
+                //                Stat stat = zkeeper.exists(path + "/" + last, event -> {
+                //                    if
+                // (event.getType().equals(Watcher.Event.EventType.NodeDeleted)) {
+                //                        logger.info("wake up: {}", currentThread);
+                //                        LockSupport.unpark(currentThread);
+                //                    }
+                //                });
 
                 LockSupport.park();
             }
-
 
         } catch (InterruptedException e) {
             e.printStackTrace();

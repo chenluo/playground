@@ -27,9 +27,11 @@ public class ReminderTest {
     @Container
     static MySQLContainer mySQLContainer =
             new MySQLContainer<>(DockerImageName.parse("mysql:8.0-debian"));
+
     @Container
     static KafkaContainer kafkaContainer =
             new KafkaContainer(DockerImageName.parse("confluentinc/cp-kafka:latest"));
+
     @Autowired
     private ReminderRepository reminderRepository;
 
@@ -88,9 +90,7 @@ public class ReminderTest {
 
     @Test
     public void start() {
-
     }
-
 
     @Test
     public void testFindType1() {

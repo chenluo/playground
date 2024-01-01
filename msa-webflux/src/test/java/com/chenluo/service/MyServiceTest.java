@@ -22,7 +22,5 @@ class MyServiceTest {
     void testReactor() {
         Mono<String> stringMono = Mono.just("S");
         StepVerifier.create(stringMono).expectNext("S").expectComplete().verify();
-
     }
-
 }

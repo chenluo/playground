@@ -27,15 +27,17 @@ public class ESDataMocker {
                 int failCount = 0;
                 for (int j = 0; j < totalDocCount; j++) {
                     if ((j + 1) % 1000 == 0) {
-                        System.out.println(Thread.currentThread().getName() + ": progress " + j + "/" + totalDocCount);
+                        System.out.println(
+                                Thread.currentThread().getName() + ": progress " + j + "/" +
+                                        totalDocCount);
                     }
                     try {
                         postData();
-//                try {
-//                    Thread.sleep(1);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
+                        //                try {
+                        //                    Thread.sleep(1);
+                        //                } catch (InterruptedException e) {
+                        //                    e.printStackTrace();
+                        //                }
                     } catch (Exception e) {
                         e.printStackTrace();
                         failCount++;
@@ -52,15 +54,15 @@ public class ESDataMocker {
             latch.await();
             executorService.shutdown();
             while (!executorService.awaitTermination(1000, TimeUnit.MILLISECONDS)) {
-
             }
+
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
     }
 
     private void postData() throws IOException {
-//        System.out.println("[Post data] start");
+        //        System.out.println("[Post data] start");
         URL url = new URL("http://localhost:9200/simple-index-9999/_bulk");
         HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
         httpURLConnection.setRequestMethod("POST");
@@ -68,11 +70,11 @@ public class ESDataMocker {
         httpURLConnection.setDoInput(true);
         httpURLConnection.setUseCaches(false);
 
-        String authHeader = Base64.getEncoder().encodeToString("elastic:elastic".getBytes(StandardCharsets.UTF_8));
+        String authHeader = Base64.getEncoder()
+                .encodeToString("elastic:elastic".getBytes(StandardCharsets.UTF_8));
 
         httpURLConnection.setRequestProperty("Content-type", "application/json;utf-8");
         httpURLConnection.setRequestProperty("Authorization", "Basic " + authHeader);
-
 
         String docTemplate = "{\"text-field\":\"%s\", \"keyword-field\":\"%s\"}";
         int docCountPerRequest = 50;
@@ -84,7 +86,8 @@ public class ESDataMocker {
             String keywordField = UUID.randomUUID().toString();
             docList.add(String.format(docTemplate, textField, keywordField));
         }
-        stringBuilder.append(String.join(System.lineSeparator(), docList)).append(System.lineSeparator());
+        stringBuilder.append(String.join(System.lineSeparator(), docList))
+                .append(System.lineSeparator());
 
         try (OutputStream outputStream = httpURLConnection.getOutputStream()) {
             outputStream.write(stringBuilder.toString().getBytes(StandardCharsets.UTF_8));
@@ -93,7 +96,7 @@ public class ESDataMocker {
         int respCode = httpURLConnection.getResponseCode();
 
         if (respCode >= 200 && respCode < 300) {
-//            System.out.println("[Post data] success");
+            //            System.out.println("[Post data] success");
         } else {
             System.out.println("[Post data] failed: code " + httpURLConnection.getResponseCode());
         }
@@ -102,7 +105,7 @@ public class ESDataMocker {
             e.printStackTrace();
         }
 
-//        System.out.println("[Post data] end");
+        //        System.out.println("[Post data] end");
     }
 
     private String generateString(int length) {
@@ -110,8 +113,7 @@ public class ESDataMocker {
         int rightLimit = 122; // letter 'z'
 
         String generatedString = ThreadLocalRandom.current().ints(leftLimit, rightLimit + 1)
-                .map(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97) ? i : 32)
-                .limit(length)
+                .map(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97) ? i : 32).limit(length)
                 .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
                 .toString();
         return generatedString;

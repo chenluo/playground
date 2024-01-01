@@ -8,7 +8,6 @@ public class LogTester {
 
     public static void main(String[] args) {
         new LogTester().tryLog();
-
     }
 
     private void tryLog() {

@@ -9,7 +9,7 @@ import org.springframework.messaging.handler.annotation.Header;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
-//@Component
+// @Component
 public class SpringKafkaAnnotationConsumers {
     private final Random random = new Random();
     private final AtomicInteger i = new AtomicInteger();
@@ -26,7 +26,6 @@ public class SpringKafkaAnnotationConsumers {
             ack.acknowledge();
         } else {
             throw new RuntimeException(record.value());
-
         }
     }
 
@@ -50,6 +49,5 @@ public class SpringKafkaAnnotationConsumers {
     public void dlt(String message, @Header(KafkaHeaders.RECEIVED_TOPIC) String topic,
                     @Header(KafkaHeaders.ORIGINAL_TOPIC) String originTopic) {
         System.out.println("dlt %s, %s".formatted(message, topic));
-
     }
 }

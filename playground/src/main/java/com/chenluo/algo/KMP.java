@@ -13,7 +13,6 @@ public class KMP {
         System.out.println(kmp.find("aaaa", "aaaaaaaaaaaaaaaab"));
         System.out.println(kmp.find("issip", "mississippi"));
         System.out.println(kmp.find("adcadde", "adcadcaddcadde"));
-
     }
 
     private int find(String pattern, String text) {
@@ -33,7 +32,8 @@ public class KMP {
                     // if aabbac, it doesn't match at last position
                     // and lps is 1, so we can say, at least we can restart from a,
                     // because the text and pattern agree on aabba and also match a
-                    // potentially, the start position of match is updated with diff posInPattern - lps[posInPattern-1]
+                    // potentially, the start position of match is updated with diff posInPattern -
+                    // lps[posInPattern-1]
                     posInPattern = lps[posInPattern - 1];
                 } else {
                     // no matched char in pattern
@@ -55,15 +55,15 @@ public class KMP {
         result[0] = 0;
         for (int i = 1; i < pattern.length(); i++) {
             result[i] = findLongestMatchPrefixAndSuffix(pattern, result, result[i - 1], i);
-
         }
-        System.out.println(Arrays.stream(result).mapToObj(i -> String.valueOf(i)).collect(Collectors.toList()));
+        System.out.println(Arrays.stream(result).mapToObj(i -> String.valueOf(i))
+                .collect(Collectors.toList()));
 
         return result;
-
     }
 
-    private int findLongestMatchPrefixAndSuffix(String pattern, int[] lps, int lastLength, int curIdx) {
+    private int findLongestMatchPrefixAndSuffix(String pattern, int[] lps, int lastLength,
+                                                int curIdx) {
         if (pattern.charAt(lastLength) == pattern.charAt(curIdx)) {
             return lastLength + 1;
         } else {
@@ -72,6 +72,5 @@ public class KMP {
             }
             return findLongestMatchPrefixAndSuffix(pattern, lps, lps[lastLength - 1], curIdx);
         }
-
     }
 }

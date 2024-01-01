@@ -14,13 +14,8 @@ public class StockDto {
 
     @Override
     public String toString() {
-        return "StockDto{" +
-                "sku=" + sku +
-                ", location='" + location + '\'' +
-                ", stock=" + stock +
-                ", updateTimestamp=" + updateTimestamp +
-                ", updateDatetime=" + updateDatetime +
-                '}';
+        return "StockDto{" + "sku=" + sku + ", location='" + location + '\'' + ", stock=" + stock +
+                ", updateTimestamp=" + updateTimestamp + ", updateDatetime=" + updateDatetime + '}';
     }
 
     @Override
@@ -33,8 +28,9 @@ public class StockDto {
         if (sku != stockDto.sku) return false;
         if (stock != stockDto.stock) return false;
         if (!location.equals(stockDto.location)) return false;
-        if (!Objects.equals(updateTimestamp, stockDto.updateTimestamp))
+        if (!Objects.equals(updateTimestamp, stockDto.updateTimestamp)) {
             return false;
+        }
         return Objects.equals(updateDatetime, stockDto.updateDatetime);
     }
 

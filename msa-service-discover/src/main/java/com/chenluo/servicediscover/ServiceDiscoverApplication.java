@@ -13,5 +13,4 @@ public class ServiceDiscoverApplication {
     public static void main(String[] args) {
         SpringApplication.run(ServiceDiscoverApplication.class, args);
     }
-
 }

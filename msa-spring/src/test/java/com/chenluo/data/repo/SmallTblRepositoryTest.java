@@ -3,10 +3,8 @@ package com.chenluo.data.repo;
 import com.chenluo.TestBase;
 import com.chenluo.data.dto.LargeTbl;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.util.StopWatch;
 
 import java.util.ArrayList;

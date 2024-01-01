@@ -9,5 +9,4 @@
 package com.chenluo.service;
 
 public interface MyService {
-
 }

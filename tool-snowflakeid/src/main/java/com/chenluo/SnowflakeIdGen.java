@@ -18,7 +18,6 @@ public class SnowflakeIdGen {
     private int machineIdBits = 8;
     private int timestampBits = 64 - machineIdBits - seqBits;
 
-
     public SnowflakeIdGen(String connectStr) {
         int sleepMsBetweenRetries = 100;
         int maxRetries = 3;

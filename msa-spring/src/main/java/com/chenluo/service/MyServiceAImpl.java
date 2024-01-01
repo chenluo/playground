@@ -21,7 +21,6 @@ public class MyServiceAImpl implements InitializingBean, ApplicationContextAware
     final Logger logger = LogManager.getLogger(MyServiceAImpl.class);
     private ApplicationContext applicationContext;
 
-
     public MyServiceAImpl() {
     }
 

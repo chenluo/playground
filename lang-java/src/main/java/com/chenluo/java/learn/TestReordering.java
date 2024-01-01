@@ -8,7 +8,6 @@ public class TestReordering {
         new TestReordering().test();
     }
 
-
     // invalid test.
     private void run() throws InterruptedException {
         final int[] ordinaryInt = {0};
@@ -20,7 +19,6 @@ public class TestReordering {
                     System.out.println("reordering occurred.");
                 }
             }
-
         });
 
         Thread writeT = new Thread(new Runnable() {
@@ -33,7 +31,6 @@ public class TestReordering {
         });
         readT.start();
         writeT.start();
-
 
         Thread.sleep(100000);
         readT.interrupt();
@@ -81,18 +78,18 @@ public class TestReordering {
                 semaphore4.acquireUninterruptibly();
                 if (r1 == 0 && r2 == 0) {
                     // TODO: visiblity issue or just reorder?
-                    // Update: no visibility issue here because semaphore has similar semantics of synchronized.
+                    // Update: no visibility issue here because semaphore has similar semantics of
+                    // synchronized.
                     System.out.println(detected++ + " reorder occur at iter " + i);
                 }
             }
-
         }
 
         public void change1() {
             while (true) {
                 semaphore1.acquireUninterruptibly();
                 a = 1; // store a
-//                anyMethodAsBarrier();
+                //                anyMethodAsBarrier();
                 r1 = b; // load b, store r1
                 // load b -> store a -> store r1
                 semaphore2.release();
@@ -103,12 +100,12 @@ public class TestReordering {
             while (true) {
                 semaphore3.acquireUninterruptibly();
                 b = 1; // store b
-//                anyMethodAsBarrier();
-                r2 = a;// load a, store r2
+                //                anyMethodAsBarrier();
+                r2 = a; // load a, store r2
                 semaphore4.release();
             }
-
         }
+
         // change 1 & 2:
         // t1           t2
         // load b       store b

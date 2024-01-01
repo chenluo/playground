@@ -34,7 +34,6 @@ public class RedissonLockTester {
                 throw new RuntimeException(e);
             }
             System.out.println("[sub2] awake");
-
         }).get();
         lock.unlock();
         System.out.println("[main] unlock");

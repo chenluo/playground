@@ -7,10 +7,8 @@ import com.chenluo.data.repo.ConsumedMessageRepository;
 import com.chenluo.service.ConsumedMessageService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
@@ -66,6 +64,7 @@ public class TransactionTest extends TestBase {
         executorService.shutdown();
         executorService.awaitTermination(100, TimeUnit.SECONDS);
         ConsumedMessage finalMessage = repository.findByUuid(uuid.toString());
-        assert finalMessage.count == COUNT : "message count is %d rather than %d".formatted(finalMessage.count, executed.get());
+        assert finalMessage.count == COUNT : "message count is %d rather than %d".formatted(
+                finalMessage.count, executed.get());
     }
 }
