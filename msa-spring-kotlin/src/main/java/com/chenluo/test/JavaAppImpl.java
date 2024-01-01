@@ -5,7 +5,6 @@ public class JavaAppImpl implements JavaApp {
         new JavaAppImpl().run();
         JavaApp javaApp = new JavaAppImpl();
         javaApp.run();
-
     }
 
     @Override
@@ -13,7 +12,5 @@ public class JavaAppImpl implements JavaApp {
         this.util();
     }
 
-    private void util() {
-
-    }
+    private void util() {}
 }

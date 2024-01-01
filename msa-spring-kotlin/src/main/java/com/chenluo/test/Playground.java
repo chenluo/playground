@@ -11,7 +11,8 @@ public class Playground {
         List<Integer> integerList = new ArrayList<>();
         integerList.add(1);
         stringList.add("1");
-//        objectList = stringList; // illegal, List<String> is not extending List<Object>. up cast failed.
+        // objectList = stringList; // illegal, List<String> is not extending List<Object>.
+        // up cast failed.
         // addAll like read the elements in the parameter and write it
         // read a subtype as supertype is safe. Object a = "string"
         // so the parameter must be a supertype of List<T> --> List<? extends T>
@@ -27,7 +28,7 @@ public class Playground {
         List<? super String> superStringList = new ArrayList<>();
         superStringList.add("a");
         CharSequence s = "a";
-//        superStringList.add(s);
+        // superStringList.add(s);
         Object s1 = superStringList.get(0);
         for (Object o : superStringList) {
             System.out.println((String) o);
@@ -36,28 +37,30 @@ public class Playground {
         List<CharSequence> charSequenceList = new ArrayList<>();
         charSequenceList.add(s);
         // super means safe to write the subtype to supertype --> kotlin's in --> consumer --> write
-        // extends means safe to read the subtype as supertype --> kotlin's out --> producer --> read
+        // extends means safe to read the subtype as supertype --> kotlin's out --> producer -->
+        // read
         superStringList = objectList; // List<Object> extends List<? super String>
         superStringList = stringList; // List<String> extends List<? super String>
-        superStringList = charSequenceList; // String extends CharSequence --> List<CharSequence> extends List<? super String>
-//        superStringList.addAll(charSequenceList);
-//        charSequenceList.addAll(superStringList);
-//        superStringList = integerList;
-//        objectList = superStringList;
-//        stringList = superStringList;
-//        integerList = superStringList;
-
+        superStringList =
+                charSequenceList; // String extends CharSequence --> List<CharSequence> extends
+        // List<? super String>
+        //        superStringList.addAll(charSequenceList);
+        //        charSequenceList.addAll(superStringList);
+        //        superStringList = integerList;
+        //        objectList = superStringList;
+        //        stringList = superStringList;
+        //        integerList = superStringList;
 
         List<? extends Object> extendObjectList = new ArrayList<>();
         extendObjectList = objectList;
-//        extendObjectList.addAll(stringList);
-//        extendObjectList.add("string");
+        //        extendObjectList.addAll(stringList);
+        //        extendObjectList.add("string");
         extendObjectList = stringList;
-//        stringList = extendObjectList;
+        //        stringList = extendObjectList;
 
         List<? extends String> extendCharSeqList = new ArrayList<>();
 
-//        extendCharSeqList = superStringList;
+        //        extendCharSeqList = superStringList;
         List<String> a;
         StringList b = null;
         a = b;
@@ -134,9 +137,7 @@ public class Playground {
         }
 
         @Override
-        public void clear() {
-
-        }
+        public void clear() {}
 
         @Override
         public String get(int index) {
@@ -149,9 +150,7 @@ public class Playground {
         }
 
         @Override
-        public void add(int index, String element) {
-
-        }
+        public void add(int index, String element) {}
 
         @Override
         public String remove(int index) {
