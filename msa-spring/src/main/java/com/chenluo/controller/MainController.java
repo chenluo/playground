@@ -1,21 +1,19 @@
 package com.chenluo.controller;
 
-// import com.chenluo.base.spec.BaseService;
 
 import com.chenluo.data.dto.SmallTbl;
 import com.chenluo.data.repo.SmallTblRepository;
 import com.chenluo.kafka.MessageProducer;
 import com.chenluo.service.CacheableServiceImpl;
-
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-// @RestController
+@RestController
 @RequestMapping("/main/")
 public class MainController {
 
@@ -25,10 +23,8 @@ public class MainController {
     private final SmallTblRepository smallTblRepository;
     private final MessageProducer messageProducer;
 
-    public MainController(
-            CacheableServiceImpl cacheableService,
-            SmallTblRepository smallTblRepository,
-            MessageProducer messageProducer) {
+    public MainController(CacheableServiceImpl cacheableService,
+                          SmallTblRepository smallTblRepository, MessageProducer messageProducer) {
         this.cacheableService = cacheableService;
         this.smallTblRepository = smallTblRepository;
         this.messageProducer = messageProducer;
@@ -47,5 +43,32 @@ public class MainController {
 
         messageProducer.getProducer().send(new ProducerRecord<>("topic", "msg"));
         return true;
+    }
+
+    @GetMapping("getWithException")
+    public ResponseEntity<String> getWithException() {
+        return ResponseEntity.internalServerError().body("xxx exception");
+    }
+
+    @GetMapping("getWithCustomizedException")
+    public String getWithCustomizedException() {
+        throw new CustomizedException("exception 1");
+    }
+
+    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+    private static class CustomizedException extends RuntimeException {
+        private String message;
+
+        private CustomizedException(String message) {
+            this.message = message;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public void setMessage(String message) {
+            this.message = message;
+        }
     }
 }

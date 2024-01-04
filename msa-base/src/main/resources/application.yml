@@ -8,7 +8,8 @@ server:
     key-store-password: password
     key-alias: springboot
     key-password: password
-
+  error:
+    include-message: "always"
 app:
   name: sss
   prop: ppp
