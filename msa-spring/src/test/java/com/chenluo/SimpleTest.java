@@ -1365,4 +1365,51 @@ public class SimpleTest {
      * obj.addAtIndex(index,val);
      * obj.deleteAtIndex(index);
      */
+
+    @Test
+    public void Q215() {
+        Assertions.assertEquals(1, new Solution215().findKthLargest(new int[]{1, 2, 3, 4, 5}, 5));
+        Assertions.assertEquals(1, new Solution215().findKthLargest(new int[]{5,4,3,2,1}, 5));
+
+    }
+
+    class Solution215 {
+        public int findKthLargest(int[] nums, int k) {
+            int l = 0;
+            int r = nums.length-1;
+            while (l < r) {
+                int tmp = partition(nums, l, r);
+                if (tmp == k-1) {
+                    break;
+                } else if (tmp > k-1) {
+                    r = tmp-1;
+                } else {
+                    l = tmp+1;
+                }
+            }
+            return nums[k-1];
+        }
+
+        private int partition(int[] nums, int l, int r) {
+            int ll = l;
+            int rr = r;
+            while (ll < rr) {
+                if (nums[ll] <= nums[r]) {
+                    // nums[ll] should put at right of pivot
+                    swap(nums, ll, rr);
+                    rr--;
+                } else {
+                    ll++;
+                }
+            }
+            swap(nums, ll, r);
+            return ll;
+        }
+
+        private void swap(int[] nums, int i, int j) {
+            int tmp = nums[i];
+            nums[i] = nums[j];
+            nums[j] = tmp;
+        }
+    }
 }
