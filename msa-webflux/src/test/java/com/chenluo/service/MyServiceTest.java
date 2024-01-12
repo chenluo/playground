@@ -1,6 +1,7 @@
 package com.chenluo.service;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
@@ -38,10 +39,14 @@ class MyServiceTest {
         //        String block = stringMono.block();
         //        System.out.println(block);
 
-        webClient.post().uri("https://www.google.com").exchange()
-                .publishOn(Schedulers.boundedElastic()).doOnSuccess(cr -> {
-                    System.out.println("doOnSucess");
-                    System.out.println(cr.bodyToMono(String.class).block());
-                }).block();
+
+        ReactiveSecurityContextHolder.getContext().publishOn(Schedulers.boundedElastic()).map(ctx -> {
+            String block = webClient.post().uri("https://www.google.com")
+                    .retrieve()
+                    .bodyToMono(String.class).block();
+            System.out.println(block);
+            return block;
+        }).block();
+
     }
 }

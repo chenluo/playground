@@ -60,14 +60,14 @@ public class SimpleTest {
 
     @Test
     public void Q33() {
-        System.out.println(new Solution33().search(new int[] {2, 3, 4, 1}, 4));
+        System.out.println(new Solution33().search(new int[]{2, 3, 4, 1}, 4));
         //        System.out.println(new Solution33().search(new int[]{1,2, 3, 4}, 1));
     }
 
     @Test
     public void Q84() {
         Assertions.assertEquals(
-                12, new Solution84().largestRectangleArea(new int[] {2, 1, 5, 3, 5, 3}));
+                12, new Solution84().largestRectangleArea(new int[]{2, 1, 5, 3, 5, 3}));
     }
 
     @Test
@@ -82,7 +82,7 @@ public class SimpleTest {
 
     @Test
     public void Q207() {
-        Assertions.assertTrue(new Solution207().canFinish(3, new int[][] {{1, 0}}));
+        Assertions.assertTrue(new Solution207().canFinish(3, new int[][]{{1, 0}}));
     }
 
     @Test
@@ -110,7 +110,7 @@ public class SimpleTest {
         System.out.println(
                 Arrays.toString(
                         new Solution239()
-                                .maxSlidingWindow(new int[] {3, 3, 3, 1, 3, 3, 3, 3, 3, 3}, 3)));
+                                .maxSlidingWindow(new int[]{3, 3, 3, 1, 3, 3, 3, 3, 3, 3}, 3)));
     }
 
     @Test
@@ -160,7 +160,7 @@ public class SimpleTest {
 
     @Test
     public void testEncoding() {
-        String s = new String(new byte[] {0, 1, 2, 19, 1, 127});
+        String s = new String(new byte[]{0, 1, 2, 19, 1, 127});
         System.out.println(s);
     }
 
@@ -298,30 +298,30 @@ public class SimpleTest {
         Assertions.assertEquals(
                 1,
                 solver.numberOfCornelRectangle(
-                        new int[][] {
-                            {1, 0, 0, 1, 0}, {0, 0, 1, 0, 1}, {0, 0, 0, 1, 0}, {1, 0, 1, 0, 1}
+                        new int[][]{
+                                {1, 0, 0, 1, 0}, {0, 0, 1, 0, 1}, {0, 0, 0, 1, 0}, {1, 0, 1, 0, 1}
                         }));
-        Assertions.assertEquals(0, solver.numberOfCornelRectangle(new int[][] {{1, 1, 1, 1, 1}}));
+        Assertions.assertEquals(0, solver.numberOfCornelRectangle(new int[][]{{1, 1, 1, 1, 1}}));
         Assertions.assertEquals(
-                10, solver.numberOfCornelRectangle(new int[][] {{1, 1, 1, 1, 1}, {1, 1, 1, 1, 1}}));
+                10, solver.numberOfCornelRectangle(new int[][]{{1, 1, 1, 1, 1}, {1, 1, 1, 1, 1}}));
         Assertions.assertEquals(
-                6, solver.numberOfCornelRectangle(new int[][] {{1, 1, 1, 1, 1}, {1, 0, 1, 1, 1}}));
+                6, solver.numberOfCornelRectangle(new int[][]{{1, 1, 1, 1, 1}, {1, 0, 1, 1, 1}}));
         Assertions.assertEquals(
                 1,
                 solver.numberOfCornelRectangleHashMap(
-                        new int[][] {
-                            {1, 0, 0, 1, 0}, {0, 0, 1, 0, 1}, {0, 0, 0, 1, 0}, {1, 0, 1, 0, 1}
+                        new int[][]{
+                                {1, 0, 0, 1, 0}, {0, 0, 1, 0, 1}, {0, 0, 0, 1, 0}, {1, 0, 1, 0, 1}
                         }));
         Assertions.assertEquals(
-                0, solver.numberOfCornelRectangleHashMap(new int[][] {{1, 1, 1, 1, 1}}));
+                0, solver.numberOfCornelRectangleHashMap(new int[][]{{1, 1, 1, 1, 1}}));
         Assertions.assertEquals(
                 10,
                 solver.numberOfCornelRectangleHashMap(
-                        new int[][] {{1, 1, 1, 1, 1}, {1, 1, 1, 1, 1}}));
+                        new int[][]{{1, 1, 1, 1, 1}, {1, 1, 1, 1, 1}}));
         Assertions.assertEquals(
                 6,
                 solver.numberOfCornelRectangleHashMap(
-                        new int[][] {{1, 1, 1, 1, 1}, {1, 0, 1, 1, 1}}));
+                        new int[][]{{1, 1, 1, 1, 1}, {1, 0, 1, 1, 1}}));
     }
 
     @Test
@@ -331,7 +331,7 @@ public class SimpleTest {
         Assertions.assertEquals(
                 6,
                 new Q1671()
-                        .minimumMountainRemovals(new int[] {100, 92, 89, 77, 74, 66, 64, 66, 64}));
+                        .minimumMountainRemovals(new int[]{100, 92, 89, 77, 74, 66, 64, 66, 64}));
     }
 
     @Test
@@ -370,6 +370,45 @@ public class SimpleTest {
         l.addAtHead(4);
         l.addAtIndex(5, 0);
         l.addAtHead(6);
+    }
+
+    @Test
+    public void Q1944() {
+        System.out.println(Arrays.toString(new Solution1944().canSeePersonsCount(new int[]{10, 6, 8, 5, 11, 9})));
+    }
+
+    @Test
+    public void testGcd() {
+        System.out.println(gcd(10, 3));
+    }
+
+    private int gcd(int a, int b) {
+        if (a == b) {
+            return a;
+        }
+        if (a > b) {
+            int tmp = a;
+            a = b;
+            b = tmp;
+        }
+        while (a != 0) {
+            int r = b % a;
+            b = a;
+            a = r;
+        }
+        return b;
+    }
+
+    @Test
+    public void Q894() {
+        new Solution894().allPossibleFBT(5);
+    }
+
+    @Test
+    public void Q215() {
+        Assertions.assertEquals(1, new Solution215().findKthLargest(new int[]{1, 2, 3, 4, 5}, 5));
+        Assertions.assertEquals(1, new Solution215().findKthLargest(new int[]{5, 4, 3, 2, 1}, 5));
+
     }
 
     /**
@@ -460,7 +499,8 @@ public class SimpleTest {
         int val;
         ListNode next;
 
-        ListNode() {}
+        ListNode() {
+        }
 
         ListNode(int val) {
             this.val = val;
@@ -807,7 +847,8 @@ public class SimpleTest {
         TreeNode left;
         TreeNode right;
 
-        TreeNode() {}
+        TreeNode() {
+        }
 
         TreeNode(int val) {
             this.val = val;
@@ -967,8 +1008,8 @@ public class SimpleTest {
                     dp[i][j] =
                             (i > 0 && s1.charAt(i - 1) == s3.charAt(i + j - 1) && dp[i - 1][j])
                                     || (j > 0
-                                            && s2.charAt(j - 1) == s3.charAt(i + j - 1)
-                                            && dp[i][j - 1]);
+                                    && s2.charAt(j - 1) == s3.charAt(i + j - 1)
+                                    && dp[i][j - 1]);
                 }
             }
             return dp[s1.length()][s2.length()];
@@ -1010,7 +1051,8 @@ public class SimpleTest {
         List<int[]> ranges = new ArrayList<>();
         int count = 0;
 
-        public CountIntervals() {}
+        public CountIntervals() {
+        }
 
         public void add(int left, int right) {
             int l = 0;
@@ -1250,17 +1292,17 @@ public class SimpleTest {
 
     class MyLinkedList {
         int size = 0;
-        Node head = null;
-        Node tail = null;
+        BiNode head = null;
+        BiNode tail = null;
 
         public MyLinkedList() {
-            head = new Node();
+            head = new BiNode();
             tail = head;
         }
 
         public int get(int index) {
             if (index < size) {
-                Node tmp = head.next;
+                BiNode tmp = head.next;
                 for (int i = 0; i < index; i++) {
                     tmp = tmp.next;
                 }
@@ -1269,9 +1311,9 @@ public class SimpleTest {
             return -1;
         }
 
-        private Node getNode(int index) {
+        private BiNode getNode(int index) {
             if (index < size) {
-                Node tmp = head.next;
+                BiNode tmp = head.next;
                 for (int i = 0; i < index; i++) {
                     tmp = tmp.next;
                 }
@@ -1281,26 +1323,26 @@ public class SimpleTest {
         }
 
         public void addAtHead(int val) {
-            Node node = new Node(val);
+            BiNode biNode = new BiNode(val);
             size++;
-            Node tmp = head.next; // old first node
-            head.next = node;
-            node.prev = head;
-            node.next = tmp;
+            BiNode tmp = head.next; // old first node
+            head.next = biNode;
+            biNode.prev = head;
+            biNode.next = tmp;
             if (tmp == null) {
                 // add into an empty list
-                tail = node;
+                tail = biNode;
             } else {
-                tmp.prev = node;
+                tmp.prev = biNode;
             }
         }
 
         public void addAtTail(int val) {
             size++;
-            Node node = new Node(val);
-            tail.next = node;
-            node.prev = tail;
-            tail = node;
+            BiNode biNode = new BiNode(val);
+            tail.next = biNode;
+            biNode.prev = tail;
+            tail = biNode;
         }
 
         public void addAtIndex(int index, int val) {
@@ -1309,24 +1351,24 @@ public class SimpleTest {
             } else if (index == size) {
                 addAtTail(val);
             } else if (index < size) {
-                Node tmp = getNode(index);
+                BiNode tmp = getNode(index);
                 // new node -> tmp
-                Node node = new Node(val);
-                node.prev = tmp.prev;
-                tmp.prev.next = node;
-                node.next = tmp;
-                tmp.prev = node;
+                BiNode biNode = new BiNode(val);
+                biNode.prev = tmp.prev;
+                tmp.prev.next = biNode;
+                biNode.next = tmp;
+                tmp.prev = biNode;
                 size++;
             }
         }
 
         public void deleteAtIndex(int index) {
-            Node tmp = getNode(index);
+            BiNode tmp = getNode(index);
             if (tmp == null) {
                 return;
             }
-            Node prev = tmp.prev;
-            Node next = tmp.next;
+            BiNode prev = tmp.prev;
+            BiNode next = tmp.next;
             prev.next = next;
             if (next == null) {
                 // removing tail node
@@ -1338,18 +1380,18 @@ public class SimpleTest {
         }
     }
 
-    class Node {
+    class BiNode {
         int val;
-        Node next;
-        Node prev;
+        BiNode next;
+        BiNode prev;
 
-        public Node() {
+        public BiNode() {
             val = 0;
             next = null;
             prev = null;
         }
 
-        public Node(int val) {
+        public BiNode(int val) {
             this.val = val;
             next = null;
             prev = null;
@@ -1365,29 +1407,133 @@ public class SimpleTest {
      * obj.addAtIndex(index,val);
      * obj.deleteAtIndex(index);
      */
+    class Node {
+        int val;
+        Node next;
 
-    @Test
-    public void Q215() {
-        Assertions.assertEquals(1, new Solution215().findKthLargest(new int[]{1, 2, 3, 4, 5}, 5));
-        Assertions.assertEquals(1, new Solution215().findKthLargest(new int[]{5,4,3,2,1}, 5));
+        public Node() {
+            val = 0;
+            next = null;
+        }
 
+        public Node(int val) {
+            this.val = val;
+            next = null;
+        }
+    }
+
+    class Solution1944 {
+        public int[] canSeePersonsCount(int[] heights) {
+            Deque<Integer> s = new ArrayDeque<>(); // store index rather than height
+            int[] result = new int[heights.length];
+            for (int i = heights.length - 1; i >= 0; i--) {
+                while (!s.isEmpty() && heights[s.peek()] < heights[i]) {
+                    s.pop();
+                    result[i]++;
+                }
+                if (!s.isEmpty()) {
+                    result[i]++;
+                }
+                s.addFirst(i);
+            }
+            return result;
+        }
+    }
+
+    class Solution894 {
+        public List<TreeNode> allPossibleFBT(int n) {
+            if (n % 2 == 0) {
+                return new ArrayList<>();
+            }
+            List<TreeNode> result = new ArrayList<>();
+            result.add(new TreeNode());
+            int k = 1;
+            while (k != n) {
+                List<TreeNode> oldResult = result;
+                result = new ArrayList<>();
+                for (TreeNode node : oldResult) {
+                    result.addAll(populateTree(node));
+                }
+                result = dedup(result);
+                k += 2;
+            }
+            return result;
+        }
+
+        private List<TreeNode> populateTree(TreeNode node) {
+            List<TreeNode> result = new ArrayList<>();
+            Deque<TreeNode> queue = new ArrayDeque<>();
+            queue.add(node);
+            while (!queue.isEmpty()) {
+                TreeNode tmp = queue.poll();
+                if (tmp.left == null && tmp.right == null) {
+                    result.add(copyTree(node, tmp));
+                }
+                if (tmp.left != null) {
+                    queue.add(tmp.left);
+                }
+                if (tmp.right != null) {
+                    queue.add(tmp.right);
+                }
+            }
+            return result;
+        }
+
+        private TreeNode copyTree(TreeNode root, TreeNode targetLeafNode) {
+            if (root == null) {
+                return null;
+            }
+            if (root == targetLeafNode) {
+                root = new TreeNode();
+                root.left = new TreeNode();
+                root.right = new TreeNode();
+                return root;
+            }
+            TreeNode newRoot = new TreeNode();
+            newRoot.left = copyTree(root.left, targetLeafNode);
+            newRoot.right = copyTree(root.right, targetLeafNode);
+            return newRoot;
+        }
+
+        private List<TreeNode> dedup(List<TreeNode> result) {
+            Set<String> visited = new HashSet<>();
+            List<TreeNode> deduped = new ArrayList<>();
+            for (TreeNode n : result) {
+                String tmp = strTree(n);
+                if (!visited.contains(tmp)) {
+                    deduped.add(n);
+                    visited.add(tmp);
+                }
+            }
+            return deduped;
+        }
+
+        private String strTree(TreeNode root) {
+            if (root == null) {
+                return "null,";
+            }
+            String result = root.val + ",";
+            result += strTree(root.left);
+            result += strTree(root.right);
+            return result;
+        }
     }
 
     class Solution215 {
         public int findKthLargest(int[] nums, int k) {
             int l = 0;
-            int r = nums.length-1;
+            int r = nums.length - 1;
             while (l < r) {
                 int tmp = partition(nums, l, r);
-                if (tmp == k-1) {
+                if (tmp == k - 1) {
                     break;
-                } else if (tmp > k-1) {
-                    r = tmp-1;
+                } else if (tmp > k - 1) {
+                    r = tmp - 1;
                 } else {
-                    l = tmp+1;
+                    l = tmp + 1;
                 }
             }
-            return nums[k-1];
+            return nums[k - 1];
         }
 
         private int partition(int[] nums, int l, int r) {

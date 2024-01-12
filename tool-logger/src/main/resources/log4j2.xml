@@ -31,7 +31,7 @@
         <!--        <Root level="info">-->
         <!--            <AppenderRef ref="RollingFile"/>-->
         <!--        </Root>-->
-        <Root level="ERROR">
+        <Root level="INFO">
             <AppenderRef ref="STDOUT"/>
         </Root>
     </Loggers>
