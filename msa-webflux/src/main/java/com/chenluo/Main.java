@@ -20,8 +20,8 @@ public class Main {
 
     @Bean
     DeclarativeClient declarativeClient() {
-        WebClientAdapter webClientAdapter = WebClientAdapter.forClient(WebClient.create());
-        return HttpServiceProxyFactory.builder(webClientAdapter)
+        WebClientAdapter webClientAdapter = WebClientAdapter.create(WebClient.create());
+        return HttpServiceProxyFactory.builderFor(webClientAdapter)
                 .build()
                 .createClient(DeclarativeClient.class);
     }

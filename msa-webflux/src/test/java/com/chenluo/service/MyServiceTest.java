@@ -40,13 +40,13 @@ class MyServiceTest {
         //        System.out.println(block);
 
 
-        ReactiveSecurityContextHolder.getContext().publishOn(Schedulers.boundedElastic()).map(ctx -> {
-            String block = webClient.post().uri("https://www.google.com")
-                    .retrieve()
-                    .bodyToMono(String.class).block();
-            System.out.println(block);
-            return block;
-        }).block();
+        ReactiveSecurityContextHolder.getContext().publishOn(Schedulers.boundedElastic())
+                .map(ctx -> {
+                    String block = webClient.post().uri("https://www.google.com").retrieve()
+                            .bodyToMono(String.class).block();
+                    System.out.println(block);
+                    return block;
+                }).block();
 
     }
 }
