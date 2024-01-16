@@ -1531,17 +1531,14 @@ public class SimpleTest {
                     l = tmp + 1;
                 }
             }
-            return nums[k - 1];
+            return nums[nums.length - k];
         }
 
         private int partition(int[] nums, int l, int r) {
             int ll = l;
-            int rr = r;
-            while (ll < rr) {
-                if (nums[ll] <= nums[r]) {
-                    // nums[ll] should put at right of pivot
-                    swap(nums, ll, rr);
-                    rr--;
+            for (int i = l; i < r; i++) {
+                if (nums[i] > nums[r]) {
+                    swap(nums, i, ll);
                 } else {
                     ll++;
                 }

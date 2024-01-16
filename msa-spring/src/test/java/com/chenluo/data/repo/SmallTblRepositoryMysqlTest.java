@@ -3,6 +3,7 @@ package com.chenluo.data.repo;
 import com.chenluo.MysqlTestBase;
 import com.chenluo.data.dto.LargeTbl;
 import com.chenluo.data.dto.LargeTblHashPartitioning;
+
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,10 +20,8 @@ import java.util.concurrent.TimeUnit;
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class SmallTblRepositoryMysqlTest extends MysqlTestBase {
-    @Autowired
-    private LargeTblRepository repository;
-    @Autowired
-    LargeTblHashPartitioningRepository largeTblHashPartitioningRepository;
+    @Autowired private LargeTblRepository repository;
+    @Autowired LargeTblHashPartitioningRepository largeTblHashPartitioningRepository;
     private final int amount = 1_000;
     StopWatch stopWatch = new StopWatch();
 
@@ -86,16 +85,18 @@ class SmallTblRepositoryMysqlTest extends MysqlTestBase {
     public void batchInsert500() throws Exception {
         List<Future> futures = new ArrayList<>();
         for (int i = 0; i < 1; i++) {
-            futures.add(CompletableFuture.runAsync(() -> {
-                List<LargeTbl> batch = new ArrayList<>();
-                for (int j = 0; j < amount / 500; j++) {
-                    for (int k = 0; k < 500; k++) {
-                        batch.add(new LargeTbl());
-                    }
-                    repository.saveAll(batch);
-                    batch.clear();
-                }
-            }));
+            futures.add(
+                    CompletableFuture.runAsync(
+                            () -> {
+                                List<LargeTbl> batch = new ArrayList<>();
+                                for (int j = 0; j < amount / 500; j++) {
+                                    for (int k = 0; k < 500; k++) {
+                                        batch.add(new LargeTbl());
+                                    }
+                                    repository.saveAll(batch);
+                                    batch.clear();
+                                }
+                            }));
         }
         for (Future future : futures) {
             future.get();
@@ -107,16 +108,18 @@ class SmallTblRepositoryMysqlTest extends MysqlTestBase {
     public void batchInsert500Partitioning() throws Exception {
         List<Future> futures = new ArrayList<>();
         for (int i = 0; i < 1; i++) {
-            futures.add(CompletableFuture.runAsync(() -> {
-                List<LargeTblHashPartitioning> batch = new ArrayList<>();
-                for (int j = 0; j < amount / 500; j++) {
-                    for (int k = 0; k < 500; k++) {
-                        batch.add(new LargeTblHashPartitioning());
-                    }
-                    largeTblHashPartitioningRepository.saveAll(batch);
-                    batch.clear();
-                }
-            }));
+            futures.add(
+                    CompletableFuture.runAsync(
+                            () -> {
+                                List<LargeTblHashPartitioning> batch = new ArrayList<>();
+                                for (int j = 0; j < amount / 500; j++) {
+                                    for (int k = 0; k < 500; k++) {
+                                        batch.add(new LargeTblHashPartitioning());
+                                    }
+                                    largeTblHashPartitioningRepository.saveAll(batch);
+                                    batch.clear();
+                                }
+                            }));
         }
         for (Future future : futures) {
             future.get();
