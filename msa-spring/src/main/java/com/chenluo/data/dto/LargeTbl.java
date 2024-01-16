@@ -7,15 +7,11 @@ import java.util.UUID;
 
 @Table("large_tbl")
 public class LargeTbl {
-    @Id
-    private Long id;
+    @Id private Long id;
     private int isTarget;
-
-    private String jsonCol;
     private String uuidCol;
 
     public LargeTbl() {
-        jsonCol = "{}";
         uuidCol = UUID.randomUUID().toString();
     }
 }

@@ -1,6 +1,6 @@
 package com.chenluo.controller;
 
-import com.chenluo.TestBase;
+import com.chenluo.MysqlTestBase;
 import com.chenluo.service.StatefulService;
 
 import org.junit.jupiter.api.Test;
@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-public class App2Test extends TestBase {
+public class App2Test extends MysqlTestBase {
 
     private final StatefulService service;
 

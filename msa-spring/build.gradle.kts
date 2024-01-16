@@ -24,16 +24,21 @@ dependencies {
     runtimeOnly("mysql:mysql-connector-java:8.0.28")
     implementation("org.flywaydb:flyway-core")
     implementation("org.flywaydb:flyway-mysql")
+    // https://mvnrepository.com/artifact/org.flywaydb/flyway-database-postgresql
+//    runtimeOnly("org.flywaydb:flyway-database-postgresql")
+
     implementation("org.apache.kafka:kafka-clients:3.1.0")
     // https://mvnrepository.com/artifact/org.springframework.kafka/spring-kafka
     implementation("org.springframework.kafka:spring-kafka")
     // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
     implementation("org.apache.commons:commons-lang3:3.12.0")
-
+    // https://mvnrepository.com/artifact/org.postgresql/postgresql
+    implementation("org.postgresql:postgresql:42.5.1")
 
     // https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-sqs
     implementation("com.amazonaws:aws-java-sdk-sqs:1.12.504")
     testImplementation("org.testcontainers:mysql:1.18.3")
+    testImplementation("org.testcontainers:postgresql:1.18.3")
     testImplementation("org.testcontainers:kafka:1.18.3")
     testImplementation("org.testcontainers:testcontainers:1.18.3")
     testImplementation("org.testcontainers:junit-jupiter:1.18.3")

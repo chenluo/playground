@@ -60,14 +60,14 @@ public class SimpleTest {
 
     @Test
     public void Q33() {
-        System.out.println(new Solution33().search(new int[]{2, 3, 4, 1}, 4));
+        System.out.println(new Solution33().search(new int[] {2, 3, 4, 1}, 4));
         //        System.out.println(new Solution33().search(new int[]{1,2, 3, 4}, 1));
     }
 
     @Test
     public void Q84() {
         Assertions.assertEquals(
-                12, new Solution84().largestRectangleArea(new int[]{2, 1, 5, 3, 5, 3}));
+                12, new Solution84().largestRectangleArea(new int[] {2, 1, 5, 3, 5, 3}));
     }
 
     @Test
@@ -82,7 +82,7 @@ public class SimpleTest {
 
     @Test
     public void Q207() {
-        Assertions.assertTrue(new Solution207().canFinish(3, new int[][]{{1, 0}}));
+        Assertions.assertTrue(new Solution207().canFinish(3, new int[][] {{1, 0}}));
     }
 
     @Test
@@ -110,7 +110,7 @@ public class SimpleTest {
         System.out.println(
                 Arrays.toString(
                         new Solution239()
-                                .maxSlidingWindow(new int[]{3, 3, 3, 1, 3, 3, 3, 3, 3, 3}, 3)));
+                                .maxSlidingWindow(new int[] {3, 3, 3, 1, 3, 3, 3, 3, 3, 3}, 3)));
     }
 
     @Test
@@ -160,7 +160,7 @@ public class SimpleTest {
 
     @Test
     public void testEncoding() {
-        String s = new String(new byte[]{0, 1, 2, 19, 1, 127});
+        String s = new String(new byte[] {0, 1, 2, 19, 1, 127});
         System.out.println(s);
     }
 
@@ -298,30 +298,30 @@ public class SimpleTest {
         Assertions.assertEquals(
                 1,
                 solver.numberOfCornelRectangle(
-                        new int[][]{
-                                {1, 0, 0, 1, 0}, {0, 0, 1, 0, 1}, {0, 0, 0, 1, 0}, {1, 0, 1, 0, 1}
+                        new int[][] {
+                            {1, 0, 0, 1, 0}, {0, 0, 1, 0, 1}, {0, 0, 0, 1, 0}, {1, 0, 1, 0, 1}
                         }));
-        Assertions.assertEquals(0, solver.numberOfCornelRectangle(new int[][]{{1, 1, 1, 1, 1}}));
+        Assertions.assertEquals(0, solver.numberOfCornelRectangle(new int[][] {{1, 1, 1, 1, 1}}));
         Assertions.assertEquals(
-                10, solver.numberOfCornelRectangle(new int[][]{{1, 1, 1, 1, 1}, {1, 1, 1, 1, 1}}));
+                10, solver.numberOfCornelRectangle(new int[][] {{1, 1, 1, 1, 1}, {1, 1, 1, 1, 1}}));
         Assertions.assertEquals(
-                6, solver.numberOfCornelRectangle(new int[][]{{1, 1, 1, 1, 1}, {1, 0, 1, 1, 1}}));
+                6, solver.numberOfCornelRectangle(new int[][] {{1, 1, 1, 1, 1}, {1, 0, 1, 1, 1}}));
         Assertions.assertEquals(
                 1,
                 solver.numberOfCornelRectangleHashMap(
-                        new int[][]{
-                                {1, 0, 0, 1, 0}, {0, 0, 1, 0, 1}, {0, 0, 0, 1, 0}, {1, 0, 1, 0, 1}
+                        new int[][] {
+                            {1, 0, 0, 1, 0}, {0, 0, 1, 0, 1}, {0, 0, 0, 1, 0}, {1, 0, 1, 0, 1}
                         }));
         Assertions.assertEquals(
-                0, solver.numberOfCornelRectangleHashMap(new int[][]{{1, 1, 1, 1, 1}}));
+                0, solver.numberOfCornelRectangleHashMap(new int[][] {{1, 1, 1, 1, 1}}));
         Assertions.assertEquals(
                 10,
                 solver.numberOfCornelRectangleHashMap(
-                        new int[][]{{1, 1, 1, 1, 1}, {1, 1, 1, 1, 1}}));
+                        new int[][] {{1, 1, 1, 1, 1}, {1, 1, 1, 1, 1}}));
         Assertions.assertEquals(
                 6,
                 solver.numberOfCornelRectangleHashMap(
-                        new int[][]{{1, 1, 1, 1, 1}, {1, 0, 1, 1, 1}}));
+                        new int[][] {{1, 1, 1, 1, 1}, {1, 0, 1, 1, 1}}));
     }
 
     @Test
@@ -331,7 +331,7 @@ public class SimpleTest {
         Assertions.assertEquals(
                 6,
                 new Q1671()
-                        .minimumMountainRemovals(new int[]{100, 92, 89, 77, 74, 66, 64, 66, 64}));
+                        .minimumMountainRemovals(new int[] {100, 92, 89, 77, 74, 66, 64, 66, 64}));
     }
 
     @Test
@@ -374,7 +374,9 @@ public class SimpleTest {
 
     @Test
     public void Q1944() {
-        System.out.println(Arrays.toString(new Solution1944().canSeePersonsCount(new int[]{10, 6, 8, 5, 11, 9})));
+        System.out.println(
+                Arrays.toString(
+                        new Solution1944().canSeePersonsCount(new int[] {10, 6, 8, 5, 11, 9})));
     }
 
     @Test
@@ -406,9 +408,8 @@ public class SimpleTest {
 
     @Test
     public void Q215() {
-        Assertions.assertEquals(1, new Solution215().findKthLargest(new int[]{1, 2, 3, 4, 5}, 5));
-        Assertions.assertEquals(1, new Solution215().findKthLargest(new int[]{5, 4, 3, 2, 1}, 5));
-
+        Assertions.assertEquals(1, new Solution215().findKthLargest(new int[] {1, 2, 3, 4, 5}, 5));
+        Assertions.assertEquals(1, new Solution215().findKthLargest(new int[] {5, 4, 3, 2, 1}, 5));
     }
 
     /**
@@ -499,8 +500,7 @@ public class SimpleTest {
         int val;
         ListNode next;
 
-        ListNode() {
-        }
+        ListNode() {}
 
         ListNode(int val) {
             this.val = val;
@@ -847,8 +847,7 @@ public class SimpleTest {
         TreeNode left;
         TreeNode right;
 
-        TreeNode() {
-        }
+        TreeNode() {}
 
         TreeNode(int val) {
             this.val = val;
@@ -1008,8 +1007,8 @@ public class SimpleTest {
                     dp[i][j] =
                             (i > 0 && s1.charAt(i - 1) == s3.charAt(i + j - 1) && dp[i - 1][j])
                                     || (j > 0
-                                    && s2.charAt(j - 1) == s3.charAt(i + j - 1)
-                                    && dp[i][j - 1]);
+                                            && s2.charAt(j - 1) == s3.charAt(i + j - 1)
+                                            && dp[i][j - 1]);
                 }
             }
             return dp[s1.length()][s2.length()];
@@ -1051,8 +1050,7 @@ public class SimpleTest {
         List<int[]> ranges = new ArrayList<>();
         int count = 0;
 
-        public CountIntervals() {
-        }
+        public CountIntervals() {}
 
         public void add(int left, int right) {
             int l = 0;

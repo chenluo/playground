@@ -1,8 +1,9 @@
 package com.chenluo.data.repo;
 
+import com.chenluo.MysqlTestBase;
 import com.chenluo.data.dto.LargeTbl;
 import com.chenluo.data.dto.LargeTblHashPartitioning;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.StopWatch;
@@ -13,43 +14,50 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 @SpringBootTest
-class SmallTblRepositoryTest {
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+class SmallTblRepositoryMysqlTest extends MysqlTestBase {
     @Autowired
     private LargeTblRepository repository;
     @Autowired
     LargeTblHashPartitioningRepository largeTblHashPartitioningRepository;
-    private final int amount = 1_000_000;
+    private final int amount = 1_000;
+    StopWatch stopWatch = new StopWatch();
+
+    @BeforeEach
+    public void before() {
+        stopWatch = new StopWatch();
+        stopWatch.start();
+    }
+
+    @AfterEach
+    public void after() {
+        stopWatch.stop();
+        System.out.println(stopWatch.shortSummary());
+        System.out.println(amount / stopWatch.getTotalTime(TimeUnit.SECONDS) + " qps");
+    }
 
     @Test
+    @Order(1)
     public void insert() {
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
         for (int i = 0; i < amount; i++) {
             repository.save(new LargeTbl());
         }
-        stopWatch.stop();
-        System.out.println(stopWatch.shortSummary());
-        System.out.println(amount * 1.0 / stopWatch.getTotalTimeMillis() * 1000 + " qps");
     }
 
     @Test
+    @Order(2)
     public void insertPartitioning() {
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
         for (int i = 0; i < amount; i++) {
             largeTblHashPartitioningRepository.save(new LargeTblHashPartitioning());
         }
-        stopWatch.stop();
-        System.out.println(stopWatch.shortSummary());
-        System.out.println(amount * 1.0 / stopWatch.getTotalTimeMillis() * 1000 + " qps");
     }
 
     @Test
+    @Order(3)
     public void batchInsert100() {
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
         List<LargeTbl> batch = new ArrayList<>();
         for (int i = 0; i < amount / 100; i++) {
             for (int j = 0; j < 100; j++) {
@@ -58,15 +66,11 @@ class SmallTblRepositoryTest {
             repository.saveAll(batch);
             batch.clear();
         }
-        stopWatch.stop();
-        System.out.println(stopWatch.shortSummary());
-        System.out.println(amount * 1.0 / stopWatch.getTotalTimeMillis() * 1000 + " qps");
     }
 
     @Test
+    @Order(4)
     public void batchInsert100Partitioning() {
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
         List<LargeTblHashPartitioning> batch = new ArrayList<>();
         for (int i = 0; i < amount / 100; i++) {
             for (int j = 0; j < 100; j++) {
@@ -75,17 +79,13 @@ class SmallTblRepositoryTest {
             largeTblHashPartitioningRepository.saveAll(batch);
             batch.clear();
         }
-        stopWatch.stop();
-        System.out.println(stopWatch.shortSummary());
-        System.out.println(amount * 1.0 / stopWatch.getTotalTimeMillis() * 1000 + " qps");
     }
 
     @Test
+    @Order(5)
     public void batchInsert500() throws Exception {
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
         List<Future> futures = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 1; i++) {
             futures.add(CompletableFuture.runAsync(() -> {
                 List<LargeTbl> batch = new ArrayList<>();
                 for (int j = 0; j < amount / 500; j++) {
@@ -100,17 +100,13 @@ class SmallTblRepositoryTest {
         for (Future future : futures) {
             future.get();
         }
-        stopWatch.stop();
-        System.out.println(stopWatch.shortSummary());
-        System.out.println(amount * 10 * 1.0 / stopWatch.getTotalTimeMillis() * 1000 + " qps");
     }
 
     @Test
+    @Order(6)
     public void batchInsert500Partitioning() throws Exception {
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
         List<Future> futures = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 1; i++) {
             futures.add(CompletableFuture.runAsync(() -> {
                 List<LargeTblHashPartitioning> batch = new ArrayList<>();
                 for (int j = 0; j < amount / 500; j++) {
@@ -125,39 +121,28 @@ class SmallTblRepositoryTest {
         for (Future future : futures) {
             future.get();
         }
-        stopWatch.stop();
-        System.out.println(stopWatch.shortSummary());
-        System.out.println(amount * 10 * 1.0 / stopWatch.getTotalTimeMillis() * 1000 + " qps");
     }
 
     @Test
+    @Order(1000)
     public void query() {
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
         long count = repository.count();
         Random r = new Random(1L);
-        for (int i = 0; i < amount/10; i++) {
+        for (int i = 0; i < amount; i++) {
             Optional<LargeTbl> byId = repository.findById(r.nextLong(count) + 1);
-//            byId.ifPresent(System.out::println);
+            //            byId.ifPresent(System.out::println);
         }
-        stopWatch.stop();
-        System.out.println(stopWatch.shortSummary());
-        System.out.println(amount/10/ stopWatch.getTotalTimeMillis() * 1000 + " qps");
     }
 
     @Test
+    @Order(1001)
     public void queryPartitioning() {
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
         long count = largeTblHashPartitioningRepository.count();
         Random r = new Random(1L);
-        for (int i = 0; i < amount/10; i++) {
+        for (int i = 0; i < amount; i++) {
             Optional<LargeTblHashPartitioning> byId =
                     largeTblHashPartitioningRepository.findById(r.nextLong(count) + 1);
-//            byId.ifPresent(System.out::println);
+            //            byId.ifPresent(System.out::println);
         }
-        stopWatch.stop();
-        System.out.println(stopWatch.shortSummary());
-        System.out.println(amount/10/ stopWatch.getTotalTimeMillis() * 1000 + " qps");
     }
 }

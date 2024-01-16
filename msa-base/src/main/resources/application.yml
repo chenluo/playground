@@ -16,8 +16,7 @@ app:
 
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3307/test_db
-    #    url: jdbc:mysql://localhost:3306/hueconnect
+    jdbcUrl: jdbc:mysql://localhost:3306/test_db
     username: root
     #    username: root
     #    password: HPaADeEl6K6Mo+ib
@@ -49,7 +48,10 @@ spring:
       max-poll-records: 5000
       auto-commit-interval: 100
       enable-auto-commit: true
-
+  datasource-pg:
+    jdbcUrl: jdbc:mysql://postgresql:5432/test
+    username: postgres
+    password: password
 
   threads:
     virtual:

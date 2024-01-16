@@ -35,7 +35,7 @@ dependencyResolutionManagement {
                 "springboot-dependency-management",
                 "io.spring.dependency-management"
             ).version("1.0.11.RELEASE")
-            plugin("flyway", "org.flywaydb.flyway").version("9.8.1")
+            plugin("flyway", "org.flywaydb.flyway").version("10.1.0")
         }
     }
 }

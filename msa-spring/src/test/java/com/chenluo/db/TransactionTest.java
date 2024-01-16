@@ -1,7 +1,7 @@
 package com.chenluo.db;
 
 import com.chenluo.Application;
-import com.chenluo.TestBase;
+import com.chenluo.MysqlTestBase;
 import com.chenluo.data.dto.ConsumedMessage;
 import com.chenluo.data.repo.ConsumedMessageRepository;
 import com.chenluo.service.ConsumedMessageService;
@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @SpringBootTest(classes = Application.class)
-public class TransactionTest extends TestBase {
+public class TransactionTest extends MysqlTestBase {
     private static final int COUNT = 10;
     @Autowired private ConsumedMessageRepository repository;
     @Autowired private ConsumedMessageService service;

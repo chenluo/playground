@@ -2,7 +2,7 @@ package com.chenluo.controller;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-import com.chenluo.TestBase;
+import com.chenluo.MysqlTestBase;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,7 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import javax.sql.DataSource;
 
 @SpringBootTest()
-public class TomcatCPTest extends TestBase {
+public class TomcatCPTest extends MysqlTestBase {
 
     @Autowired private DataSource dataSource;
 

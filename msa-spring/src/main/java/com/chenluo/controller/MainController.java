@@ -1,10 +1,10 @@
 package com.chenluo.controller;
 
-
 import com.chenluo.data.dto.SmallTbl;
 import com.chenluo.data.repo.SmallTblRepository;
 import com.chenluo.kafka.MessageProducer;
 import com.chenluo.service.CacheableServiceImpl;
+
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,8 +23,10 @@ public class MainController {
     private final SmallTblRepository smallTblRepository;
     private final MessageProducer messageProducer;
 
-    public MainController(CacheableServiceImpl cacheableService,
-                          SmallTblRepository smallTblRepository, MessageProducer messageProducer) {
+    public MainController(
+            CacheableServiceImpl cacheableService,
+            SmallTblRepository smallTblRepository,
+            MessageProducer messageProducer) {
         this.cacheableService = cacheableService;
         this.smallTblRepository = smallTblRepository;
         this.messageProducer = messageProducer;
