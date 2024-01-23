@@ -2,9 +2,14 @@ package com.chenluo;
 
 import org.junit.jupiter.api.Test;
 
+import software.amazon.ion.Decimal;
+
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class GenericTest {
     @Test
@@ -34,5 +39,29 @@ public class GenericTest {
     @Test
     public void testStrFmt() {
         System.out.println("%s-%s".formatted(1, 2));
+    }
+
+    @Test
+    void testBound() {
+        testUpperBound(2);
+    }
+
+    public <T extends Number> void testUpperBound(T param) {
+        System.out.println(param.intValue());
+    }
+
+    public void testSuperBound(Consumer<? super Decimal> param, List<? super Decimal> list) {
+        BigDecimal bigDecimal = new BigDecimal(1);
+        //        param.accept();
+        param.accept(Decimal.valueOf(1));
+        list.add(Decimal.valueOf(1));
+        testSuperBound(null, new ArrayList<BigDecimal>()); // no compile error
+        testSuperBound(null, new ArrayList<Decimal>()); // no compile error
+
+        new ArrayList<Integer>()
+                .sort(
+                        Comparator.<Integer, Number>comparing(
+                                (Number it) -> it.intValue(),
+                                (Number c1, Number c2) -> c1.intValue() - c2.intValue()));
     }
 }

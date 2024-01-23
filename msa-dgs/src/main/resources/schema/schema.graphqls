@@ -1,0 +1,26 @@
+type Query {
+    shows(request: Object): [Show],
+    shows2(request: Req):[Show]
+}
+
+
+
+input Req {
+    id: String,
+    amount: BigDecimal
+}
+
+type Show {
+    title: String
+    releaseYear: Int
+    actors: [Actor]
+    number: BigDecimal
+}
+
+type Actor {
+    name: String
+}
+
+scalar BigDecimal
+scalar Object
+scalar JSON

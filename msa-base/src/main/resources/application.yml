@@ -17,6 +17,7 @@ app:
 spring:
   datasource:
     jdbcUrl: jdbc:mysql://localhost:3306/test_db
+    url: jdbc:mysql://localhost:3306/test_db
     username: root
     #    username: root
     #    password: HPaADeEl6K6Mo+ib

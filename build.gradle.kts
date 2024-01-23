@@ -22,8 +22,8 @@ subprojects {
     apply(plugin = "java")
     apply(plugin = "com.diffplug.spotless")
     dependencies {
-        testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.1")
-        testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.1")
+        testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.1")
+        testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.1")
     }
     configurations.all {
         exclude("org.springframework.boot", "spring-boot-starter-logging")
@@ -44,7 +44,7 @@ subprojects {
         }
         java {
             targetExclude("build/")
-//            eclipse() // I like eclipse formatting over google
+//            eclipse()
             googleJavaFormat().aosp().reflowLongStrings().formatJavadoc(false)
                 .reorderImports(true)
         }

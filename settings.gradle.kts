@@ -26,6 +26,7 @@ include("aws-lambda-app")
 include("msa-simple-springboot")
 include("demo-jpa")
 include("io-file")
+include("msa-dgs")
 
 dependencyResolutionManagement {
     versionCatalogs {
