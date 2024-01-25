@@ -19,6 +19,7 @@ import com.netflix.graphql.dgs.client.codegen.InputValueSerializer;
 
 import graphql.scalars.ExtendedScalars;
 
+import graphql.scalars.object.ObjectScalar;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.reactive.function.client.WebClient;
 

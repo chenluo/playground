@@ -12,6 +12,7 @@ tasks.generateJava {
     typeMapping = mutableMapOf(
         "BigDecimal" to "java.math.BigDecimal",
         "JSON" to "com.fasterxml.jackson.databind.JsonNode",
+//        "JSON" to "graphql.scalars.object.JsonScalar",
         "Object" to "com.fasterxml.jackson.databind.JsonNode"
         )
 

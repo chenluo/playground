@@ -40,3 +40,4 @@ dependencyResolutionManagement {
         }
     }
 }
+include("msa-openapi-sample")
