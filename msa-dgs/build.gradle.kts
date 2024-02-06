@@ -35,6 +35,8 @@ dependencies {
     implementation("io.projectreactor:reactor-core:3.4.25")
 // https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-jsr310
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.16.1")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.1")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.1")
 
     implementation(project(":tool-logger"))
 }

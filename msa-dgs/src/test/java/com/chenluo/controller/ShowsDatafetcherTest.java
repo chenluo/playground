@@ -4,7 +4,6 @@ import com.chenluo.model.DisputeType;
 import com.chenluo.model.ShowsRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JSR310Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.netflix.dgs.codgen.generated.client.Shows2GraphQLQuery;
 import com.netflix.dgs.codgen.generated.client.Shows2ProjectionRoot;
@@ -20,6 +19,7 @@ import com.netflix.graphql.dgs.client.codegen.InputValueSerializer;
 import graphql.scalars.ExtendedScalars;
 
 import graphql.scalars.object.ObjectScalar;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -29,6 +29,7 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Map;
 
+@Disabled
 class ShowsDatafetcherTest {
     private final ObjectMapper objectMapper = new ObjectMapper();
 

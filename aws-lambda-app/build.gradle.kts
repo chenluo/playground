@@ -23,6 +23,7 @@ tasks {
         dependsOn(copyRuntimeDependencies)
     }
 }
-tasks.getByName<Test>("test") {
+
+tasks.withType<Test> {
     useJUnitPlatform()
 }
