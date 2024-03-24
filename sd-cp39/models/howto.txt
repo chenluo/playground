@@ -1,0 +1,5 @@
+clone huggingface model in this directory.
+example:
+git lfs install # enable to download lfs files when clone repo
+git clone https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0
+git clone https://huggingface.co/stabilityai/stable-diffusion-xl-refiner-1.0

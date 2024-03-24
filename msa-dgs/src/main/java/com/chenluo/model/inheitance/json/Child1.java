@@ -8,8 +8,7 @@ public class Child1 extends Parent {
         this.child1Attr = child1Attr;
     }
 
-    public Child1() {
-    }
+    public Child1() {}
 
     public String getChild1Attr() {
         return child1Attr;

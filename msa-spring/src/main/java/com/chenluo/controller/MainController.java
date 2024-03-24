@@ -13,6 +13,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @RestController
 @RequestMapping("/main/")
 public class MainController {
@@ -57,6 +60,14 @@ public class MainController {
         throw new CustomizedException("exception 1");
     }
 
+    @GetMapping("testCacheInLoop")
+    public Set<String> testCacheInLoop(){
+        Set<String> set = new HashSet<>();
+        for (int i = 0; i < 10; i++) {
+            set.add(cacheableService.get("key"));
+        }
+        return set;
+    }
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     private static class CustomizedException extends RuntimeException {
         private String message;

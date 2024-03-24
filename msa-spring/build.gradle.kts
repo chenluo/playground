@@ -17,6 +17,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-cache")
 //    implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("com.github.ben-manes.caffeine:caffeine")
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-jsr310
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.2")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 

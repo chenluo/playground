@@ -18,9 +18,10 @@ import com.netflix.graphql.dgs.client.codegen.InputValueSerializer;
 
 import graphql.scalars.ExtendedScalars;
 
-import graphql.scalars.object.ObjectScalar;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import reactor.core.publisher.Mono;
@@ -29,8 +30,10 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Map;
 
+@SpringBootTest
 @Disabled
 class ShowsDatafetcherTest {
+    @LocalServerPort private int port;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
@@ -39,7 +42,7 @@ class ShowsDatafetcherTest {
 
         WebClientGraphQLClient client =
                 MonoGraphQLClient.createWithWebClient(
-                        WebClient.create("http://127.0.0.1:8080/graphql/"));
+                        WebClient.create("http://127.0.0.1:" + port + "/graphql/"));
 
         ShowsGraphQLQuery req =
                 ShowsGraphQLQuery.newRequest()

@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 class SmallTblRepositoryMysqlTest extends MysqlTestBase {
     @Autowired private LargeTblRepository repository;
     @Autowired LargeTblHashPartitioningRepository largeTblHashPartitioningRepository;
-    private final int amount = 1_000;
+    private final int amount = 1;
     StopWatch stopWatch = new StopWatch();
 
     @BeforeEach

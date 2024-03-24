@@ -17,17 +17,17 @@ public class InheritSerializer {
     private static final ObjectMapper rawMapper = new ObjectMapper();
 
     static {
-        PolymorphicTypeValidator ptv = BasicPolymorphicTypeValidator.builder()
-                .allowIfSubType("com.chenluo.model.")
-                .allowIfSubType("java.util.ArrayList")
-                .build();
+        PolymorphicTypeValidator ptv =
+                BasicPolymorphicTypeValidator.builder()
+                        .allowIfSubType("com.chenluo.model.")
+                        .allowIfSubType("java.util.ArrayList")
+                        .build();
         typedMapper.activateDefaultTyping(ptv);
     }
 
     public static void main(String[] args) throws JsonProcessingException {
         InheritSerializer sut = new InheritSerializer();
         sut.test();
-
     }
 
     public void test() throws JsonProcessingException {
@@ -44,5 +44,4 @@ public class InheritSerializer {
         System.out.println(rawJsonString);
         rawMapper.readValue(rawJsonString, ObjectContainer.class);
     }
-
 }

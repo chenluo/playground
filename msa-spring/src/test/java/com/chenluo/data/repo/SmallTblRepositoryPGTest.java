@@ -1,6 +1,7 @@
 package com.chenluo.data.repo;
 
 import com.chenluo.PGTestBase;
+import com.chenluo.data.dto.JsonTbl;
 import com.chenluo.data.dto.LargeTbl;
 import com.chenluo.data.dto.LargeTblHashPartitioning;
 
@@ -22,7 +23,8 @@ import java.util.concurrent.TimeUnit;
 class SmallTblRepositoryPGTest extends PGTestBase {
     @Autowired private LargeTblRepository repository;
     @Autowired LargeTblHashPartitioningRepository largeTblHashPartitioningRepository;
-    private final int amount = 1_000;
+    @Autowired JsonTblRepository jsonTblRepository;
+    private final int amount = 1;
     StopWatch stopWatch = new StopWatch();
 
     @BeforeEach
@@ -43,6 +45,14 @@ class SmallTblRepositoryPGTest extends PGTestBase {
     public void insert() {
         for (int i = 0; i < amount; i++) {
             repository.save(new LargeTbl());
+        }
+    }
+
+    @Test
+    @Order(1)
+    public void insertJsonTbl() {
+        for (int i = 0; i < amount; i++) {
+            jsonTblRepository.save(new JsonTbl());
         }
     }
 

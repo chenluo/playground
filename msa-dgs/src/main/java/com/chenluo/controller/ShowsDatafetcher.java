@@ -3,6 +3,7 @@ package com.chenluo.controller;
 import com.chenluo.model.ShowsRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.netflix.dgs.codgen.generated.types.Param;
 import com.netflix.dgs.codgen.generated.types.Req;
 import com.netflix.dgs.codgen.generated.types.Show;
 import com.netflix.graphql.dgs.DgsComponent;
@@ -46,5 +47,11 @@ public class ShowsDatafetcher {
         return shows.stream()
                 .filter(s -> s.getTitle().contains(request.getId()))
                 .collect(Collectors.toList());
+    }
+
+    @DgsQuery
+    public boolean req(@InputArgument Param param) throws JsonProcessingException {
+        byte[] bytes = objectMapper.writeValueAsBytes(param.getReq());
+        return true;
     }
 }

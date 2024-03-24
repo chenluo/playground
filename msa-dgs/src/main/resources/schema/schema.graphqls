@@ -3,8 +3,6 @@ type Query {
     shows2(request: Req):[Show]
 }
 
-
-
 input Req {
     id: String,
     amount: BigDecimal
@@ -19,6 +17,12 @@ type Show {
 
 type Actor {
     name: String
+}
+
+type Param {
+    id: [String]
+    req: Object
+    req2: JSON
 }
 
 scalar BigDecimal

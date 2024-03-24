@@ -1,8 +1,14 @@
 package com.chenluo;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.Module;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class SimpleTest {
@@ -1576,5 +1582,20 @@ public class SimpleTest {
             integerBox.set("10");
             //            integerBox.inspect("some text"); // error: this is still String!
         }
+    }
+
+    @Test
+    public void testObjectMapper() throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        LocalDateTime now = LocalDateTime.now();
+        Module javaTimeModule = new JavaTimeModule();
+        mapper.registerModule(javaTimeModule);
+        JsonNode jsonNode = mapper.valueToTree(now);
+        LocalDateTime localDateTime = mapper.treeToValue(jsonNode, LocalDateTime.class);
+        Assertions.assertEquals(now, localDateTime);
+
+        String str = mapper.writeValueAsString(now);
+        LocalDateTime localDateTime1 = mapper.readValue(str, LocalDateTime.class);
+        Assertions.assertEquals(now, localDateTime1);
     }
 }
