@@ -2,6 +2,7 @@ import java.time.Instant
 
 plugins {
     id("java")
+    idea
     kotlin("jvm") version "1.9.20"
     id("com.google.protobuf") version "0.9.1"
     kotlin("plugin.spring") version "1.9.20"
@@ -9,6 +10,7 @@ plugins {
     id("com.diffplug.spotless") version "6.23.3"
     id("org.sonarqube") version "4.4.1.3373"
     id("jacoco")
+    id("com.pswidersk.python-plugin") version "2.5.0"
 //    id("jacoco-report-aggregation")
 }
 
@@ -30,52 +32,64 @@ allprojects {
     group = "com.chenluo"
     version = Instant.now().toEpochMilli()
 }
+val pyProjects = listOf("sd-cp39")
 
 subprojects {
-    apply(plugin = "java")
-    apply(plugin = "com.diffplug.spotless")
-    apply(plugin = "jacoco")
+    apply(plugin = "idea")
+    when (project.name) {
+        "sd-cp39" -> {
+            apply(plugin = "com.pswidersk.python-plugin")
+            println("sd-cp39")
+        }
+
+        else -> {
+            apply(plugin = "java")
+            apply(plugin = "com.diffplug.spotless")
+            apply(plugin = "jacoco")
 //    apply(plugin = "jacoco-report-aggregation")
-    dependencies {
-        testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.1")
-        testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.1")
-    }
-    configurations.all {
-        exclude("org.springframework.boot", "spring-boot-starter-logging")
-    }
-    spotless {
-        // optional: limit format enforcement to just the files changed by this feature branch
+            dependencies {
+                testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.1")
+                testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.1")
+            }
+            configurations.all {
+                exclude("org.springframework.boot", "spring-boot-starter-logging")
+            }
+            spotless {
+                // optional: limit format enforcement to just the files changed by this feature branch
 //   ratchetFrom 'origin/main'
 
-        format("misc") {
-            // define the files to apply `misc` to
-            target("*.gradle", "*.md", ".gitignore")
+                format("misc") {
+                    // define the files to apply `misc` to
+                    target("*.gradle", "*.md", ".gitignore")
 
-            // define the steps to apply to those files
-            trimTrailingWhitespace()
-            indentWithSpaces(4) // or spaces. Takes an integer argument if you don't like 4
-            endWithNewline()
-            setEncoding("utf-8")
-        }
-        java {
-            targetExclude("build/")
+                    // define the steps to apply to those files
+                    trimTrailingWhitespace()
+                    indentWithSpaces(4) // or spaces. Takes an integer argument if you don't like 4
+                    endWithNewline()
+                    setEncoding("utf-8")
+                }
+                java {
+                    targetExclude("build/")
 //            eclipse()
-            googleJavaFormat().aosp().reflowLongStrings().formatJavadoc(false)
-                .reorderImports(true)
-        }
-        kotlin {
-            ktfmt()
-        }
-    }
+                    googleJavaFormat().aosp().reflowLongStrings().formatJavadoc(false)
+                        .reorderImports(true)
+                }
+                kotlin {
+                    ktfmt()
+                }
+            }
 
-    tasks.test {
-        finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
-    }
-    tasks.jacocoTestReport {
-        dependsOn(tasks.test) // tests are required to run before generating the report
-        reports {
-            xml.required.set(true)
-            xml.outputLocation.set(file("build/reports/jacoco.xml"))
+            tasks.test {
+                finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
+            }
+            tasks.jacocoTestReport {
+                dependsOn(tasks.test) // tests are required to run before generating the report
+                reports {
+                    xml.required.set(true)
+                    xml.outputLocation.set(file("build/reports/jacoco.xml"))
+                }
+            }
+
         }
     }
 }
