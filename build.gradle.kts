@@ -2,7 +2,6 @@ import java.time.Instant
 
 plugins {
     id("java")
-    idea
     kotlin("jvm") version "1.9.20"
     id("com.google.protobuf") version "0.9.1"
     kotlin("plugin.spring") version "1.9.20"
@@ -35,7 +34,6 @@ allprojects {
 val pyProjects = listOf("sd-cp39")
 
 subprojects {
-    apply(plugin = "idea")
     when (project.name) {
         "sd-cp39" -> {
             apply(plugin = "com.pswidersk.python-plugin")

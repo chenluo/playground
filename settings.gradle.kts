@@ -27,7 +27,6 @@ include("msa-simple-springboot")
 include("demo-jpa")
 include("io-file")
 include("msa-dgs")
-include("sd-cp39")
 
 dependencyResolutionManagement {
     versionCatalogs {
