@@ -61,13 +61,14 @@ public class MainController {
     }
 
     @GetMapping("testCacheInLoop")
-    public Set<String> testCacheInLoop(){
+    public Set<String> testCacheInLoop() {
         Set<String> set = new HashSet<>();
         for (int i = 0; i < 10; i++) {
             set.add(cacheableService.get("key"));
         }
         return set;
     }
+
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     private static class CustomizedException extends RuntimeException {
         private String message;

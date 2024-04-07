@@ -1,6 +1,5 @@
 package com.chenluo.test.kotlin.service
 
-import com.chenluo.test.kotlin.entity.Data
 import com.chenluo.test.kotlin.entity.DummyData
 import com.chenluo.test.kotlin.sharedservice.MySharedService
 import org.springframework.retry.annotation.Recover
@@ -30,7 +29,7 @@ open class MyServiceImpl(private val mySharedService: MySharedService) : MyServi
     throw IllegalAccessException("jjj")
   }
 
-  fun test(){
+  fun test() {
     val dummyData = DummyData(1)
     val copy = dummyData.copy()
   }
