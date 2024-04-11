@@ -19,7 +19,7 @@ import javax.net.ssl.SSLException;
 
 public class MyNettyClient {
 
-    static final String URL = System.getProperty("url", "http://127.0.0.1:8880/");
+    static final String URL = System.getProperty("url", "https://127.0.0.1:8880/");
 
     public static void main(String[] args)
             throws URISyntaxException, SSLException, InterruptedException {
@@ -37,11 +37,6 @@ public class MyNettyClient {
             } else if ("https".equalsIgnoreCase(scheme)) {
                 port = 443;
             }
-        }
-
-        if (!"http".equalsIgnoreCase(scheme) && !"https".equalsIgnoreCase(scheme)) {
-            System.err.println("Only HTTP(S) is supported.");
-            return;
         }
 
         // Configure SSL context if necessary.
