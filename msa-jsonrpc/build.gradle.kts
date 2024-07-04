@@ -13,10 +13,16 @@ repositories {
 
 dependencies {
     implementation("com.github.briandilley.jsonrpc4j:jsonrpc4j:1.6")
-    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-web") {
+        exclude("org.springframework.boot", "spring-boot-starter-tomcat")
+    }
+//    implementation("org.springframework.boot:spring-boot-starter-reactor-netty")
+    implementation("org.springframework.boot:spring-boot-starter-jetty")
     implementation("org.springframework.boot:spring-boot-starter-log4j2")
     // https://mvnrepository.com/artifact/javax.jws/javax.jws-api
     implementation("javax.jws:javax.jws-api:1.1")
+    implementation("org.springframework.boot:spring-boot-starter-webflux")
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
 
 }
 

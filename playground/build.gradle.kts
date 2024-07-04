@@ -51,5 +51,10 @@ dependencies {
     implementation(project(":tool-logger"))
     // https://mvnrepository.com/artifact/javax.servlet/servlet-api
     compileOnly("javax.servlet:servlet-api:2.5")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.2")
 
+}
+tasks.getByName<Test>("test") {
+//    useJUnit() // for junit4
+    useJUnitPlatform()
 }

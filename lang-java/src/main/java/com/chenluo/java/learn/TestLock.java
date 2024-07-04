@@ -19,10 +19,12 @@ public class TestLock {
     private static ReentrantLock reentrantLock = new ReentrantLock();
     private static int a = 0;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         for (int i = 0; i < 1000; i++) {
             lockBySync();
             lockByLock();
+            reentrantLock.lock();
+            reentrantLock.lockInterruptibly();
         }
     }
 

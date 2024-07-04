@@ -45,6 +45,12 @@ dependencies {
     testImplementation("org.testcontainers:testcontainers:1.18.3")
     testImplementation("org.testcontainers:junit-jupiter:1.18.3")
 
+    // https://mvnrepository.com/artifact/com.squareup.okhttp3/okhttp
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+
+
+
+
     implementation(project(":msa-base"))
     implementation(project(":tool-logger"))
 }

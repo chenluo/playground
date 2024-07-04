@@ -9,15 +9,18 @@ import com.chenluo.service.ZKManagerImpl;
 import org.apache.zookeeper.KeeperException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
 @RequestMapping("/main/")
-public class MainController {
+public class MainController implements InitializingBean {
 
     private final Logger logger = LoggerFactory.getLogger(MainController.class);
     private final AtomicLong atomicLong = new AtomicLong(1);
@@ -127,5 +130,11 @@ public class MainController {
     public boolean tryRollback(@RequestParam() int flag) {
         dbService.execTransaction(flag);
         return true;
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        ExecutorService executorService = Executors.newFixedThreadPool(1);
+        System.out.println(executorService);
     }
 }
