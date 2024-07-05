@@ -1,22 +1,21 @@
-import { randomUUID } from "crypto"
 import { Document, Index, Worker } from "flexsearch"
 import IndexBase, { readData, readLines, writeData } from "./base"
 
-class FlexSearchIndex implements IndexBase {
-    private idx;
+class FlexSearchIndexByDocument implements IndexBase {
+    private doc;
     constructor() {
-        this.idx = new Index({ tokenize: 'full' });
+        this.doc = new Document({ document: { id: 'id', index: ['content'] } });
     }
     close(): void {
     }
     async importIndex(): Promise<void> {
         let length
-        await readLines("./flexsearch.dat").then((lines) => {
+        await readLines("./flexsearch-doc.dat").then(async (lines) => {
             length = lines.length
-            lines.forEach(async (line) => {
+            for (let line of lines) {
                 const [k, v] = line.split('#', 2)
-                await this.idx.import(k, v)
-            })
+                await this.doc.import(k, JSON.parse(v))
+            }
             console.log('imported' + length + ' docs')
         })
             .catch(async (err) => {
@@ -24,26 +23,24 @@ class FlexSearchIndex implements IndexBase {
                 // fallback to read original data file
                 let docs = await readData()
                 const reg = /<[^>]*>/g
-                let promises: Array<Promise<Index>> = new Array()
                 docs.forEach((v, i) => {
-                    promises.push(this.idx.addAsync(i, v.replace(reg, '')))
-                })
-                await Promise.all(promises).then((v) => {
-                    console.log("all finished")
+                    this.doc.add({ id: i.toString(), content: v.replace(reg, '') })
                 })
                 console.log('indexed ' + docs.length + ' docs')
                 await this.exportIndex()
             })
     }
     async exportIndex(): Promise<void> {
-        await this.idx.export((k, v) => {
-            writeData("./flexsearch.dat", k.toString(), v)
+        await this.doc.export((k, v) => {
+            writeData("./flexsearch-doc.dat", k.toString(), JSON.stringify(v))
+        }).then(() => {
+            console.log('export finished')
         })
     }
     search(keyword: string): Array<{}> {
-        const hits = this.idx.search(keyword)
+        const hits = this.doc.search(keyword)
         return hits
     }
 
 }
-export default FlexSearchIndex
+export default FlexSearchIndexByDocument

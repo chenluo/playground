@@ -1,7 +1,9 @@
 import FlexSearchIndex from "./index-flexsearch";
+import FlexSearchIndexByDocument from "./index-flexsearch-document";
+import LmdbIndex from "./index-lmdb";
 
-const flexsearchIndex = new FlexSearchIndex
-flexsearchIndex.buildIndex().then((v) => {
-    const result = flexsearchIndex.search('a')
-    console.log(result)
-})
+const idx = new LmdbIndex 
+idx.importIndex().then((v) => {
+    const result = idx.search('keyboard')
+    console.log('hit ' + result.length + ' docs')
+}).then(() => idx.close())
