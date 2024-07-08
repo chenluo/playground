@@ -4,7 +4,7 @@ import events from "node:events"
 export interface IndexBase {
     importIndex(): Promise<void>
     exportIndex(): Promise<void>
-    search(keyword: string): Array<{}>
+    search(keyword: string, start?: number | string, end?: number | string): Array<{}>
     close(): void
 }
 

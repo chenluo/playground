@@ -36,9 +36,9 @@ class LmdbIndex implements IndexBase {
     async exportIndex(): Promise<void> {
 
     }
-    search(keyword: string): Array<{}> {
+    search(keyword: string, start?:number, end?:number): Array<{}> {
         const hits: any[] = []
-        for (let { key, value } of this.idx.getRange({})) {
+        for (let { key, value } of this.idx.getRange({start, end})) {
             if (isMatch(value, keyword)) {
                 hits.push(value)
             }
