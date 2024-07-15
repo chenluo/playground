@@ -1,48 +1,71 @@
 import { EventEmitter } from "events";
-import FlexSearchIndex from "./index-flexsearch";
-import FlexSearchIndexByDocument from "./index-flexsearch-document";
 import LmdbIndex from "./index-lmdb";
-import { time } from "console";
+import cluster from "cluster"
+import { exit } from "process";
 
-const idx = new LmdbIndex
-const emitter = new EventEmitter()
-let start: Date
-let end: Date
-emitter.on('SearchStart', () => {
-    console.log('search started')
-    start = new Date
-})
-emitter.on('SearchComplete', () => {
-    console.log('search complete')
-    end = new Date
-    console.log(`start at: ${start.toISOString()}`)
-    console.log(`end at: ${end.toISOString()}`)
-    console.log(`duration: ${end.getTime() - start.getTime()} ms`)
-})
-idx.importIndex().then((v) => {
-    emitter.emit('SearchStart')
-    const result = idx.search('keyboard')
-    emitter.emit('SearchComplete')
-    console.log('hit ' + result.length + ' docs')
-}).then(() => {
-    emitter.emit('SearchStart')
-    const result = idx.search('keyboard', 1, 1000)
-    emitter.emit('SearchComplete')
-    console.log('hit ' + result.length + ' docs')
-}).then(() => {
-    emitter.emit('SearchStart')
-    const result = idx.search('keyboard', 1, 10000)
-    emitter.emit('SearchComplete')
-    console.log('hit ' + result.length + ' docs')
-}).then(() => {
-    emitter.emit('SearchStart')
-    const result = idx.search('keyboard', 1, 100000)
-    emitter.emit('SearchComplete')
-    console.log('hit ' + result.length + ' docs')
-}).then(() => {
-    emitter.emit('SearchStart')
-    const result = idx.search('keyboard', 1, 1000000)
-    emitter.emit('SearchComplete')
-    console.log('hit ' + result.length + ' docs')
-})
-    .then(() => idx.close())
+if (cluster.isPrimary) {
+    console.log(`primary thread enter`)
+    for (let i = 0; i < 16; i++) {
+        cluster.fork()
+    }
+    cluster.on(`exit`, (worker, code, signal) => {
+        console.log(`worker ${worker.process.pid} exited`)
+    })
+} else {
+    const workerStart = new Date
+    let run = 0;
+    const pms = []
+    while (run < 10) {
+        pms.push(runSearch());
+        run++;
+    }
+    console.log(`[${process.pid}] run ${run} times`)
+    Promise.all(pms).then(() => exit())
+}
+
+async function runSearch(): Promise<void> {
+    const idx = new LmdbIndex;
+    const emitter = new EventEmitter();
+    let start: Date;
+    let end: Date;
+    emitter.on('SearchStart', () => {
+        console.log('search started');
+        start = new Date;
+    });
+    emitter.on('SearchComplete', () => {
+        console.log('search complete');
+        end = new Date;
+        console.log(`[${process.pid}] start at: ${start.toISOString()}`);
+        console.log(`[${process.pid}] end at: ${end.toISOString()}`);
+        console.log(`[${process.pid}] duration: ${end.getTime() - start.getTime()} ms`);
+    });
+    const pms = idx.importIndex().then((v) => {
+        emitter.emit('SearchStart');
+        const result = idx.search('keyboard');
+        emitter.emit('SearchComplete');
+        console.log('hit ' + result.length + ' docs');
+    })
+        // .then(() => {
+        //     emitter.emit('SearchStart')
+        //     const result = idx.search('keyboard', 1, 1000)
+        //     emitter.emit('SearchComplete')
+        //     console.log('hit ' + result.length + ' docs')
+        // }).then(() => {
+        //     emitter.emit('SearchStart')
+        //     const result = idx.search('keyboard', 1, 10000)
+        //     emitter.emit('SearchComplete')
+        //     console.log('hit ' + result.length + ' docs')
+        // }).then(() => {
+        //     emitter.emit('SearchStart')
+        //     const result = idx.search('keyboard', 1, 100000)
+        //     emitter.emit('SearchComplete')
+        //     console.log('hit ' + result.length + ' docs')
+        // }).then(() => {
+        //     emitter.emit('SearchStart')
+        //     const result = idx.search('keyboard', 1, 1000000)
+        //     emitter.emit('SearchComplete')
+        //     console.log('hit ' + result.length + ' docs')
+        // })
+        .then(() => idx.close())
+    return pms;
+}
