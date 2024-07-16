@@ -1,11 +1,11 @@
 import { EventEmitter } from "events";
-import LmdbIndex from "./index-lmdb";
+import LmdbIndex from "./search/index-lmdb";
 import cluster from "cluster"
 import { exit } from "process";
 
 if (cluster.isPrimary) {
     console.log(`primary thread enter`)
-    for (let i = 0; i < 16; i++) {
+    for (let i = 0; i < 6; i++) {
         cluster.fork()
     }
     cluster.on(`exit`, (worker, code, signal) => {
