@@ -5,8 +5,8 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "eventqueue",
-            "program": "${workspaceFolder}/src/eventqueue.ts",
+            "name": "eventloop-how",
+            "program": "${workspaceFolder}/src/eventloop-how.ts",
             "request": "launch",
             "skipFiles": [
                 "<node_internals>/**"
