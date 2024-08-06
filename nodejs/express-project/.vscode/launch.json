@@ -5,36 +5,32 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "eventloop-how",
-            "program": "${workspaceFolder}/src/eventloop-how.ts",
+            "name": "run-lmdb-test",
+            "program": "${workspaceFolder}/packages/lmdb/src/eventloop-how.ts",
             "request": "launch",
             "skipFiles": [
                 "<node_internals>/**"
             ],
             "type": "node",
             "outFiles": [
-                "${workspaceFolder}/build/**/*.js"
+                "${workspaceFolder}/packages/lmdb/build/**/*.js"
             ],
-            "preLaunchTask": "tsc: build - tsconfig.json",
+            "preLaunchTask": "tsc: watch - lmdb/tsconfig.json"
         },
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch Program",
-            "skipFiles": [
-                "<node_internals>/**"
-            ],
-            "env": {
-                "NODE_OPTIONS": "--max-old-space-size=16000"
-            },
-            "program": "${workspaceFolder}/src/index.ts",
-            "outFiles": [
-                "${workspaceFolder}/build/**/*.js"
-            ],
-            "preLaunchTask": "tsc: build - tsconfig.json",
+            "name": "Debug Serverless",
+            "cwd": "${workspaceFolder}/packages/sls-demo",
+            "runtimeExecutable": "npm",
             "runtimeArgs": [
-                "--preserve-symlinks"
-            ]
+                "run",
+                "debug"
+            ],
+            "outFiles": [
+                "dist/**/*.js"
+            ],
+            "sourceMaps": true
         }
     ]
 }

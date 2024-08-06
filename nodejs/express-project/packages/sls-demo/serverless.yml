@@ -1,0 +1,16 @@
+service: aws-node-http-api-project
+frameworkVersion: '3'
+plugins:
+  - serverless-offline
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+
+functions:
+  api:
+    handler: dist/index.handler
+    events:
+      - httpApi:
+          path: /
+          method: get
