@@ -3,6 +3,8 @@ frameworkVersion: '3'
 plugins:
   - serverless-offline
   - serverless-plugin-typescript
+  - serverless-webpack
+
 
 provider:
   name: aws
@@ -15,3 +17,10 @@ functions:
       - httpApi:
           path: /
           method: get
+
+custom:
+  webpack:
+    webpackConfig: 'webpack.config.js' # Name of webpack configuration file
+    includeModules: false # Node modules configuration for packaging
+    packager: 'npm' # Packager that will be used to package your external modules
+    excludeFiles: src/**/*.test.js # Provide a glob for files to ignore

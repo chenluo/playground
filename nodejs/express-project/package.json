@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "npx lerna run build",
-    "package": "npx lerna run package",
+    "package": "npx lerna run build && npx lerna run package",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
