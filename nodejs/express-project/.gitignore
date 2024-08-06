@@ -1,1 +1,7 @@
 node_modules/
+**/node_modules/
+**/dist/
+**/.serverless/
+packages/lmdb/enwiki-20240701-abstract1.xml
+packages/lmdb/flexsearch.dat
+packages/lmdb/lmdb-data/

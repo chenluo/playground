@@ -5,14 +5,12 @@
   "main": "index.js",
   "scripts": {
     "build": "npx lerna run build",
+    "package": "npx lerna run package",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "lerna": "^6.6.2"
-  },
-  "workspaces": [
-    "packages/*"
-  ]
+  }
 }

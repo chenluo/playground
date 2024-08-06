@@ -2,6 +2,7 @@ service: aws-node-http-api-project
 frameworkVersion: '3'
 plugins:
   - serverless-offline
+  - serverless-plugin-typescript
 
 provider:
   name: aws
@@ -9,7 +10,7 @@ provider:
 
 functions:
   api:
-    handler: dist/index.handler
+    handler: src/index.handler
     events:
       - httpApi:
           path: /
