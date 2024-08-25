@@ -11,23 +11,31 @@ describe('test', () => {
                 <App></App>
             </>
         );
-        // const select= container.querySelector('#single-select-div .ant-select')
-        // expect(select).toBeTruthy();
-        expect(queryByText(container, 'label')).toBeNull()
+        // before click select component, virtual list not show the options
+        expect(queryByText(container, 'label1')).toBeNull()
+        expect(queryByText(container, 'label2')).toBeNull()
 
         const select = await findByRole(container, 'combobox')
-        // const select = getByRole(container, 'combobox')
         expect(select).toBeTruthy();
 
-        userEvent.click(select!);
-        expect(screen.findByTitle('label')).toBeTruthy();
+        act(() => {
+            userEvent.click(select!);
+        })
+        // click triggers the shown of options
+        expect(screen.findByTitle('label1')).toBeTruthy();
+        expect(screen.findByTitle('label2')).toBeTruthy();
 
-        const opt = await screen.findByTitle('label')
-        fireEvent.click(opt);
+        const opt = await screen.findByTitle('label1')
+        act(() => {
+            fireEvent.click(opt);
+        })
 
         console.log(select)
-        expect(screen.getAllByText('label')).toBeTruthy()
-        expect(queryByText(container, 'label')).toBeTruthy()
+        expect(screen.getAllByText('label1').length).toBe(2)
+        expect(screen.getAllByText('label2').length).toBe(1)
+        expect(queryByText(container, 'label1')).toBeTruthy()
+        console.log(queryByText(container, 'label1'));
 
+        expect(queryByText(container, 'label2')).toBeNull()
     });
 });

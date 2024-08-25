@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "run-lmdb-test",
+            "name": "run-eventloop-how",
             "program": "${workspaceFolder}/packages/lmdb/src/eventloop-how.ts",
             "request": "launch",
             "skipFiles": [
@@ -13,7 +13,7 @@
             ],
             "type": "node",
             "outFiles": [
-                "${workspaceFolder}/packages/lmdb/build/**/*.js"
+                "${workspaceFolder}/packages/lmdb/dist/**/*.js"
             ],
         },
         {

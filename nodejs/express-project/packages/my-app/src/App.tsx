@@ -25,13 +25,15 @@ function App() {
     'ui:field': 'fileList',
   };
 
-  const options = [{ label: 'label', value: 'value' }];
+  const options = [
+    { label: 'label1', value: 'value1' },
+    { label: 'label2', value: 'value2' }];
 
   return (
     <>
-    <div id='single-select-div'>
-      <Select options={options} virtual={false}></Select>
-    </div>
+      <div id='single-select-div'>
+        <Select options={options} virtual={false}></Select>
+      </div>
       {/* <Form schema={schema} validator={validator} onSubmit={(e) => { console.log(e.formData) }}></Form> */}
     </>
   );
