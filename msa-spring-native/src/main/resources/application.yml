@@ -25,9 +25,12 @@ spring:
     init:
       continue-on-error: true
 
+
 #  flyway:
 ##    url: jdbc:mysql://192.168.50.42:3306/test_db2
 ##    user: chen
 ##    password: HPaADeEl6K6Mo+ib
 #    driver-class-name: com.mysql.cj.jdbc.Driver
-
+logging:
+  level:
+    root: debug

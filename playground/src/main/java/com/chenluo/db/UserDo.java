@@ -6,7 +6,8 @@ import org.springframework.data.relational.core.mapping.Table;
 
 @Table("account_tbl")
 public class UserDo {
-    @Id public int uid;
+    @Id
+    public int uid;
 
     @Column("user_id")
     public String userId;

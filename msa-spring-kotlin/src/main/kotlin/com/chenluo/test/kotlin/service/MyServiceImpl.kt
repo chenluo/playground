@@ -8,11 +8,11 @@ import org.springframework.stereotype.Service
 
 @Service
 open class MyServiceImpl(private val mySharedService: MySharedService) : MyService {
-  private val result = mySharedService.serve()
+//  private val result = mySharedService.serve()
 
   @Retryable(maxAttempts = 3)
   override fun serve1(): Boolean {
-    println(result)
+//    println(result)
     println("serve1")
     retryMethod()
     return mySharedService.serve()

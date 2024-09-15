@@ -15,10 +15,12 @@ dependencies {
     testImplementation("io.mockk:mockk:1.12.8")
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.7.21")
     implementation("org.springframework.boot:spring-boot-starter")
-    implementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
     implementation("org.springframework.retry:spring-retry:2.0.0")
     implementation("org.springframework:spring-aspects")
-
+    // https://mvnrepository.com/artifact/io.mockk/mockk
+    testImplementation("io.mockk:mockk:1.13.7")
+    testImplementation("com.ninja-squad:springmockk:4.0.2")
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {

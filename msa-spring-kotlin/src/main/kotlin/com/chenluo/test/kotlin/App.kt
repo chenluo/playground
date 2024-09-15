@@ -19,7 +19,7 @@ open class ListProp : InitializingBean {
   val item: List<String> = mutableListOf()
 
   override fun afterPropertiesSet() {
-    println(item)
+//    println(item)
   }
 }
 
