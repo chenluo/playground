@@ -1,32 +1,25 @@
 package com.chenluo.jsonrpc.client;
 
-import com.googlecode.jsonrpc4j.JsonRpcHttpClient;
+import com.chenluo.jsonrpc.service.MyJsonRpcService;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 
-import java.net.URL;
-import java.util.Map;
-
 @Component
 public class MyJsonRpcClient implements InitializingBean {
-    private final DeclarativeClient declarativeClient;
+    private final MyJsonRpcServiceClient myJsonRpcServiceClient;
 
-    public MyJsonRpcClient(DeclarativeClient declarativeClient) {
-        this.declarativeClient = declarativeClient;
+    public MyJsonRpcClient(MyJsonRpcServiceClient myJsonRpcServiceClient) {
+        this.myJsonRpcServiceClient = myJsonRpcServiceClient;
     }
 
-    public String invoke() throws Throwable {
-        JsonRpcHttpClient client =
-                new JsonRpcHttpClient(new URL("http://localhost:8080/jsonrpc/serv"));
-        Map<String, String> param = Map.of("p1", "p1");
-        String result = client.invoke("service", param, String.class);
+
+    public String invoke() {
+        String result = myJsonRpcServiceClient.service("param from client");
         System.out.println(result);
         return result;
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        declarativeClient.hello("ping");
-
     }
 }

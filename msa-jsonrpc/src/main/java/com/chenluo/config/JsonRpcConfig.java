@@ -10,7 +10,7 @@ import java.net.URL;
 
 @Configuration
 public class JsonRpcConfig {
-//    @Bean
+    @Bean
     public AutoJsonRpcServiceImplExporter autoJsonRpcServiceImplExporter() {
         return new AutoJsonRpcServiceImplExporter();
     }
@@ -19,7 +19,8 @@ public class JsonRpcConfig {
     public AutoJsonRpcClientProxyCreator autoJsonRpcClientProxyCreator()
             throws MalformedURLException {
         AutoJsonRpcClientProxyCreator creator = new AutoJsonRpcClientProxyCreator();
-        creator.setScanPackage("com.chenluo.jsonrpc");
+        creator.setBaseUrl(new URL("http://localhost:8080"));
+        creator.setScanPackage("com.chenluo.jsonrpc.client");
         return creator;
     }
 }
