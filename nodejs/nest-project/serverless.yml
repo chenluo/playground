@@ -1,11 +1,12 @@
 service: serverless-example
+frameworkVersion: ~3.39
 
 plugins:
   - serverless-offline
 
 provider:
   name: aws
-  runtime: nodejs14.x
+  runtime: nodejs18.x
 
 functions:
   main:
