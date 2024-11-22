@@ -21,6 +21,7 @@ public class JsonRpcConfig {
         AutoJsonRpcClientProxyCreator creator = new AutoJsonRpcClientProxyCreator();
         creator.setBaseUrl(new URL("http://localhost:8080"));
         creator.setScanPackage("com.chenluo.jsonrpc.client");
+        creator.setContentType("content-type: application/json-rpc");
         return creator;
     }
 }

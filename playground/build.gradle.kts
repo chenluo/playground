@@ -3,17 +3,8 @@ plugins {
     alias(versions.plugins.springboot.dependency.management)
     id("java")
     id("application")
+    kotlin("jvm")
 }
-
-//jar {
-//    zip64=true
-//    manifest {
-//        attributes "Main-Class": "$mainClassName"
-//    }
-//    from {
-//        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-//    }
-//}
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
@@ -52,7 +43,9 @@ dependencies {
     // https://mvnrepository.com/artifact/javax.servlet/servlet-api
     compileOnly("javax.servlet:servlet-api:2.5")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.2")
-
+    implementation(kotlin("stdlib-jdk8"))
+    // https://mvnrepository.com/artifact/org.jetbrains.kotlinx/kotlinx-coroutines-core
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
 }
 tasks.getByName<Test>("test") {
 //    useJUnit() // for junit4

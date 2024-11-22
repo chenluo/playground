@@ -14,7 +14,8 @@ public class MyJsonRpcClient implements InitializingBean {
 
 
     public String invoke() {
-        String result = myJsonRpcServiceClient.service("param from client");
+//        String result = myJsonRpcServiceClient.serviceObject(new MyPayload());
+        String result = myJsonRpcServiceClient.serviceObject("p1", "p2");
         System.out.println(result);
         return result;
     }

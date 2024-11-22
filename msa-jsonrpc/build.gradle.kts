@@ -23,7 +23,7 @@ dependencies {
     implementation("javax.jws:javax.jws-api:1.1")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
-
+    implementation("org.springframework.boot:spring-boot-starter-cache")
 }
 
 tasks.getByName<Test>("test") {
