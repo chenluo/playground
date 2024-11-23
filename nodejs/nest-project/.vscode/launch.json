@@ -17,9 +17,6 @@
                 "run",
                 "start:offline"
             ],
-            "outFiles": [
-                "${workspaceFolder}/dist/main.js"
-            ],
             "sourceMaps": true
         }
     ]
