@@ -17,7 +17,8 @@
                 "run",
                 "start:offline"
             ],
-            "sourceMaps": true
+            "sourceMaps": true,
+            "outputCapture": "std"
         }
     ]
 }
