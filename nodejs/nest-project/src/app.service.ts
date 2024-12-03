@@ -1,9 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { Db } from './db/abstract-db/abstract-db.interface';
 
 @Injectable()
 export class AppService{
-  constructor(private readonly db: Db) {}
+  constructor(@Inject("Db") private readonly db: Db) {}
 
   getHello(): string {
     return 'Hello World!';

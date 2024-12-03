@@ -3,6 +3,11 @@ frameworkVersion: ~3.39
 
 plugins:
   - serverless-offline
+  - serverless-esbuild
+
+custom:
+  esbuild:
+    config: './esbuild.config.js'
 
 provider:
   name: aws
@@ -10,7 +15,9 @@ provider:
 
 functions:
   main:
-    handler: dist/main.handler
+    handler: src/main.handler
+    environment: 
+      DB: pgEnhanced
     events:
       - http:
           method: ANY

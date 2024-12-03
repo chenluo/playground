@@ -1,3 +1,3 @@
-export abstract class Db {
-    public abstract connect(host: string): string
+export interface Db {
+    connect(host: string): string
 }
