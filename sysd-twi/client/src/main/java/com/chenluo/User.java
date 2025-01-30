@@ -48,5 +48,9 @@ public abstract class User {
                 Map.of("uid", uid, "start", 0));
 //        System.out.println(homePage.getBody());
     }
+    public void homeCache() {
+        ResponseEntity<String> homePage= client.getForEntity("http://localhost:8080/read/home/cache?uid={uid}&start={start}", String.class,
+                Map.of("uid", uid, "start", 0));
+    }
 
 }

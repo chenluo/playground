@@ -27,7 +27,7 @@ services:
     build: ../write
     deploy:
       replicas: 3
-    image: write-app
+    image: write-app:latest
     environment:
       - PGDB=postgres:5432
       - FANOUT_URL=http://nginx:8080/fanout

@@ -1,7 +1,7 @@
 package com.chenluo;
 
-public class FollowerUserImpl extends User {
-    public FollowerUserImpl(String uid) {
+public class SlowFollowerUserImpl extends User {
+    public SlowFollowerUserImpl(String uid) {
         super(uid);
     }
 
@@ -9,7 +9,7 @@ public class FollowerUserImpl extends User {
     public void action() {
 //        System.out.println("[Follower: %s] start".formatted(uid));
         try {
-            homeCache();
+            home();
         } catch (Exception e) {
             System.out.printf("[Follower : %s] %s%n", uid, e);
         }
