@@ -1,0 +1,111 @@
+version: "3.7"
+services:
+  postgres:
+    container_name: twi_pg
+    command: -c 'max_connections=200'
+    ports:
+    - "5432:5432"
+    restart: 'no'
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: twi
+    networks:
+      - twi-app
+
+  redis:
+    container_name: twi_redis
+    restart: 'no'
+    ports:
+    - "6379:6379"
+    image: redis:6.2-alpine
+    command: redis-server --save 20 1 --loglevel warning
+    networks:
+      - twi-app
+
+  write:
+    build: ../write
+    deploy:
+      replicas: 3
+    image: write-app
+    environment:
+      - PGDB=postgres:5432
+      - FANOUT_URL=http://nginx:8080/fanout
+      - USER_URL=http://nginx:8080/user
+      - REDIS_URL=redis
+      - REDIS_PORT=6379
+      - JAVA_OPTIONS="-Xlog:gc:"
+    networks:
+      - twi-app
+    depends_on:
+      - postgres
+      - redis
+
+  fanout:
+    build: ../fanout
+    image: fanout-app
+    deploy:
+      replicas: 3
+    environment:
+      - PGDB=postgres:5432
+      - FANOUT_URL=http://nginx:8080/fanout
+      - USER_URL=http://nginx:8080/user
+      - REDIS_URL=redis
+      - REDIS_PORT=6379
+      - JAVA_OPTIONS="-Xlog:gc:"
+    networks:
+      - twi-app
+    depends_on:
+      - postgres
+      - redis
+
+  read:
+    build: ../read
+    image: read-app
+    deploy:
+      replicas: 3
+    environment:
+      - PGDB=postgres:5432
+      - FANOUT_URL=http://nginx:8080/fanout
+      - USER_URL=http://nginx:8080/user
+      - REDIS_URL=redis
+      - REDIS_PORT=6379
+      - JAVA_OPTIONS="-Xlog:gc:"
+    networks:
+      - twi-app
+    depends_on:
+      - postgres
+      - redis
+
+  user:
+    build: ../user
+    image: user-app
+    deploy:
+      replicas: 3
+    environment:
+      - PGDB=postgres:5432
+      - FANOUT_URL=http://nginx:8080/fanout
+      - USER_URL=http://nginx:8080/user
+      - REDIS_URL=redis
+      - REDIS_PORT=6379
+      - JAVA_OPTIONS="-Xlog:gc:"
+    networks:
+      - twi-app
+    depends_on:
+      - postgres
+      - redis
+
+  nginx:
+    build: ./nginx
+    ports:
+      - "8080:8080"
+    networks:
+      - twi-app
+    depends_on:
+      - read
+      - write
+      - fanout
+      - user
+
+networks:
+  twi-app:
