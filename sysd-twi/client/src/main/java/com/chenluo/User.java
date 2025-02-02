@@ -37,7 +37,8 @@ public abstract class User {
     }
 
     public void post() {
-        client.postForEntity("http://localhost:8080/write/post",
+//        client.postForEntity("http://localhost:8080/write/post/queue",
+        client.postForEntity("http://localhost:8080/post/queue",
                 Map.of("uid", uid,
                         "content", UUID.randomUUID().toString()),
                 String.class);

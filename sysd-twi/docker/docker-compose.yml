@@ -107,5 +107,52 @@ services:
       - fanout
       - user
 
+  kafka:
+    image: confluentinc/cp-kafka:7.3.2
+    container_name: kafka_broker
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,PLAINTEXT_INTERNAL://kafka:29092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      JVM_OPTS: "-Xms256m -Xmx256m "
+    networks:
+      - twi-app
+    ports:
+      - "9092:9092"
+    depends_on:
+      - zookeeper
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.3.2
+    container_name: zookeeper
+    restart: 'no'
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+      JVM_OPTS: "-Xms128M -Xmx128M"
+    networks:
+      - twi-app
+
+  kafdrop:
+   image: obsidiandynamics/kafdrop
+   container_name: kafdrop
+   restart: 'no'
+   ports:
+     - "9000:9000"
+   depends_on:
+     - kafka
+   environment:
+     KAFKA_BROKERCONNECT: "kafka:29092"
+     JVM_OPTS: "-Xms64M -Xmx64M"
+     SERVER_SERVLET_CONTEXTPATH: "/"
+   networks:
+     - twi-app
+
 networks:
   twi-app:

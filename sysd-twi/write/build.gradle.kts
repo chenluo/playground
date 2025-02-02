@@ -21,6 +21,9 @@ dependencies {
     implementation("org.flywaydb:flyway-database-postgresql:10.17.0")
     testImplementation(platform("org.junit:junit-bom:5.9.1"))
     testImplementation("org.junit.jupiter:junit-jupiter")
+
+    implementation("org.springframework.kafka:spring-kafka")
+
 }
 
 tasks.test {
