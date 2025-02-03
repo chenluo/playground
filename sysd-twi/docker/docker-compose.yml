@@ -26,15 +26,16 @@ services:
   write:
     build: ../write
     deploy:
-      replicas: 3
+      replicas: 1
     image: write-app:latest
     environment:
       - PGDB=postgres:5432
-      - FANOUT_URL=http://nginx:8080/fanout
-      - USER_URL=http://nginx:8080/user
+      - FANOUT_URL=http://nginx/fanout
+      - USER_URL=http://nginx/user
       - REDIS_URL=redis
       - REDIS_PORT=6379
       - JAVA_OPTIONS="-Xlog:gc:"
+      - KAFKA_SERVER=kafka:29092
     networks:
       - twi-app
     depends_on:
@@ -45,14 +46,15 @@ services:
     build: ../fanout
     image: fanout-app
     deploy:
-      replicas: 3
+      replicas: 1
     environment:
       - PGDB=postgres:5432
-      - FANOUT_URL=http://nginx:8080/fanout
-      - USER_URL=http://nginx:8080/user
+      - FANOUT_URL=http://nginx/fanout
+      - USER_URL=http://nginx/user
       - REDIS_URL=redis
       - REDIS_PORT=6379
       - JAVA_OPTIONS="-Xlog:gc:"
+      - KAFKA_SERVER=kafka:29092
     networks:
       - twi-app
     depends_on:
@@ -63,14 +65,15 @@ services:
     build: ../read
     image: read-app
     deploy:
-      replicas: 3
+      replicas: 1
     environment:
       - PGDB=postgres:5432
-      - FANOUT_URL=http://nginx:8080/fanout
-      - USER_URL=http://nginx:8080/user
+      - FANOUT_URL=http://nginx/fanout
+      - USER_URL=http://nginx/user
       - REDIS_URL=redis
       - REDIS_PORT=6379
       - JAVA_OPTIONS="-Xlog:gc:"
+      - KAFKA_SERVER=kafka:29092
     networks:
       - twi-app
     depends_on:
@@ -81,14 +84,15 @@ services:
     build: ../user
     image: user-app
     deploy:
-      replicas: 3
+      replicas: 1
     environment:
       - PGDB=postgres:5432
-      - FANOUT_URL=http://nginx:8080/fanout
-      - USER_URL=http://nginx:8080/user
+      - FANOUT_URL=http://nginx/fanout
+      - USER_URL=http://nginx/user
       - REDIS_URL=redis
       - REDIS_PORT=6379
       - JAVA_OPTIONS="-Xlog:gc:"
+      - KAFKA_SERVER=kafka:29092
     networks:
       - twi-app
     depends_on:
@@ -98,7 +102,7 @@ services:
   nginx:
     build: ./nginx
     ports:
-      - "8080:8080"
+      - "8080:80"
     networks:
       - twi-app
     depends_on:

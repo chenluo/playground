@@ -16,7 +16,7 @@ public class PostConsumer {
         this.fanoutService = fanoutService;
     }
 
-    @KafkaListener(topics = KafkaConsumerConfig.POST_TOPIC_ID)
+    @KafkaListener(topics = KafkaConsumerConfig.POST_TOPIC_ID, concurrency = "3")
     public void listenGroupFoo(@Payload String tid, @Header(KafkaHeaders.RECEIVED_KEY) String uid, @Header(KafkaHeaders.RECEIVED_PARTITION) int partition) {
         fanoutService.fanout(uid, tid);
     }
