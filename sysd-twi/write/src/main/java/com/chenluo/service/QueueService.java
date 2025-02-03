@@ -1,6 +1,8 @@
 package com.chenluo.service;
 
 import com.chenluo.config.KafkaConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
@@ -10,6 +12,7 @@ import java.util.concurrent.ExecutionException;
 
 @Service
 public class QueueService {
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final KafkaTemplate<String, String> kafkaTemplate;
 
     public QueueService(KafkaTemplate<String, String> kafkaTemplate) {
@@ -20,9 +23,9 @@ public class QueueService {
         CompletableFuture<SendResult<String, String>> result = kafkaTemplate.send(KafkaConfig.POST_TOPIC_ID, key, msg);
         result.whenComplete((res, err) -> {
             if (err != null) {
-                System.out.printf("failed: %s%n", err.getMessage());
+                logger.error("failed", err);
             } else {
-                System.out.printf("success: %s%n", res);
+                logger.info("success: {}", res);
             }
         });
         return true;

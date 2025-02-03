@@ -1,6 +1,8 @@
 package com.chenluo;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
@@ -12,6 +14,7 @@ import java.util.Map;
 import java.util.UUID;
 
 public abstract class User {
+    private final Logger logger = LoggerFactory.getLogger(getClass());
     RestTemplate client = new RestTemplate();
     protected final String uid;
     private int visit = 0;
@@ -32,13 +35,12 @@ public abstract class User {
             }
         }
         Instant end = Instant.now();
-        System.out.printf("%s per second%n", new BigDecimal(visit).divide(new BigDecimal(end.getEpochSecond()-start.getEpochSecond()), RoundingMode.CEILING));
-
+        logger.info("{} per second", new BigDecimal(visit).divide(new BigDecimal(end.getEpochSecond()-start.getEpochSecond()), RoundingMode.CEILING));
     }
 
     public void post() {
-//        client.postForEntity("http://localhost:8080/write/post/queue",
-        client.postForEntity("http://localhost:8080/post/queue",
+        client.postForEntity("http://localhost:8080/write/post/queue",
+//        client.postForEntity("http://localhost:8080/post/queue",
                 Map.of("uid", uid,
                         "content", UUID.randomUUID().toString()),
                 String.class);
@@ -47,7 +49,6 @@ public abstract class User {
     public void home() {
         ResponseEntity<String> homePage= client.getForEntity("http://localhost:8080/read/home?uid={uid}&start={start}", String.class,
                 Map.of("uid", uid, "start", 0));
-//        System.out.println(homePage.getBody());
     }
     public void homeCache() {
         ResponseEntity<String> homePage= client.getForEntity("http://localhost:8080/read/home/cache?uid={uid}&start={start}", String.class,

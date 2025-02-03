@@ -16,20 +16,20 @@ public class UserAgent {
                 posterUser.start();
             });
         }
-        for (String follower : followers) {
-            pool.submit(() -> {
-                FollowerUserImpl followerUser = new FollowerUserImpl(follower);
-                followerUser.start();
-            });
-
-        }
-
-        for (int i = 0; i < 32; i++) {
-            pool.submit(() -> {
-                PosterUserImpl posterUser = new PosterUserImpl("01");
-                posterUser.start();
-            });
-        }
+//        for (String follower : followers) {
+//            pool.submit(() -> {
+//                FollowerUserImpl followerUser = new FollowerUserImpl(follower);
+//                followerUser.start();
+//            });
+//
+//        }
+//
+//        for (int i = 0; i < 32; i++) {
+//            pool.submit(() -> {
+//                PosterUserImpl posterUser = new PosterUserImpl("01");
+//                posterUser.start();
+//            });
+//        }
 
         Thread.sleep(100000);
         pool.shutdownNow();
