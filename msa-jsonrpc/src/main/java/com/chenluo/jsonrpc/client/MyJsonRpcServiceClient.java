@@ -10,5 +10,5 @@ import org.springframework.cache.annotation.Cacheable;
 public interface MyJsonRpcServiceClient {
     String service(@JsonRpcParam("p1") String p1);
     @Cacheable(value = "cache2", key = "#p1")
-    String serviceObject(String p1, String p2);
+    void serviceObject(String p1, String p2);
 }

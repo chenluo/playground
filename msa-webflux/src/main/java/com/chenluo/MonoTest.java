@@ -4,12 +4,21 @@ import reactor.core.publisher.Mono;
 
 public class MonoTest {
     public static void main(String[] args) {
-        Mono.just("data")
-                .doOnNext(it -> System.out.println(it+"doOnNext;"))
-                .doOnSuccess(it -> System.out.println(it+"doOnSuccess"))
-                .flatMap(it-> {
-                    System.out.println(it);
-                    return Mono.just(it+"flatmap;");
-                }).subscribe(it -> System.out.println(it));
+        try {
+            foo().block();
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    static Mono<String> foo() {
+        return Mono.just(1).map(it -> it*2)
+                .handle((it, sink) -> {
+                    if(it > 0) {
+                        sink.error(new RuntimeException("fail"));
+                        return;
+                    }
+                    sink.next("success");
+                });
     }
 }

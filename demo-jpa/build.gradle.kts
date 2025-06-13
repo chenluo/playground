@@ -19,7 +19,7 @@ dependencies {
 //    implementation("com.vladmihalcea:hibernate-types-52:2.21.1")
     implementation("org.flywaydb:flyway-core")
     // https://mvnrepository.com/artifact/org.flywaydb/flyway-database-postgresql
-    runtimeOnly("org.flywaydb:flyway-database-postgresql")
+//    runtimeOnly("org.flywaydb:flyway-database-postgresql")
     implementation(project(":msa-base"))
     implementation(project(":tool-logger"))
 }
