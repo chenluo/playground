@@ -1,8 +1,8 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    alias(versions.plugins.springboot)
-    alias(versions.plugins.springboot.dependency.management)
+    alias(libs.plugins.springboot)
+    alias(libs.plugins.springboot.dependency.management)
     kotlin("jvm")
     kotlin("plugin.spring")
     kotlin("plugin.jpa")
@@ -24,12 +24,12 @@ dependencies {
     implementation(project(":tool-logger"))
 }
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        freeCompilerArgs += "-Xjsr305=strict"
-        jvmTarget = "21"
-    }
-}
+//tasks.withType<KotlinCompile> {
+//    kotlinOptions {
+//        freeCompilerArgs += "-Xjsr305=strict"
+//        jvmTarget = "21"
+//    }
+//}
 
 tasks.withType<Test> {
     useJUnitPlatform()

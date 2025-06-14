@@ -1,7 +1,7 @@
 plugins {
     id("application")
-    alias(versions.plugins.springboot)
-    alias(versions.plugins.springboot.dependency.management)
+    alias(libs.plugins.springboot)
+    alias(libs.plugins.springboot.dependency.management)
     kotlin("jvm")
 }
 
@@ -21,13 +21,6 @@ dependencies {
     // https://mvnrepository.com/artifact/io.mockk/mockk
     testImplementation("io.mockk:mockk:1.13.7")
     testImplementation("com.ninja-squad:springmockk:4.0.2")
-}
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions {
-        freeCompilerArgs += "-Xjsr305=strict"
-        jvmTarget = "21"
-    }
 }
 
 tasks.getByName<Test>("test") {

@@ -1,0 +1,14 @@
+# gradle/libs.versions.toml
+[versions]
+springboot = "3.2.1"
+springbootDependencyManagement = "1.0.11.RELEASE"
+flyway = "10.1.0"
+# kotlin = "1.9.20" # Example version for libraries
+
+[libraries]
+# kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlin" } # Example library
+
+[plugins]
+springboot = { id = "org.springframework.boot", version.ref = "springboot" }
+springboot-dependency-management = { id = "io.spring.dependency-management", version.ref = "springbootDependencyManagement" }
+flyway = { id = "org.flywaydb.flyway", version.ref = "flyway" }

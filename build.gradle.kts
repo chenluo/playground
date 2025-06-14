@@ -22,6 +22,13 @@ sonar {
     }
 }
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
+}
+
+
 allprojects {
     repositories {
         mavenCentral()
@@ -64,6 +71,14 @@ subprojects {
         }
         kotlin {
             ktfmt()
+        }
+    }
+
+    plugins.withType<JavaPlugin> { // Apply only to subprojects that have the Java plugin applied
+        java {
+            toolchain {
+                languageVersion.set(JavaLanguageVersion.of(17)) // Redundant but explicit. Inherits from root anyway.
+            }
         }
     }
 

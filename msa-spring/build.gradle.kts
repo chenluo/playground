@@ -1,10 +1,10 @@
 plugins {
-    alias(versions.plugins.springboot)
-    alias(versions.plugins.springboot.dependency.management)
+    alias(libs.plugins.springboot)
+    alias(libs.plugins.springboot.dependency.management)
     id("java")
     id("application")
     id("java-library")
-    alias(versions.plugins.flyway)
+    alias(libs.plugins.flyway)
 }
 
 

@@ -28,16 +28,32 @@ include("demo-jpa")
 include("io-file")
 include("msa-dgs")
 
-dependencyResolutionManagement {
-    versionCatalogs {
-        create("versions") {
-            plugin("springboot", "org.springframework.boot").version("3.2.1")
-            plugin(
-                "springboot-dependency-management",
-                "io.spring.dependency-management"
-            ).version("1.0.11.RELEASE")
-            plugin("flyway", "org.flywaydb.flyway").version("10.1.0")
+// see gradle/libs.versions.toml
+//dependencyResolutionManagement {
+//    versionCatalogs {
+//        create("versions") {
+//            plugin("springboot", "org.springframework.boot").version("2.2.1")
+//            plugin(
+//                "springboot-dependency-management",
+//                "io.spring.dependency-management"
+//            ).version("0.0.11.RELEASE")
+//            plugin("flyway", "org.flywaydb.flyway").version("9.1.0")
+//        }
+//    }
+//}
+include("msa-openapi-sample")
+
+// settings.gradle.kts
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+    }
+    resolutionStrategy {
+        eachPlugin {
+            if (requested.id.id == "org.jetbrains.kotlin.jvm") {
+                // This is where Gradle finds the version
+                useVersion("1.9.22") // Or libs.versions.kotlin.get() if using a catalog
+            }
         }
     }
 }
-include("msa-openapi-sample")
