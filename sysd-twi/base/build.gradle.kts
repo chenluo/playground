@@ -1,5 +1,4 @@
 plugins {
-    id("application")
     alias(libs.plugins.springboot)
     alias(libs.plugins.springboot.dependency.management)
 }
@@ -10,15 +9,18 @@ version = "1.0-SNAPSHOT"
 repositories {
     mavenCentral()
 }
-application.mainClass = "com.chenluo.UserApp"
+
+tasks{
+    bootJar {
+        enabled = false
+    }
+}
 
 dependencies {
-    implementation(project(":base"))
+    // https://mvnrepository.com/artifact/org.apache.httpcomponents.client5/httpclient5
+    implementation("org.apache.httpcomponents.client5:httpclient5:5.5")
     implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation(project(":db"))
-    implementation("org.flywaydb:flyway-core:10.17.0")
-    implementation("org.flywaydb:flyway-database-postgresql:10.17.0")
-    testImplementation(platform("org.junit:junit-bom:5.9.1"))
+    testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
 }
 

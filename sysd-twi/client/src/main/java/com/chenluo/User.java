@@ -1,6 +1,5 @@
 package com.chenluo;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -9,7 +8,6 @@ import org.springframework.web.client.RestTemplate;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Instant;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -38,9 +36,15 @@ public abstract class User {
         logger.info("{} per second", new BigDecimal(visit).divide(new BigDecimal(end.getEpochSecond()-start.getEpochSecond()), RoundingMode.CEILING));
     }
 
-    public void post() {
+    public void postQueue() {
         client.postForEntity("http://localhost:8080/write/post/queue",
-//        client.postForEntity("http://localhost:8080/post/queue",
+                Map.of("uid", uid,
+                        "content", UUID.randomUUID().toString()),
+                String.class);
+    }
+
+    public void post() {
+        client.postForEntity("http://localhost:8080/write/post",
                 Map.of("uid", uid,
                         "content", UUID.randomUUID().toString()),
                 String.class);

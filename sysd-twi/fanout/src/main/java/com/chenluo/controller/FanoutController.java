@@ -16,7 +16,7 @@ public class FanoutController {
         this.fanoutService = fanoutService;
     }
 
-    @PostMapping("")
+    @PostMapping("/fanout")
     public String fanout(@RequestBody Map<String, String> req) {
         return fanoutService.fanout(req.get("uid"), req.get("tid"));
     }

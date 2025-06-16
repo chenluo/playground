@@ -20,7 +20,7 @@ public class FanoutClient {
     }
 
     public void callFanoutService(String uid, String tid) {
-        ResponseEntity<String> res = restTemplate.postForEntity(fanoutUrl,
+        ResponseEntity<String> res = restTemplate.postForEntity(fanoutUrl+"/fanout",
                 Map.of("uid", uid, "tid", tid),
                 String.class);
     }

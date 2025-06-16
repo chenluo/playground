@@ -1,8 +1,7 @@
 plugins {
-    id("java")
     id("application")
-    id("org.springframework.boot").version("3.2.1")
-    id("io.spring.dependency-management" ).version("1.0.11.RELEASE")
+    alias(libs.plugins.springboot)
+    alias(libs.plugins.springboot.dependency.management)
 }
 
 group = "com.chenluo"
@@ -15,6 +14,7 @@ repositories {
 application.mainClass = "com.chenluo.Write"
 
 dependencies {
+    implementation(project(":base"))
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation(project(":db"))
     implementation("org.flywaydb:flyway-core:10.17.0")

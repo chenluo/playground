@@ -18,14 +18,15 @@ import java.util.Map;
 @Service
 public class FanoutService {
     private final JedisPool jedisPool;
-    private final RestTemplate restTemplate = new RestTemplate();
+    private final RestTemplate restTemplate;
     private final TwiRepo twiRepo;
 
     @Value("${twi.user.url}")
     private String userUrl;
 
-    public FanoutService(JedisPool jedisPool, TwiRepo twiRepo) {
+    public FanoutService(JedisPool jedisPool, RestTemplate restTemplate, TwiRepo twiRepo) {
         this.jedisPool = jedisPool;
+        this.restTemplate = restTemplate;
         this.twiRepo = twiRepo;
     }
 

@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 public class ReadController {
     private final JedisPool jedisPool;
     private final TwiRepo twiRepo;
-    private final RestTemplate restTemplate = new RestTemplate();
+    private final RestTemplate restTemplate;
 
     @Value("${twi.fanout.url}")
     private String fanoutUrl;
@@ -31,9 +31,10 @@ public class ReadController {
     @Value("${twi.user.url}")
     private String userUrl;
 
-    public ReadController(JedisPool jedisPool, TwiRepo twiRepo) {
+    public ReadController(JedisPool jedisPool, TwiRepo twiRepo, RestTemplate restTemplate) {
         this.jedisPool = jedisPool;
         this.twiRepo = twiRepo;
+        this.restTemplate = restTemplate;
     }
 
     @GetMapping("home")

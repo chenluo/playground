@@ -1,4 +1,5 @@
 plugins {
+    java
 }
 
 group = "com.chenluo"
@@ -9,6 +10,11 @@ subprojects {
     repositories {
         mavenCentral()
     }
+    plugins.withType<JavaPlugin> { // Apply only to subprojects that have the Java plugin applied
+        java {
+            toolchain {
+                languageVersion.set(JavaLanguageVersion.of(17)) // Redundant but explicit. Inherits from root anyway.
+            }
+        }
+    }
 }
-
-
